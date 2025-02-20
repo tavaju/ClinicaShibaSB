@@ -201,6 +201,7 @@ h3 {
   height: 100%;
   object-fit: cover;
   opacity: 0.5; /* Adjust opacity as needed */
+  
 }
 
 .hero-content {
@@ -332,7 +333,7 @@ h3 {
 }
 
 .features h2 {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -414,13 +415,13 @@ h3 {
 
 /* Specialties Section */
 .specialties {
-  padding: 5rem 0;
+  padding: 4rem 0;
   max-width: 1280px;
   margin: 0 auto;
 }
 
 .specialties h2 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: bold;
   text-align: center;
   margin-bottom: 3rem;
@@ -431,7 +432,7 @@ h3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-    padding: 0 2rem;
+    padding: 0rem 2rem;
 }
 
 .specialty-card {
@@ -582,8 +583,8 @@ h3 {
 .star {
   width: 1.5rem;
   height: 1.5rem;
-  color: #8b5cf6;
-  fill: #8b5cf6;
+  color: #fc7a43;
+  fill: #fc7a43;
 }
 
 .testimonial-text {
@@ -594,13 +595,16 @@ h3 {
 }
 
 .testimonial-author {
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 0.25rem;
+  font-weight: 700;
+  font-size: large;
+  color: #fc7a43;
+  margin-bottom: 0.3rem;
 }
 
 .testimonial-pet {
-  color: #6b7280;
+  color: #986efa;
+  font-size: small;
+  font-weight: 600;
 }
 
 .carousel-dots {
@@ -621,7 +625,7 @@ h3 {
 }
 
 .dot.active {
-  background: #8b5cf6;
+  background: #fc7a43;
 }
 
 /* Blog Section */
@@ -648,7 +652,10 @@ h3 {
 }
 
 .blog-header p {
-  color: #6b7280;
+
+  font-size: larger;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  "Helvetica Neue", Arial, sans-serif;
 }
 
 .blog-nav {
