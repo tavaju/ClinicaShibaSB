@@ -138,3 +138,51 @@ document.querySelector(".blog-nav .next").addEventListener("click", () => {
 });
 
 updateBlogCarousel();
+
+// Función para manejar el scroll
+function handleScroll() {
+    const navbar = document.querySelector('.navbar');
+    const announcement = document.querySelector('.announcement-banner');
+    const scrollPosition = window.scrollY;
+    
+    // Añadir efecto glassmorphism a la navbar
+    if (scrollPosition > 0) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+    
+    // Ocultar announcement banner
+    if (scrollPosition > 100) {
+        announcement.classList.add('hide');
+    } else {
+        announcement.classList.remove('hide');
+    }
+}
+
+// Agregar event listener para el scroll
+window.addEventListener('scroll', handleScroll);
+
+let lastScrollTop = 0;
+const navbar = document.querySelector('.navbar');
+const banner = document.querySelector('.announcement-banner');
+
+window.addEventListener('scroll', () => {
+    // Para el navbar
+    if (window.scrollY > 10) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+
+    // Para el banner
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    if (currentScroll > lastScrollTop && currentScroll > 50) {
+        // Scrolling down & past 50px
+        banner.classList.add('hide');
+    } else if (currentScroll < lastScrollTop) {
+        // Scrolling up
+        banner.classList.remove('hide');
+    }
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+});
