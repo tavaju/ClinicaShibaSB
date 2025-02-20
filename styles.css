@@ -347,14 +347,17 @@ h3 {
 
 .feature-card {
     background: rgba(139, 92, 246, 0.05);
-    padding: 1.5rem 1rem; /* Reduced from 2.5rem 2rem */
+    padding: 1.5rem 1rem;
     border-radius: 1.5rem;
     text-align: center;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    border: 1px solid transparent;
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(252, 122, 67, 0.5);
+    border-color: rgba(252, 122, 67, 0.3);
 }
 
 .feature-icon {
@@ -438,7 +441,14 @@ h3 {
 .specialty-card {
   padding: 2rem;
   border-radius: 1rem;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.specialty-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); /* Purple glowing effect */
+  border-color: rgba(139, 92, 246, 0.3);
 }
 
 .specialty-card.violet {
