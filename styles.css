@@ -1,13 +1,3 @@
-@font-face {
-    font-family: 'shiba-font';
-    src: url('resources/fonnts.com-New_Order_Semibold.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-h2,h3{
-    font-family: 'shiba-font', sans-serif;
-}
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -63,7 +53,6 @@ h2,h3{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 20px;
 }
 
 .nav-left {
@@ -73,21 +62,14 @@ h2,h3{
 }
 
 .logo {
-    width: 6rem;
-    height: 4.5rem;
-    object-fit: cover;
-    margin-right: 0px;
-
+    width: 2.5rem;
+    height: 2.5rem;
 }
 
 .brand-name {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
     line-height: 1.2;
-    font-family: 'shiba-font', sans-serif;
-    padding-left: 0%;
-    margin-left: 0px;
-    
 }
 
 .nav-center {
@@ -183,22 +165,6 @@ h2,h3{
     background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
 }
 
-.hero-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
-.hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.5; /* Adjust opacity as needed */
-}
-
 .hero-content {
     position: relative;
     max-width: 1280px;
@@ -219,7 +185,7 @@ h2,h3{
     font-weight: bold;
     margin-bottom: 1.5rem;
     line-height: 1.2;
-    color: #fc7a43;
+    color: #FF9F7B;
 }
 
 .hero-text p {
@@ -298,10 +264,11 @@ h2,h3{
     text-decoration: none;
     font-size: 0.875rem;
 }
+
 /* Features Section */
 .features {
     background: #4C1D95;
-    padding: 8rem 0;
+    padding: 5rem 0;
     color: white;
 }
 
@@ -313,114 +280,68 @@ h2,h3{
 
 .features-header {
     text-align: center;
-    margin-bottom: 5rem;
-    position: relative;
+    margin-bottom: 4rem;
 }
 
 .sparkle-icon {
-    width: 2rem;
-    height: 2rem;
-    position: absolute;
-    top: -2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    filter: invert(100%) opacity(0.8);
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    color: #C4B5FD;
 }
 
 .features h2 {
-    font-size: 3.5rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    font-size: 2.5rem;
+    font-weight: bold;
 }
 
 .feature-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-    margin-bottom: 6rem;
+    gap: 2rem;
+    margin-bottom: 4rem;
 }
 
 .feature-card {
-    background: rgba(139, 92, 246, 0.05);
-    padding: 2.5rem 2rem;
-    border-radius: 1.5rem;
+    background: rgba(139, 92, 246, 0.1);
+    padding: 2rem;
+    border-radius: 1rem;
     text-align: center;
-    transition: transform 0.2s ease;
-}
-
-.feature-card:hover {
-    transform: translateY(-5px);
 }
 
 .feature-icon {
-    width: 4rem;
-    height: 4rem;
-    margin-bottom: 1.5rem;
-    filter: invert(100%) opacity(0.9);
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    color: #C4B5FD;
 }
 
 .feature-card h3 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1rem;
-    letter-spacing: -0.01em;
 }
 
 .feature-card p {
-    color: rgba(233, 213, 255, 0.8);
-    font-size: 1rem;
-    line-height: 1.6;
+    color: #E9D5FF;
+    font-size: 0.875rem;
 }
 
 .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     text-align: center;
-    gap: 2rem;
-    padding-top: 2rem;
-}
-
-.stat-item {
-    position: relative;
 }
 
 .stat-number {
-    font-size: 4rem;
-    font-weight: 700;
+    font-size: 3rem;
+    font-weight: bold;
     margin-bottom: 0.5rem;
-    letter-spacing: -0.03em;
-    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.8) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .stat-label {
-    color: rgba(233, 213, 255, 0.9);
-    font-size: 1.125rem;
-    font-weight: 500;
+    color: #E9D5FF;
 }
-
-/* Responsive adjustments SOLO PARA FEATURES, REVISAR ******* */
-@media (max-width: 768px) {
-    .feature-cards {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-    
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 3rem;
-    }
-    
-    .features h2 {
-        font-size: 2.5rem;
-    }
-    
-    .stat-number {
-        font-size: 3rem;
-    }
-}
-
 
 /* Specialties Section */
 .specialties {
@@ -551,6 +472,19 @@ h2,h3{
     display: flex;
     gap: 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.testimonial-card.fade-out {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.testimonial-card.fade-in {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .testimonial-image-container {
@@ -589,8 +523,13 @@ h2,h3{
 .star {
     width: 1.5rem;
     height: 1.5rem;
-    color: #FBBF24;
-    fill: #FBBF24;
+    color: #8B5CF6;
+    fill: #8B5CF6;
+}
+
+.star.empty {
+    fill: none;
+    stroke: #8B5CF6;
 }
 
 .testimonial-text {
