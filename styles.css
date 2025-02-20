@@ -378,6 +378,13 @@ h2,h3{
     text-align: center;
     gap: 1rem; /* Reduced from 2rem */
     padding-top: 1rem; /* Reduced from 2rem */
+
+}
+.stat-number {
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
 }
 
 /* Responsive adjustments SOLO PARA FEATURES, REVISAR ******* */
