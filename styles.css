@@ -439,7 +439,7 @@ h2,h3{
 
 .specialties-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     padding: 0 2rem;
 }
@@ -452,12 +452,14 @@ h2,h3{
 
 .specialty-card.violet {
     background: #F5F3FF;
+    grid-column: span 1;
 }
 
 .specialty-card.orange {
     background: #FFF7ED;
     display: flex;
     gap: 2rem;
+    grid-column: span 2;
 }
 
 .specialty-card.rose {
@@ -469,6 +471,7 @@ h2,h3{
 
 .specialty-card.blue {
     background: #EFF6FF;
+    grid-column: span 1;
 }
 
 .specialty-card h3 {
@@ -632,7 +635,7 @@ h2,h3{
 }
 
 /* Blog Section */
-.blog {
+blog {
     background: #FFF7ED;
     padding: 5rem 0;
 }
