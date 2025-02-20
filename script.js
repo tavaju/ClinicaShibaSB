@@ -101,4 +101,4 @@ dots.forEach((dot, index) => {
 });
 
 // Inicializar el primer testimonio
-updateTestimonial(); 
+updateTestimonial();
