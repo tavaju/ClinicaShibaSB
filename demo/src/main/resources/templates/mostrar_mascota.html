@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Información de tu Peludito</title>
+  </head>
+  <body>
+    <h1>Información de tu Peludito</h1>
+    <p th:text="'Nombre: ' + ${mascota.nombre}"></p>
+    <p th:text="'Edad: ' + ${mascota.edad}"></p>
+    <p th:text="'Peso: ' + ${mascota.peso}"></p>
+    <p th:text="'Raza: ' + ${mascota.raza}"></p>
+    <p th:text="'Enfermedad: ' + ${mascota.enfermedad}"></p>
+    <p>
+      <img
+        th:src="${mascota.foto}"
+        alt="Foto de Mascota"
+        width="100"
+        height="100" />
+    </p>
+    <p th:text="'Estado: ' + ${mascota.estado}"></p>
+  </body>
+</html>
