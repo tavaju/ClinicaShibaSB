@@ -224,7 +224,6 @@ h3 {
   height: 100%;
   object-fit: cover;
   opacity: 0.5; /* Adjust opacity as needed */
-  
 }
 
 .hero-content {
@@ -280,34 +279,49 @@ h3 {
   border: 1px solid white;
   color: white;
 }
-
 .floating-card {
   position: absolute;
   right: 2rem;
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 1.5rem;
-  padding: 1.5rem;
-  width: 24rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 28rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .service-item {
-  display: flex;
-  gap: 1rem;
-  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 1rem;
-  margin-bottom: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+.service-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(139, 92, 246, 0.1);
 }
 
 .service-item:last-child {
   margin-bottom: 0;
 }
 
+.service-item figure {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
 .service-img {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 0.5rem;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 1rem;
   object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 3px solid white;
 }
 
 .service-text {
@@ -315,22 +329,76 @@ h3 {
 }
 
 .service-text h3 {
-  font-size: 0.875rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #1f2937;
+  margin-bottom: 1rem;
+  color: #4c1d95;
+  line-height: 1.4;
 }
 
-.ver-mas {
-  color: #8b5cf6;
-  text-decoration: none;
-  font-size: 0.875rem;
+.service-text form {
+  margin-top: 1rem;
 }
+
+.service-text input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+}
+
+.service-text input:focus {
+  outline: none;
+  border-color: #8b5cf6;
+}
+
+.service-text input::placeholder {
+  color: #9ca3af;
+}
+
+.hero-read-more {
+  display: inline-block;
+  width: 100%;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+}
+
+.hero-read-more::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0) 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero-read-more:hover {
+  box-shadow: 0 6px 16px rgba(66, 23, 165, 0.35);
+}
+
 /* Features Section */
 .features {
-    background: #4C1D95;
-    padding: 4rem 0; /* Reduced from 8rem */
-    color: white;
+  background: #4c1d95;
+  padding: 4rem 0;
+  color: white;
 }
 
 .features-container {
@@ -340,9 +408,9 @@ h3 {
 }
 
 .features-header {
-    text-align: center;
-    margin-bottom: 3rem; /* Reduced from 5rem */
-    position: relative;
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
 }
 
 .sparkle-icon {
@@ -362,25 +430,25 @@ h3 {
 }
 
 .feature-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem; /* Reduced from 2.5rem */
-    margin-bottom: 3rem; /* Reduced from 6rem */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
 }
 
 .feature-card {
-    background: rgba(139, 92, 246, 0.05);
-    padding: 1.5rem 1rem;
-    border-radius: 1.5rem;
-    text-align: center;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-    border: 1px solid transparent;
+  background: rgba(139, 92, 246, 0.05);
+  padding: 1.5rem 1rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  border: 1px solid transparent;
 }
 
 .feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 20px rgba(252, 122, 67, 0.5);
-    border-color: rgba(252, 122, 67, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(252, 122, 67, 0.5);
+  border-color: rgba(252, 122, 67, 0.3);
 }
 
 .feature-icon {
@@ -404,18 +472,18 @@ h3 {
 }
 
 .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    text-align: center;
-    gap: 1rem; /* Reduced from 2rem */
-    padding-top: 1rem; /* Reduced from 2rem */
-
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+  gap: 1rem;
+  padding-top: 1rem;
 }
+
 .stat-number {
-    font-size: 3rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.02em;
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
 /* Responsive adjustments SOLO PARA FEATURES, REVISAR ******* */
@@ -455,10 +523,10 @@ h3 {
 }
 
 .specialties-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    padding: 0rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 0rem 2rem;
 }
 
 .specialty-card {
@@ -475,15 +543,15 @@ h3 {
 }
 
 .specialty-card.violet {
-    background: #F5F3FF;
-    grid-column: span 1;
+  background: #f5f3ff;
+  grid-column: span 1;
 }
 
 .specialty-card.orange {
-    background: #FFF7ED;
-    display: flex;
-    gap: 2rem;
-    grid-column: span 2;
+  background: #fff7ed;
+  display: flex;
+  gap: 2rem;
+  grid-column: span 2;
 }
 
 .specialty-card.rose {
@@ -494,8 +562,8 @@ h3 {
 }
 
 .specialty-card.blue {
-    background: #EFF6FF;
-    grid-column: span 1;
+  background: #eff6ff;
+  grid-column: span 1;
 }
 
 .specialty-card h3 {
@@ -685,10 +753,9 @@ h3 {
 }
 
 .blog-header p {
-
   font-size: larger;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-  "Helvetica Neue", Arial, sans-serif;
+    "Helvetica Neue", Arial, sans-serif;
 }
 
 .blog-nav {
@@ -745,8 +812,6 @@ h3 {
   object-fit: cover;
 }
 
-
-
 .blog-content {
   padding: 1.5rem;
 }
@@ -782,7 +847,6 @@ h3 {
 .read-more-button:hover {
   color: #8b5cf6;
 }
-
 
 .tags {
   display: flex;
@@ -939,4 +1003,3 @@ footer {
   padding-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
-
