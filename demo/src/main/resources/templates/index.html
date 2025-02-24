@@ -52,11 +52,11 @@
 
     <!-- Hero Section -->
     <section id="hero" class="hero">
-      <div class="hero-image">
+      <figure class="hero-image">
         <img src="/assets/images/hero.png" alt="Hero Image" class="hero-img" />
-      </div>
+      </figure>
       <div class="hero-content">
-        <div class="hero-text">
+        <article class="hero-text">
           <h1>La Clínica Veteriaria<br />de Mayor Impacto en<br />Colombia</h1>
           <p>
             La felicidad y la salud de tu mascota son nuestra prioridad.<br />
@@ -69,75 +69,75 @@
             <button class="btn primary">Contáctanos</button>
             <button class="btn secondary">Descubre más</button>
           </div>
-          <!--imagen-->
-        </div>
+        </article>
 
-        <div class="floating-card">
-          <div class="service-item">
-            <img
-              src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=150"
-              alt="Service 1"
-              class="service-img" />
-            <div class="service-text">
-              <h3>Veterinarios altamente capacitados</h3>
-              <a href="#" class="ver-mas">Ver más</a>
-            </div>
-          </div>
-          <div class="service-item">
-            <img
-              src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=150"
-              alt="Service 2"
-              class="service-img" />
-            <div class="service-text">
-              <h3>Atención de Urgencias 24/7</h3>
-              <a href="#" class="ver-mas">Ver más</a>
-            </div>
-          </div>
-          <div class="service-item">
-            <img
-              src="https://images.unsplash.com/photo-1612531386530-97286d97c2d2?w=150"
-              alt="Service 3"
-              class="service-img" />
-            <div class="service-text">
-              <h3>Medicamentos para todas las necesidades</h3>
-              <a href="#" class="ver-mas">Ver más</a>
-            </div>
-          </div>
-        </div>
+        <section class="floating-card">
+          <article class="service-item">
+            <figure>
+              <img
+                src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=150"
+                alt="Service 1"
+                class="service-img" />
+              <figcaption class="service-text">
+                <h3>Consulta la lista completa de nuestros pacientes</h3>
+                <a href="/mascota/all" class="hero-read-more">Ver más</a>
+              </figcaption>
+            </figure>
+          </article>
+          <article class="service-item">
+            <figure>
+              <img
+                src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=150"
+                alt="Service 2"
+                class="service-img" />
+              <figcaption class="service-text">
+                <h3>Encuentra la información de tu mascota aquí</h3>
+                <form action="/mascota/find" method="get">
+                  <input
+                    type="text"
+                    name="id"
+                    placeholder="ID de la mascota"
+                    required />
+                  <button type="submit" class="hero-read-more">Ver más</button>
+                </form>
+              </figcaption>
+            </figure>
+          </article>
+        </section>
       </div>
     </section>
 
     <!-- Features Section -->
     <section class="features">
       <div class="features-container">
-        <div class="features-header">
+        <header class="features-header">
           <img
             src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/sparkles.svg"
             alt="Sparkles"
             class="sparkle-icon" />
           <h2>¿Por qué somos diferentes?</h2>
-        </div>
+        </header>
 
         <div class="feature-cards">
-          <div class="feature-card">
+          <article class="feature-card">
             <img
               src="/assets/images/team-building.png"
               alt="Check"
               class="feature-icon" />
             <h3>Equipo Experto</h3>
             <p>Dolore excepteur adipisicing incididunt incididunt magna</p>
-          </div>
+          </article>
 
-          <div class="feature-card">
+          <article class="feature-card">
             <img
               src="/assets/images/quality.png"
               alt="Gift"
               class="feature-icon" />
             <h3>Atención de Calidad</h3>
             <p>Incididunt occaecat est anim minim in mollit laborum</p>
-          </div>
+          </article>
 
-          <div class="feature-card">
+          <article class="feature-card">
             <img
               src="/assets/images/siren.png"
               alt="Globe"
@@ -146,7 +146,7 @@
             <p>
               Veniam ea tempor id in adipisicing labore ut nisi aute est eu.
             </p>
-          </div>
+          </article>
         </div>
 
         <div class="stats">
@@ -175,16 +175,16 @@
       <h2>Especialidades</h2>
 
       <div class="specialties-grid">
-        <div class="specialty-card violet">
+        <article class="specialty-card violet">
           <h3>Odontología</h3>
           <p>
             Cuida la salud dental de tu mascota! Trata enfermedades
             periodontales y cirugía dental.
           </p>
           <a href="#" class="read-more">Leer más</a>
-        </div>
+        </article>
 
-        <div class="specialty-card orange">
+        <article class="specialty-card orange">
           <div class="specialty-content">
             <h3>Nutrición y Dietética</h3>
             <p>
@@ -196,9 +196,9 @@
           <img
             src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=500"
             alt="Nutrición" />
-        </div>
+        </article>
 
-        <div class="specialty-card rose">
+        <article class="specialty-card rose">
           <div class="specialty-content">
             <h3>Fisioterapia</h3>
             <p>
@@ -211,16 +211,16 @@
           <img
             src="https://www.animalshealth.es/fileuploads/news/perro-osteoartritis-fisioterapiamesa-de-trabajo-216738618451.jpg"
             alt="Fisioterapia" />
-        </div>
+        </article>
 
-        <div class="specialty-card blue">
+        <article class="specialty-card blue">
           <h3>Ver Todas</h3>
           <p>
             ¡Ofrecemos 12 especialidades para tratar a tu mascota! Conócelas
             aquí
           </p>
           <a href="#" class="read-more">Ver más</a>
-        </div>
+        </article>
       </div>
     </section>
 
@@ -235,14 +235,14 @@
             alt="Previous" />
         </button>
 
-        <div class="testimonial-card">
-          <div class="testimonial-image-container">
+        <article class="testimonial-card">
+          <figure class="testimonial-image-container">
             <div class="image-background"></div>
             <img
               src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400"
               alt="Testimonial"
               class="testimonial-image" />
-          </div>
+          </figure>
           <div class="testimonial-content">
             <div class="rating">
               <img
@@ -261,7 +261,7 @@
                 src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/star.svg"
                 alt="Star"
                 class="star" />
-              <img–
+              <img
                 src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/star.svg"
                 alt="Star"
                 class="star" />
@@ -275,7 +275,7 @@
             <p class="testimonial-author">Viviana Suárez</p>
             <p class="testimonial-pet">con su mascota Toby</p>
           </div>
-        </div>
+        </article>
 
         <button class="carousel-arrow next">
           <img
@@ -400,7 +400,7 @@
     <footer>
       <div class="footer-content">
         <div class="footer-grid">
-          <div class="footer-column">
+          <section class="footer-column">
             <div class="footer-logo">
               <img
                 src="/assets/images/logo_shiba.png"
@@ -410,26 +410,26 @@
             </div>
             <p>(601) 123456</p>
             <p>2025 Pontificia Universidad Javeriana</p>
-          </div>
+          </section>
 
-          <div class="footer-column">
+          <section class="footer-column">
             <h3>Servicios</h3>
             <ul>
               <li><a href="#specialties">Especialidades</a></li>
               <li><a href="#hero">Urgencias</a></li>
               <li><a href="#hero">Veterinarios</a></li>
             </ul>
-          </div>
+          </section>
 
-          <div class="footer-column">
+          <section class="footer-column">
             <h3>Sobre Nosotros</h3>
             <ul>
               <li><a href="#testimonials">Reseñas</a></li>
               <li><a href="#blog">Blog</a></li>
             </ul>
-          </div>
+          </section>
 
-          <div class="footer-column">
+          <section class="footer-column">
             <button class="help-button">Centro de Ayuda</button>
             <div class="social-icons">
               <a href="https://x.com" class="social-icon" target="_blank">
@@ -462,7 +462,7 @@
                   alt="YouTube" />
               </a>
             </div>
-          </div>
+          </section>
         </div>
 
         <div class="footer-bottom">
