@@ -1,0 +1,122 @@
+/* Import the custom font */
+@font-face {
+  font-family: "shiba-font";
+  src: url("resources/fonnts.com-New_Order_Semibold.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background-color: #f5f3ff;
+  min-height: 100vh;
+}
+
+/* Container styles */
+.pet-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Heading styles */
+h1 {
+  font-family: "shiba-font", sans-serif;
+  color: #4c1d95;
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Card styles */
+.pet-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 2rem;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+/* Image styles */
+.pet-image {
+  flex-shrink: 0;
+  position: relative;
+  width: 300px;
+  height: 300px;
+}
+
+.pet-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  border: 3px solid white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.pet-image img:hover {
+  transform: scale(1.05);
+}
+
+/* Info section styles */
+.pet-info {
+  flex: 1;
+}
+
+.pet-info p {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #6b7280;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.pet-info p:last-child {
+  border-bottom: none;
+}
+
+.label {
+  color: #8b5cf6;
+  font-weight: 600;
+  min-width: 100px;
+  display: inline-block;
+}
+
+.status {
+  color: #fc7a43;
+  font-weight: 500;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .pet-container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pet-card {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .pet-image {
+    width: 100%;
+    height: 250px;
+  }
+}
