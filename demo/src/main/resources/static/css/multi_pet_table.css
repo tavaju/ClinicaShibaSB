@@ -11,6 +11,28 @@ body {
   padding: 0 1rem;
   background-color: #fff7ed;
 }
+#pet-name {
+  font-family: "shiba-font", sans-serif;
+  color: #4c1d95;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+#pet-name a {
+  color: #4c1d95;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+#pet-name a:hover {
+  color: #8b5cf6;
+  text-decoration: underline;
+}
 
 h1,
 h2 {
