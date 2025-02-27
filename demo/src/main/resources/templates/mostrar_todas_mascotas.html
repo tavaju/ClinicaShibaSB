@@ -27,7 +27,11 @@
         </thead>
         <tbody>
           <tr th:each="mascota : ${mascotas}">
-            <td th:text="${mascota.nombre}"></td>
+            <td>
+              <a th:href="@{/mascota/find(id=${mascota.id})}" th:text="${mascota.nombre}" id="pet-name"></a>
+
+            </td>
+            
             <td th:text="${mascota.edad}"></td>
             <td th:text="${mascota.raza}"></td>
             <td th:text="${mascota.peso}"></td>
@@ -39,10 +43,15 @@
                 width="100"
                 height="100" />
             </td>
-            <td th:text="${mascota.estado}"></td>
+            <td th:text="${mascota.enfermedad}"></td>
+
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+      <a href="/" class="btn btn-primary btn-details">Volver al Inicio</a>
     </div>
   </body>
 </html>
