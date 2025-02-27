@@ -186,3 +186,32 @@ window.addEventListener('scroll', () => {
     }
     lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
 });
+
+
+function handleSubmit(event) {
+  event.preventDefault();
+  
+  const formData = {
+      nombre: document.getElementById('nombre').value,
+      email: document.getElementById('email').value,
+      telefono: document.getElementById('telefono').value,
+      tipoMascota: document.getElementById('tipoMascota').value,
+      mensaje: document.getElementById('mensaje').value
+  };
+
+  const formStatus = document.getElementById('formStatus');
+  showStatus('success', '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.');
+  document.getElementById('contactForm').reset();
+}
+
+function showStatus(type, message) {
+  const formStatus = document.getElementById('formStatus');
+  formStatus.textContent = message;
+  formStatus.className = `form-status ${type}`;
+  
+  // Ocultar el mensaje después de 5 segundos
+  setTimeout(() => {
+      formStatus.style.display = 'none';
+  }, 5000);
+}
+
