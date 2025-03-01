@@ -2,7 +2,7 @@ package com.example.demo.entity;
 
 //POJO Mascota
 public class Mascota {
-    private int id;
+    private Integer id;
     private String nombre;
     private String raza;
     private int edad;
@@ -12,7 +12,7 @@ public class Mascota {
     private String estado;
 
     
-    public Mascota(int id, String nombre, String raza, int edad, float peso, String enfermedad, String foto,
+    public Mascota(Integer id, String nombre, String raza, int edad, float peso, String enfermedad, String foto,
             String estado) {
         this.id = id;
         this.nombre = nombre;
@@ -25,12 +25,12 @@ public class Mascota {
     }
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

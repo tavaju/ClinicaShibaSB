@@ -31,6 +31,24 @@ public class MascotaRepository {
         return data.values();
     }
 
+    //nuevos metodos para agregar, modificar y eliminar mascotas
+
+    public void deleteById(int id) {
+        data.remove(id);
+    }
+
+    public void update(Mascota mascota) {
+        data.put(mascota.getId(), mascota);
+    }
+
+    public void add(Mascota mascota) {
+        int lastId = data.isEmpty() ? 0 : data.keySet().stream().max(Integer::compareTo).orElse(0);
+        mascota.setId(lastId + 1);
+        data.put(mascota.getId(), mascota);
+    }
+
+
+
 
 
 
