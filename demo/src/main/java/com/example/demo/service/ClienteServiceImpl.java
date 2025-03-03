@@ -38,4 +38,9 @@ public class ClienteServiceImpl implements ClienteService {
     public void add(Cliente cliente) {
         repo.add(cliente);
     }
+
+    @Override
+    public Cliente searchByEmail(String email) {
+        return repo.findByEmail(email);
+    }
 } 
