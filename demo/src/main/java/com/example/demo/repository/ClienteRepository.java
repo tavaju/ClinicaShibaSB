@@ -42,4 +42,11 @@ public class ClienteRepository {
     public void add(Cliente cliente) {
         data.put(cliente.getCedula(), cliente);
     }
+
+    public Cliente findByEmail(String email) {
+        return data.values().stream()
+                .filter(cliente -> cliente.getCorreo().equals(email))
+                .findFirst()
+                .orElse(null);
+    }
 } 
