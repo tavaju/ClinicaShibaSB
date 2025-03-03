@@ -3,13 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/error_page.css" />
     <title>Document</title>
   </head>
-  <body>
+  <body class = "error-container">
     <h1>¡Ups! Algo salió mal</h1>
     <h2>La mascota que buscas no se encuentra en nuestra base de datos</h2>
     <h2 th:text="'ID = ' + ${id}"></h2>
 
     <a href="/">Volver al Inicio</a>
+
+
   </body>
 </html>
