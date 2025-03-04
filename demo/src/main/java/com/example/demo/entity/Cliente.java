@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Cliente {
     private String cedula;
@@ -9,7 +7,6 @@ public class Cliente {
     private String correo;
     private String celular;
     private String contrasena;
-    private List<Mascota> mascotas;
 
     public Cliente(String cedula, String nombre, String correo, String celular) {
         this.cedula = cedula;
@@ -17,7 +14,6 @@ public class Cliente {
         this.correo = correo;
         this.celular = celular;
         this.contrasena = "";
-        this.mascotas = new ArrayList<>();
     }
 
 
@@ -59,14 +55,6 @@ public class Cliente {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
-    }
-
-    public List<Mascota> getMascotas() {
-        return mascotas;
-    }
-
-    public void setMascotas(List<Mascota> mascotas) {
-        this.mascotas = mascotas;
     }
 
     

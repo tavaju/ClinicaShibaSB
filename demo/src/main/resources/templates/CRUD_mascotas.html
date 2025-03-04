@@ -23,6 +23,7 @@
             <th>Enfermedad</th>
             <th>Foto</th>
             <th>Estado</th>
+            <th>Cedula del Cliente</th>
             <th>Editar</th>
           </tr>
         </thead>
@@ -45,6 +46,7 @@
                 height="100" />
             </td>
             <td th:text="${mascota.enfermedad}"></td>
+            <td th:text="${mascota.cedulaCliente}"></td>
 
             <td>
              <a class = "btn btn-info" th:href="@{/mascota/update/{id}(id=${mascota.id})}">Editar</a> 

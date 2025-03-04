@@ -26,6 +26,7 @@ public class ClienteController {
         Cliente cliente = clienteService.searchByCedula(cedula);
         if (cliente != null) {
             model.addAttribute("cliente", cliente);
+            
         } else {
             //implementar not found exception pero con Strings
         }

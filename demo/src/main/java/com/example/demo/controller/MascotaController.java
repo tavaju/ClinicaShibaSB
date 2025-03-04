@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.Cliente;
 import com.example.demo.entity.Mascota;
+import com.example.demo.service.ClienteService;
 import com.example.demo.service.MascotaService;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -21,6 +23,9 @@ public class MascotaController {
     
     @Autowired
     MascotaService mascotaService;
+
+    @Autowired
+    ClienteService clienteService;
 
     @GetMapping("/all")
     public String mostrarMascotas(Model model){
@@ -55,7 +60,7 @@ public class MascotaController {
 
     @GetMapping("/add")
     public String mostrarFormularioCrear(Model model) {
-        Mascota mascota = new Mascota(0, "", "", 0, 0.0f, "", "", "");
+        Mascota mascota = new Mascota(0, "", "", 0, 0.0f, "", "", "", "");
         model.addAttribute("mascota", mascota);
         return "crear_mascota";
     }
@@ -83,11 +88,17 @@ public class MascotaController {
 
     @PostMapping("/update/{id}")
     public String updateMascota(@PathVariable("id") int identificacion, @ModelAttribute("mascota") Mascota mascota){
-        mascotaService.update(mascota);
-        return "redirect:/mascota/edit";
-    }
-    
-    
 
-    
+        Cliente cliente = clienteService.searchByCedula(mascota.getCedulaCliente());
+
+        if(cliente == null){
+            return "";//throw new NotFoundException(mascota.getCedulaCliente());
+        }else {
+            Mascota mascotaExistente = mascotaService.SearchById(mascota.getId());
+            mascota.setCedulaCliente(cliente.getCedula());
+            mascota.setId(mascotaExistente.getId());
+            mascotaService.update(mascota);
+            return "redirect:/mascota/edit";
+        }
+    }
 }
