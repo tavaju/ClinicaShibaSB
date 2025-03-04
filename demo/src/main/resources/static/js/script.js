@@ -215,3 +215,20 @@ function showStatus(type, message) {
   }, 5000);
 }
 
+// Agregar el manejo del click para el perfil
+document.addEventListener('DOMContentLoaded', function() {
+    const profileContainer = document.querySelector('.profile-container');
+    
+    // Toggle dropdown al hacer click
+    profileContainer.addEventListener('click', function(e) {
+        this.classList.toggle('active');
+    });
+
+    // Cerrar dropdown al hacer click fuera
+    document.addEventListener('click', function(e) {
+        if (!profileContainer.contains(e.target)) {
+            profileContainer.classList.remove('active');
+        }
+    });
+});
+
