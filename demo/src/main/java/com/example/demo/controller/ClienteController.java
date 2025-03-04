@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.Cliente;
 import com.example.demo.service.ClienteService;
+import com.example.demo.repository.MascotaRepository;
 
 @RequestMapping("/cliente")
 @Controller
@@ -14,6 +15,9 @@ public class ClienteController {
 
     @Autowired
     ClienteService clienteService;
+
+    @Autowired
+    MascotaRepository mascotaRepository;
 
     @GetMapping("/all")
     public String mostrarClientes(Model model) {
@@ -26,9 +30,9 @@ public class ClienteController {
         Cliente cliente = clienteService.searchByCedula(cedula);
         if (cliente != null) {
             model.addAttribute("cliente", cliente);
-            
+            model.addAttribute("mascotas", mascotaRepository.findByCedulaCliente(cedula));
         } else {
-            //implementar not found exception pero con Strings
+            return "redirect:/login?error=notfound";
         }
         return "mostrar_cliente";
     }

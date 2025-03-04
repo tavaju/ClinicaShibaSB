@@ -42,7 +42,8 @@
               <th>Raza</th>
               <th>Edad</th>
               <th>Peso</th>
-              <th>Acciones</th>
+              <th>Foto</th>
+              <th>Estado</th>
             </tr>
           </thead>
           <tbody>
@@ -51,10 +52,12 @@
               <td th:text="${mascota.raza}"></td>
               <td th:text="${mascota.edad}"></td>
               <td th:text="${mascota.peso}"></td>
-              <td>
-                <a th:href="@{/mascota/update/{id}(id=${mascota.id})}" class="btn btn-primary btn-sm">Editar</a>
-                <a th:href="@{/mascota/delete/{id}(id=${mascota.id})}" class="btn btn-danger btn-sm">Eliminar</a>
-              </td>
+              <td class="pet-image">
+                <img
+                  th:src="${mascota.foto}"
+                  alt="Foto de Mascota" />
+                </td>
+              <td th:text="${mascota.estado}"></td>
             </tr>
             <tr th:if="${#lists.isEmpty(mascotas)}">
               <td colspan="5" class="text-center">No tienes mascotas registradas</td>
@@ -63,9 +66,6 @@
         </table>
       </div>
     </div>
-    <div class="d-flex justify-content-center mt-4 gap-2">
-      <a href="/mascota/add" class="btn btn-success">Registrar Nueva Mascota</a>
-      <a href="/cliente/all" class="btn btn-primary">Volver a Lista de Clientes</a>
-    </div>
+
   </body>
 </html>

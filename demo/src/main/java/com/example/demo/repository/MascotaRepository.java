@@ -3,6 +3,7 @@ package com.example.demo.repository;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -45,6 +46,14 @@ public class MascotaRepository {
         int lastId = data.isEmpty() ? 0 : data.keySet().stream().max(Integer::compareTo).orElse(0);
         mascota.setId(lastId + 1);
         data.put(mascota.getId(), mascota);
+    }
+
+
+
+    public Collection<Mascota> findByCedulaCliente(String cedula) {
+        return data.values().stream()
+            .filter(mascota -> mascota.getCedulaCliente().equals(cedula))
+            .collect(Collectors.toList());
     }
 
 
