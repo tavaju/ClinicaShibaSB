@@ -10,10 +10,13 @@ public class Mascota {
     private String enfermedad;
     private String foto;
     private String estado;
+    private String cedulaCliente;
+
 
     
+
     public Mascota(Integer id, String nombre, String raza, int edad, float peso, String enfermedad, String foto,
-            String estado) {
+            String estado, String cedulaCliente) {
         this.id = id;
         this.nombre = nombre;
         this.raza = raza;
@@ -22,6 +25,7 @@ public class Mascota {
         this.enfermedad = enfermedad;
         this.foto = foto;
         this.estado = estado;
+        this.cedulaCliente = cedulaCliente;
     }
 
 
@@ -32,6 +36,16 @@ public class Mascota {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+
+    public String getCedulaCliente() {
+        return cedulaCliente;
+    }
+
+
+    public void setCedulaCliente(String cedulaCliente) {
+        this.cedulaCliente = cedulaCliente;
     }
 
 
@@ -104,7 +118,9 @@ public class Mascota {
         this.estado = estado;
     }
 
+   
     
+
     
     
 }
