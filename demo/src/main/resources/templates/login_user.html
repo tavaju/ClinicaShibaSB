@@ -15,6 +15,16 @@
             <div class="logo-container">
                 <img src="/assets/logos/shiba_sinfondo.png" alt="Shiba Logo" class="shiba-logo">
                 <h2>Ingreso al portal</h2>
+                <div th:if="${error}" class="error-message" 
+                     style="color: #ff3860; 
+                            text-align: center; 
+                            margin: 10px 0; 
+                            padding: 10px; 
+                            border-radius: 4px; 
+                            background-color: #feecf0;
+                            font-size: 14px;">
+                    <span th:text="${error}"></span>
+                </div>
             </div>
             <form action="/login" method="post">
                 <div class="form-group">
