@@ -1,16 +1,25 @@
 package com.example.demo.repository;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
+import java.util.List;
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Cliente;
 
 @Repository
-public class ClienteRepository {
+public interface ClienteRepository extends JpaRepository<Cliente, String> {
 
+    Cliente findByCedula(String cedula);
+    Cliente findByCorreo(String correo);  // Changed from findByEmail to findByCorreo
+    List<Cliente> findAll();
+    void deleteByCedula(String cedula);
+    Cliente save(Cliente cliente);
+
+
+    /* 
     private Map<String, Cliente> data = new HashMap<>();
 
     public ClienteRepository() {
@@ -48,5 +57,7 @@ public class ClienteRepository {
                 .filter(cliente -> cliente.getCorreo().equals(email))
                 .findFirst()
                 .orElse(null);
-    }
-} 
+    }*/
+
+
+}

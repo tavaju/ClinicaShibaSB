@@ -31,16 +31,16 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public void update(Cliente cliente) {
-        repo.update(cliente);
+        repo.save(cliente);
     }
 
     @Override
     public void add(Cliente cliente) {
-        repo.add(cliente);
+        repo.save(cliente);
     }
 
     @Override
     public Cliente searchByEmail(String email) {
-        return repo.findByEmail(email);
+        return repo.findByCorreo(email);
     }
 } 

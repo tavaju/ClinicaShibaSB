@@ -1,8 +1,18 @@
 package com.example.demo.entity;
 
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+
 //POJO Mascota
+@Entity
 public class Mascota {
-    private Integer id;
+    @Id
+    @GeneratedValue
+    private Long id;
+
     private String nombre;
     private String raza;
     private int edad;
@@ -12,10 +22,33 @@ public class Mascota {
     private String estado;
     private String cedulaCliente;
 
+    @ManyToOne
+    private Cliente cliente;
 
-    
+    public Cliente getCliente() {
+        return cliente;
+    }
 
-    public Mascota(Integer id, String nombre, String raza, int edad, float peso, String enfermedad, String foto,
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Mascota() {
+    }
+
+        public Mascota( String nombre, String raza, int edad, float peso, String enfermedad, String foto,
+            String estado, String cedulaCliente) {
+        this.nombre = nombre;
+        this.raza = raza;
+        this.edad = edad;
+        this.peso = peso;
+        this.enfermedad = enfermedad;
+        this.foto = foto;
+        this.estado = estado;
+        this.cedulaCliente = cedulaCliente;
+    }
+
+    public Mascota(Long id, String nombre, String raza, int edad, float peso, String enfermedad, String foto,
             String estado, String cedulaCliente) {
         this.id = id;
         this.nombre = nombre;
@@ -29,12 +62,12 @@ public class Mascota {
     }
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

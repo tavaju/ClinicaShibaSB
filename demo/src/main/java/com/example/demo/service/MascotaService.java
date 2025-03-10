@@ -7,12 +7,12 @@ import com.example.demo.entity.Mascota;
 
 public interface MascotaService {
 
-    public Mascota SearchById(int id);
+    public Mascota SearchById(Long id);
 
     public Collection<Mascota> SearchAll();
 
 
-    public void deleteById(int id);
+    public void deleteById(Long id);
 
     public void update(Mascota mascota);
 
