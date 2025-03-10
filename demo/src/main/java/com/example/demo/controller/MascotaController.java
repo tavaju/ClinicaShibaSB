@@ -53,7 +53,7 @@ public class MascotaController {
             model.addAttribute("cliente", mascota.getCliente());
             return "mostrar_mascota";
         }
-        return "redirect:/mascota/all?error=notfound";
+        throw new NotFoundException(identificacion);
     }
 
     @GetMapping("/add")
