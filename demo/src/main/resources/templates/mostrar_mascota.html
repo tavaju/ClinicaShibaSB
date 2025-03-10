@@ -25,15 +25,13 @@
           <p><span class="label">Raza:</span> <span th:text="${mascota.raza}"></span></p>
           <p><span class="label">Enfermedad:</span> <span th:text="${mascota.enfermedad}"></span></p>
           <p><span class="label">Estado:</span> <span th:text="${mascota.estado}" class="status"></span></p>
-          <p><span class="label">Cedula del Cliente:</span> <span th:text="${mascota.cedulaCliente}"></span></p>
+          <p><span class="label">Dueño:</span> <span th:text="${mascota.cliente.nombre}"></span></p>
+          <p><span class="label">Cédula del Dueño:</span> <span th:text="${mascota.cliente.cedula}"></span></p>
         </div>
       </div>
     </div>
     <div class="d-flex justify-content-center mt-4">
       <a href="/mascota/all" class="btn btn-primary btn-details">Volver a Lista de Mascotas</a>
     </div>
-
-
-
   </body>
 </html>

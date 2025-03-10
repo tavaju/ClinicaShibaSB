@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 
 @Entity
 public class Cliente {
@@ -16,7 +17,7 @@ public class Cliente {
     private String celular;
     private String contrasena;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mascota> mascotas = new ArrayList<>();
 
     public Cliente() {

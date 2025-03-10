@@ -49,18 +49,16 @@ public class MascotaController {
     public String mostrarInfoMascota(Model model, @RequestParam("id") Long identificacion){
         Mascota mascota = mascotaService.SearchById(identificacion);
         if(mascota != null){
-            model.addAttribute("mascota", mascotaService.SearchById(identificacion)); 
-        }else {
-            //throw new NotFoundException(identificacion);
+            model.addAttribute("mascota", mascota);
+            model.addAttribute("cliente", mascota.getCliente());
+            return "mostrar_mascota";
         }
-        return "mostrar_mascota";
-
-    
-}
+        return "redirect:/mascota/all?error=notfound";
+    }
 
     @GetMapping("/add")
     public String mostrarFormularioCrear(Model model) {
-        Mascota mascota = new Mascota("", "", 0, 0.0f, "", "", "", "");
+        Mascota mascota = new Mascota("", "", 0, 0.0f, "", "", "");
         model.addAttribute("mascota", mascota);
         return "crear_mascota";
     }
@@ -88,17 +86,16 @@ public class MascotaController {
 
     @PostMapping("/update/{id}")
     public String updateMascota(@PathVariable("id") int identificacion, @ModelAttribute("mascota") Mascota mascota){
-
-        Cliente cliente = clienteService.searchByCedula(mascota.getCedulaCliente());
-
-        if(cliente == null){
-            return "";//throw new NotFoundException(mascota.getCedulaCliente());
-        }else {
-            Mascota mascotaExistente = mascotaService.SearchById(mascota.getId());
-            mascota.setCedulaCliente(cliente.getCedula());
-            mascota.setId(mascotaExistente.getId());
-            mascotaService.update(mascota);
-            return "redirect:/mascota/edit";
+        Mascota mascotaExistente = mascotaService.SearchById(mascota.getId());
+        if(mascotaExistente != null) {
+            Cliente cliente = clienteService.searchByCedula(mascota.getCliente().getCedula());
+            if(cliente != null) {
+                mascota.setCliente(cliente);
+                mascota.setId(mascotaExistente.getId());
+                mascotaService.update(mascota);
+                return "redirect:/mascota/edit";
+            }
         }
+        return "redirect:/mascota/edit";
     }
 }
