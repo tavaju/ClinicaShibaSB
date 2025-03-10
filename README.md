@@ -14,5 +14,5 @@ En Clínica Veterinaria Shiba, nos especializamos en el cuidado y hospitalizaci�
 
 
 ## Diagrama de Entidad Relación
-[![](https://dbdiagram.io/e/67cf18fa75d75cc8448aeba4/67cf190e75d75cc8448aef0b)]
+[![](https://img.plantuml.biz/plantuml/png/XL7B2i8m4BpdAqAFGd-Wb58Gl8ZW7yZQR2MG9hBP7hJrtqrQMpKUp2cPsSVCfFOCn7rdX43BcczoQtIueHo436VJeEeDo49w9cqliYoF-wgQEEkwC-5AJLZZYD0b69emWj92omGUxNksUAmY3k0Rnx28q2eK6VT_FS4TlX5K49krvUbvHH_LjSR13A1jaRfNrKTVwpYnWI4gbLgRmphzfhIBCeEX9Svnp7CthCOAcN4WC1EYHglY1pm1)](https://editor.plantuml.com/uml/XL7B2i8m4BpdAqAFGd-Wb58Gl8ZW7yZQR2MG9hBP7hJrtqrQMpKUp2cPsSVCfFOCn7rdX43BcczoQtIueHo436VJeEeDo49w9cqliYoF-wgQEEkwC-5AJLZZYD0b69emWj92omGUxNksUAmY3k0Rnx28q2eK6VT_FS4TlX5K49krvUbvHH_LjSR13A1jaRfNrKTVwpYnWI4gbLgRmphzfhIBCeEX9Svnp7CthCOAcN4WC1EYHglY1pm1)
 
