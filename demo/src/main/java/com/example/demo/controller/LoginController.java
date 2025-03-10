@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,18 +23,27 @@ public class LoginController {
 
     @PostMapping("/login")
     public String processLogin(@RequestParam("email") String email, 
-                             @RequestParam("password") String password) {
+                             @RequestParam("password") String password,
+                             Model model) {
         Cliente cliente = clienteService.searchByEmail(email);
         
-        if (cliente != null && cliente.getContrasena().equals(password)) {
-            return "redirect:/cliente/find?cedula=" + cliente.getCedula();
+        if (cliente == null) {
+            model.addAttribute("error", "Usuario no encontrado");
+            return "login_user";
         }
         
-        return "redirect:/login";
+        if (!cliente.getContrasena().equals(password)) {
+            model.addAttribute("error", "Contraseña incorrecta");
+            return "login_user";
+        }
+        
+        return "redirect:/cliente/find?cedula=" + cliente.getCedula();
     }
+
 
     @GetMapping("/logout")
     public String logout() {
         return "redirect:/login";
     }
+
 }
