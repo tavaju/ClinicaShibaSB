@@ -4,15 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/error_page.css" />
-    <title>Document</title>
+    <title>Error - Mascota no encontrada</title>
   </head>
-  <body class = "error-container">
+  <body class="error-container">
     <h1>¡Ups! Algo salió mal</h1>
     <h2>La mascota que buscas no se encuentra en nuestra base de datos</h2>
     <h2 th:text="'ID = ' + ${id}"></h2>
-
+    <img src="https://pbs.twimg.com/media/E3z_AptXEAA5mHs.jpg:large" alt="Perrito triste" class="error-image"/>
     <a href="/">Volver al Inicio</a>
-
-
   </body>
 </html>
