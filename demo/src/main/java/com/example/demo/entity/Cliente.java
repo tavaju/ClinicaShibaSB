@@ -1,12 +1,35 @@
 package com.example.demo.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+
+@Entity
 public class Cliente {
+    @Id
     private String cedula;
     private String nombre;
     private String correo;
     private String celular;
     private String contrasena;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Mascota> mascotas = new ArrayList<>();
+
+    public Cliente() {
+    }
+
+    public List<Mascota> getMascotas() {
+        return mascotas;
+    }
+
+    public void setMascotas(List<Mascota> mascotas) {
+        this.mascotas = mascotas;
+    }
 
     public Cliente(String cedula, String nombre, String correo, String celular) {
         this.cedula = cedula;
@@ -15,7 +38,6 @@ public class Cliente {
         this.celular = celular;
         this.contrasena = "";
     }
-
 
     public String getCedula() {
         return cedula;
@@ -57,5 +79,4 @@ public class Cliente {
         this.contrasena = contrasena;
     }
 
-    
-} 
+}

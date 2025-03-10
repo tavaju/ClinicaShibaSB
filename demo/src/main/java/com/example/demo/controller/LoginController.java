@@ -39,4 +39,11 @@ public class LoginController {
         
         return "redirect:/cliente/find?cedula=" + cliente.getCedula();
     }
+
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/login";
+    }
+
 }

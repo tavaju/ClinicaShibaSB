@@ -1,8 +1,21 @@
 package com.example.demo.entity;
 
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
 //POJO Mascota
+@Entity
 public class Mascota {
-    private Integer id;
+    @Id
+    @GeneratedValue
+    private Long id;
+
     private String nombre;
     private String raza;
     private int edad;
@@ -10,13 +23,35 @@ public class Mascota {
     private String enfermedad;
     private String foto;
     private String estado;
-    private String cedulaCliente;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cc_cliente")
+    private Cliente cliente;
 
-    
+    public Cliente getCliente() {
+        return cliente;
+    }
 
-    public Mascota(Integer id, String nombre, String raza, int edad, float peso, String enfermedad, String foto,
-            String estado, String cedulaCliente) {
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Mascota() {
+    }
+
+    public Mascota(String nombre, String raza, int edad, float peso, String enfermedad, String foto,
+            String estado) {
+        this.nombre = nombre;
+        this.raza = raza;
+        this.edad = edad;
+        this.peso = peso;
+        this.enfermedad = enfermedad;
+        this.foto = foto;
+        this.estado = estado;
+    }
+
+    public Mascota(Long id, String nombre, String raza, int edad, float peso, String enfermedad, String foto,
+            String estado) {
         this.id = id;
         this.nombre = nombre;
         this.raza = raza;
@@ -25,27 +60,16 @@ public class Mascota {
         this.enfermedad = enfermedad;
         this.foto = foto;
         this.estado = estado;
-        this.cedulaCliente = cedulaCliente;
     }
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-
-    public String getCedulaCliente() {
-        return cedulaCliente;
-    }
-
-
-    public void setCedulaCliente(String cedulaCliente) {
-        this.cedulaCliente = cedulaCliente;
     }
 
 
@@ -118,10 +142,5 @@ public class Mascota {
         this.estado = estado;
     }
 
-   
-    
-
-    
-    
 }
 

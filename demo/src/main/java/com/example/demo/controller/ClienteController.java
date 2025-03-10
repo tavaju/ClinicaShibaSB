@@ -30,7 +30,7 @@ public class ClienteController {
         Cliente cliente = clienteService.searchByCedula(cedula);
         if (cliente != null) {
             model.addAttribute("cliente", cliente);
-            model.addAttribute("mascotas", mascotaRepository.findByCedulaCliente(cedula));
+            model.addAttribute("mascotas", mascotaRepository.findByClienteCedula(cedula));
         } else {
             return "redirect:/login?error=notfound";
         }
@@ -67,4 +67,10 @@ public class ClienteController {
         clienteService.update(cliente);
         return "redirect:/cliente/all";
     }
-} 
+
+    @GetMapping("/mascotas/{cedula}")
+    public String mostrarClienteMascotas(@PathVariable String cedula, Model model) {
+        model.addAttribute("mascotas", mascotaRepository.findByClienteCedula(cedula));
+        return "mostrar_mascotas";
+    }
+}
