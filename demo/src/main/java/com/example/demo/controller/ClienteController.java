@@ -40,12 +40,20 @@ public class ClienteController {
     @GetMapping("/add")
     public String mostrarFormularioCrear(Model model) {
         Cliente cliente = new Cliente("", "", "", "");
+        cliente.setContrasena("");
         model.addAttribute("cliente", cliente);
         return "crear_cliente";
     }
 
     @PostMapping("/agregar")
-    public String agregarCliente(@ModelAttribute("cliente") Cliente cliente) {
+    public String agregarCliente(@ModelAttribute("cliente") Cliente cliente, 
+                                @RequestParam("confirmPassword") String confirmPassword,
+                                Model model) {
+        if (!cliente.getContrasena().equals(confirmPassword)) {
+            model.addAttribute("error", "Las contraseñas no coinciden");
+            return "crear_cliente";
+        }
+        
         clienteService.add(cliente);
         return "redirect:/cliente/all";
     }
