@@ -15,6 +15,7 @@
         th:object="${mascota}"
         th:action="@{/mascota/update/{id}(id=${mascota.id})}"
         method="post">
+        <input type="hidden" th:field="*{id}" />
         <div class="form-group">
           <label for="nombre">Nombre:</label>
           <input
@@ -71,20 +72,21 @@
 
         <div class="form-group">
           <label for="estado">Estado:</label>
-          <input
-            th:field="*{estado}"
-            type="text"
-            id="estado"
-            placeholder="Ingresa el estado" />
+          <select th:field="*{estado}" class="form-control" id="estado" required>
+            <option th:value="true" th:selected="${mascota.estado}">Activo</option>
+            <option th:value="false" th:selected="${!mascota.estado}">Inactivo</option>
+          </select>
         </div>
 
         <div class="form-group">
           <label for="cedulaCliente">Cedula del Cliente:</label>
           <input
-            th:field="*{cedulaCliente}"
             type="text"
+            class="form-control"
             id="cedulaCliente"
-            placeholder="Ingresa la cedula del cliente" />
+            name="cedulaCliente"
+            th:value="${mascota.cliente != null ? mascota.cliente.cedula : ''}"
+            required />
         </div>
 
         <button type="submit" class="btn-submit">Actualizar Mascota</button>

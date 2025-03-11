@@ -24,7 +24,13 @@
           <p><span class="label">Peso:</span> <span th:text="${mascota.peso}"></span></p>
           <p><span class="label">Raza:</span> <span th:text="${mascota.raza}"></span></p>
           <p><span class="label">Enfermedad:</span> <span th:text="${mascota.enfermedad}"></span></p>
-          <p><span class="label">Estado:</span> <span th:text="${mascota.estado}" class="status"></span></p>
+          <p>
+            <span class="label">Estado:</span> 
+            <span th:text="${mascota.estadoTexto}" 
+                  th:style="${mascota.estado ? 'color: green;' : 'color: red;'}"
+                  class="status">
+            </span>
+          </p>
           <p><span class="label">Dueño:</span> <span th:text="${mascota.cliente.nombre}"></span></p>
           <p><span class="label">Cédula del Dueño:</span> <span th:text="${mascota.cliente.cedula}"></span></p>
         </div>
