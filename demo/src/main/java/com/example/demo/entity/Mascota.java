@@ -142,5 +142,9 @@ public class Mascota {
         this.estado = estado;
     }
 
+    public String getCedulaCliente() {
+        return cliente != null ? cliente.getCedula() : null;
+    }
+
 }
 

@@ -64,9 +64,15 @@ public class MascotaController {
     }
 
     @PostMapping("/agregar")
-        public String agregarMascota(@ModelAttribute("mascota") Mascota mascota){
+    public String agregarMascota(@ModelAttribute("mascota") Mascota mascota, @RequestParam("cedulaCliente") String cedulaCliente) {
+        Cliente cliente = clienteService.searchByCedula(cedulaCliente);
+        if (cliente != null) {
+            mascota.setCliente(cliente);
             mascotaService.add(mascota);
             return "redirect:/mascota/all";
+        }
+        // Manejar el caso cuando el cliente no existe
+        return "redirect:/mascota/add?error=cliente-no-encontrado";
     }
 
 

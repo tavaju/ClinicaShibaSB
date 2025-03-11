@@ -45,8 +45,8 @@
                 width="100"
                 height="100" />
             </td>
-            <td th:text="${mascota.enfermedad}"></td>
-            <td th:text="${mascota.cedulaCliente}"></td>
+            <td th:text="${mascota.estado}"></td>
+            <td th:text="${mascota.cliente != null ? mascota.cliente.cedula : ''}"></td>
 
             <td>
              <a class = "btn btn-info" th:href="@{/mascota/update/{id}(id=${mascota.id})}">Editar</a> 
