@@ -66,12 +66,39 @@ public class ClienteController {
 
     @GetMapping("/update/{cedula}")
     public String mostrarFormularioUpdate(@PathVariable("cedula") String cedula, Model model) {
-        model.addAttribute("cliente", clienteService.searchByCedula(cedula));
+        Cliente cliente = clienteService.searchByCedula(cedula);
+        if (cliente == null) {
+            return "redirect:/cliente/all";
+        }
+        model.addAttribute("cliente", cliente);
         return "modificar_cliente";
     }
 
     @PostMapping("/update/{cedula}")
-    public String updateCliente(@PathVariable("cedula") String cedula, @ModelAttribute("cliente") Cliente cliente) {
+    public String updateCliente(
+            @PathVariable("cedula") String cedula,
+            @ModelAttribute("cliente") Cliente cliente,
+            @RequestParam(value = "changePassword", required = false) Boolean changePassword,
+            @RequestParam(value = "newPassword", required = false) String newPassword,
+            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
+            Model model) {
+        
+        if (Boolean.TRUE.equals(changePassword)) {
+            if (newPassword == null || newPassword.isEmpty()) {
+                model.addAttribute("error", "La nueva contraseña no puede estar vacía");
+                return "modificar_cliente";
+            }
+            if (!newPassword.equals(confirmPassword)) {
+                model.addAttribute("error", "Las contraseñas no coinciden");
+                return "modificar_cliente";
+            }
+            cliente.setContrasena(newPassword);
+        } else {
+            // Mantener la contraseña existente
+            Cliente clienteExistente = clienteService.searchByCedula(cedula);
+            cliente.setContrasena(clienteExistente.getContrasena());
+        }
+        
         clienteService.update(cliente);
         return "redirect:/cliente/all";
     }
