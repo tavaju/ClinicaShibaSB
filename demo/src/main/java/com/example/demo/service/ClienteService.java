@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.example.demo.entity.Cliente;
 
@@ -8,7 +9,7 @@ public interface ClienteService {
 
     public Cliente searchByCedula(String cedula);
 
-    public Collection<Cliente> searchAll();
+    public List<Cliente> searchAll();
 
     public void deleteByCedula(String cedula);
 
@@ -17,4 +18,4 @@ public interface ClienteService {
     public void add(Cliente cliente);
 
     public Cliente searchByEmail(String email);
-} 
+}

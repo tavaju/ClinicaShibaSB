@@ -50,9 +50,9 @@
                         <td th:text="${cliente.correo}"></td>
                         <td th:text="${cliente.celular}"></td>
                         <td class="actions-cell">
-                            <button class="action-button edit-button">
+                            <a th:href="@{/cliente/update/{cedula}(cedula=${cliente.cedula})}" class="action-button edit-button">
                                 <i data-lucide="edit-2"></i>
-                            </button>
+                            </a>
                             <button class="action-button delete-button">
                                 <i data-lucide="trash-2"></i>
                             </button>
@@ -78,9 +78,60 @@
         </div>
     </div>
 
+    <!-- Modal de confirmación -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirmar eliminación</h2>
+            <p id="deleteMessage"></p>
+            <div class="modal-buttons">
+                <button id="confirmDelete" class="confirm-button">Aceptar</button>
+                <button id="cancelDelete" class="cancel-button">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Inicializar los íconos de Lucide
         lucide.createIcons();
+
+        // Funcionalidad del modal de eliminación
+        const modal = document.getElementById('deleteModal');
+        const deleteMessage = document.getElementById('deleteMessage');
+        let currentCedula = '';
+
+        // Función para mostrar el modal
+        function showDeleteModal(cedula, nombre) {
+            deleteMessage.textContent = `¿Está seguro que quiere eliminar al usuario ${nombre}: ${cedula}?`;
+            currentCedula = cedula;
+            modal.style.display = 'flex';
+        }
+
+        // Asignar eventos a los botones de eliminar
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const row = e.target.closest('tr');
+                const cedula = row.querySelector('td').textContent;
+                const nombre = row.querySelector('td:nth-child(2)').textContent;
+                showDeleteModal(cedula, nombre);
+            });
+        });
+
+        // Manejar la confirmación de eliminación
+        document.getElementById('confirmDelete').addEventListener('click', () => {
+            window.location.href = `/cliente/delete/${currentCedula}`;
+        });
+
+        // Manejar la cancelación
+        document.getElementById('cancelDelete').addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Cerrar el modal si se hace clic fuera de él
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>

@@ -11,10 +11,10 @@
   </head>
   <body>
     <div class="form-container">
-      <form
-        th:object="${cliente}"
-        th:action="@{/cliente/update/{cedula}(cedula=${cliente.cedula})}"
-        method="post">
+      <form th:if="${cliente != null}"
+            th:object="${cliente}"
+            th:action="@{/cliente/update/{cedula}(cedula=${cliente.cedula})}"
+            method="post">
         <div class="form-group">
           <label for="nombre">Nombre:</label>
           <input
@@ -42,8 +42,43 @@
             placeholder="Ingresa el celular" />
         </div>
 
+        <div class="form-group">
+          <div class="password-toggle">
+            <input type="checkbox" id="changePassword" name="changePassword">
+            <label for="changePassword">Cambiar contraseña</label>
+          </div>
+          
+          <div id="passwordFields" style="display: none;">
+            <div class="form-group">
+              <label for="newPassword">Nueva Contraseña:</label>
+              <input type="password" id="newPassword" name="newPassword" />
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirmar Contraseña:</label>
+              <input type="password" id="confirmPassword" name="confirmPassword" />
+            </div>
+          </div>
+        </div>
+
         <button type="submit" class="btn-submit">Actualizar Cliente</button>
       </form>
+      <div th:if="${cliente == null}">
+        <p>Cliente no encontrado</p>
+        <a href="/cliente/all">Volver a la lista de clientes</a>
+      </div>
     </div>
+
+    <script>
+      document.getElementById('changePassword').addEventListener('change', function() {
+        const passwordFields = document.getElementById('passwordFields');
+        passwordFields.style.display = this.checked ? 'block' : 'none';
+        
+        // Reset password fields when unchecked
+        if (!this.checked) {
+          document.getElementById('newPassword').value = '';
+          document.getElementById('confirmPassword').value = '';
+        }
+      });
+    </script>
   </body>
 </html>
