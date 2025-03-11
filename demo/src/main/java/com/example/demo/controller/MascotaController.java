@@ -58,7 +58,7 @@ public class MascotaController {
 
     @GetMapping("/add")
     public String mostrarFormularioCrear(Model model) {
-        Mascota mascota = new Mascota("", "", 0, 0.0f, "", "", "");
+        Mascota mascota = new Mascota("", "", 0, 0.0f, "", "", true);
         model.addAttribute("mascota", mascota);
         return "crear_mascota";
     }

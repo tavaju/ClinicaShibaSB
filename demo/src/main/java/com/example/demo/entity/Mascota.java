@@ -22,7 +22,7 @@ public class Mascota {
     private float peso;
     private String enfermedad;
     private String foto;
-    private String estado;
+    private boolean estado;  // Cambiado de String a boolean
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cc_cliente")
@@ -37,10 +37,11 @@ public class Mascota {
     }
 
     public Mascota() {
+        this.estado = true;  // Por defecto, las mascotas se crean activas
     }
 
     public Mascota(String nombre, String raza, int edad, float peso, String enfermedad, String foto,
-            String estado) {
+            boolean estado) {  // Cambiado el parámetro a boolean
         this.nombre = nombre;
         this.raza = raza;
         this.edad = edad;
@@ -51,7 +52,7 @@ public class Mascota {
     }
 
     public Mascota(Long id, String nombre, String raza, int edad, float peso, String enfermedad, String foto,
-            String estado) {
+            boolean estado) {  // Cambiado el parámetro a boolean
         this.id = id;
         this.nombre = nombre;
         this.raza = raza;
@@ -133,13 +134,16 @@ public class Mascota {
     }
 
 
-    public String getEstado() {
+    public boolean isEstado() {  // Cambiado de getEstado a isEstado (convención para booleanos)
         return estado;
     }
 
-
-    public void setEstado(String estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public String getEstadoTexto() {  // Método auxiliar para mostrar el estado como texto
+        return estado ? "Activo" : "Inactivo";
     }
 
     public String getCedulaCliente() {

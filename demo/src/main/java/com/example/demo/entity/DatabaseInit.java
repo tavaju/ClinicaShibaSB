@@ -36,26 +36,26 @@ public class DatabaseInit implements ApplicationRunner {
         List<Mascota> mascotasCliente1 = new ArrayList<>();
         List<Mascota> mascotasCliente2 = new ArrayList<>();
 
-        Mascota m1 = new Mascota("Firulais", "Golden Retriever", 5, 20.5f, "Moquillo", imageUrl, "Enfermo");
+        Mascota m1 = new Mascota("Firulais", "Golden Retriever", 5, 20.5f, "Moquillo", imageUrl, true);  // Cambiado "Enfermo" a false
         m1.setCliente(cliente1);
         mascotasCliente1.add(m1);
 
-        Mascota m2 = new Mascota("Lassie", "Collie", 3, 15.5f, "Gripe", imageUrl, "Enfermo");
+        Mascota m2 = new Mascota("Lassie", "Collie", 3, 15.5f, "Gripe", imageUrl, true);
         m2.setCliente(cliente1);
         mascotasCliente1.add(m2);
 
         cliente1.setMascotas(mascotasCliente1);
         clienteRepository.save(cliente1);
 
-        Mascota m3 = new Mascota("Rex", "Pastor Alemán", 4, 25.5f, "Gripe", imageUrl, "Enfermo");
+        Mascota m3 = new Mascota("Rex", "Pastor Alemán", 4, 25.5f, "Gripe", imageUrl, true);
         m3.setCliente(cliente2);
         mascotasCliente2.add(m3);
 
-        Mascota m4 = new Mascota("Bolt", "Pastor Alemán", 4, 25.5f, "Gripe", imageUrl, "Enfermo");
+        Mascota m4 = new Mascota("Bolt", "Pastor Alemán", 4, 25.5f, "Gripe", imageUrl, true);
         m4.setCliente(cliente2);
         mascotasCliente2.add(m4);
 
-        Mascota m5 = new Mascota("Ayudante de Santa", "Galgo", 4, 25.5f, "Gripe", imageUrl, "Enfermo");
+        Mascota m5 = new Mascota("Ayudante de Santa", "Galgo", 4, 25.5f, "Gripe", imageUrl, true);
         m5.setCliente(cliente2);
         mascotasCliente2.add(m5);
 
