@@ -1,133 +1,159 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modificar Cliente</title>
-    <link rel="stylesheet" href="/css/modificar_cliente.css">
+    <link rel="stylesheet" href="/css/modificar_cliente.css" />
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-<body>
+  </head>
+  <body>
     <header class="banner">
-        <div class="banner-content">
-            <div class="nav-left">
-                <img src="/assets/images/logo_shiba.png" alt="Logo" class="logo" />
-                <span class="brand-name">Clínica Shiba</span>
-            </div>
+      <div class="banner-content">
+        <div class="nav-left">
+          <img src="/assets/images/logo_shiba.png" alt="Logo" class="logo" />
+          <span class="brand-name">Clínica Shiba</span>
         </div>
+      </div>
     </header>
 
     <div class="container">
-        <div class="form-header">
-            <div class="title-section">
-                <i data-lucide="user-cog"></i>
-                <h1>Modificar Cliente</h1>
+      <div class="form-header">
+        <div class="title-section">
+          <i data-lucide="user-cog"></i>
+          <h1>Modificar Cliente</h1>
+        </div>
+      </div>
+
+      <div th:if="${cliente != null}" class="form-wrapper">
+        <form
+          class="form-container"
+          th:object="${cliente}"
+          th:action="@{/cliente/update/{id}(id=${cliente.id})}"
+          method="post">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <div class="input-container">
+                <i data-lucide="user" class="input-icon"></i>
+                <input
+                  th:field="*{nombre}"
+                  type="text"
+                  id="nombre"
+                  placeholder="Ingresa el nombre" />
+              </div>
             </div>
-        </div>
 
-        <div th:if="${cliente != null}" class="form-wrapper">
-            <form class="form-container" 
-                  th:object="${cliente}"
-                  th:action="@{/cliente/update/{cedula}(cedula=${cliente.cedula})}"
-                  method="post">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <div class="input-container">
-                            <i data-lucide="user" class="input-icon"></i>
-                            <input th:field="*{nombre}" type="text" id="nombre" placeholder="Ingresa el nombre">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="correo">Correo</label>
-                        <div class="input-container">
-                            <i data-lucide="mail" class="input-icon"></i>
-                            <input th:field="*{correo}" type="email" id="correo" placeholder="Ingresa el correo">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="celular">Celular</label>
-                        <div class="input-container">
-                            <i data-lucide="phone" class="input-icon"></i>
-                            <input th:field="*{celular}" type="text" id="celular" placeholder="Ingresa el celular">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="password-section">
-                    <div class="password-toggle">
-                        <label class="toggle-container">
-                            <input type="checkbox" id="changePassword" name="changePassword">
-                            <span class="toggle-label">
-                                <i data-lucide="key" class="toggle-icon"></i>
-                                Cambiar contraseña
-                            </span>
-                        </label>
-                    </div>
-                    
-                    <div id="passwordFields" class="password-fields">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="newPassword">Nueva Contraseña</label>
-                                <div class="input-container">
-                                    <i data-lucide="lock" class="input-icon"></i>
-                                    <input type="password" id="newPassword" name="newPassword" placeholder="Nueva contraseña">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="confirmPassword">Confirmar Contraseña</label>
-                                <div class="input-container">
-                                    <i data-lucide="lock" class="input-icon"></i>
-                                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-footer">
-                    <a href="/cliente/all" class="cancel-button">
-                        <i data-lucide="x"></i>
-                        Cancelar
-                    </a>
-                    <button type="submit" class="submit-button">
-                        <i data-lucide="save"></i>
-                        Guardar Cambios
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div th:if="${cliente == null}" class="error-container">
-            <div class="error-content">
-                <i data-lucide="alert-circle" class="error-icon"></i>
-                <h2>Cliente no encontrado</h2>
-                <p>No se pudo encontrar la información del cliente solicitado.</p>
-                <a href="/cliente/list" class="return-button">
-                    <i data-lucide="arrow-left"></i>
-                    Volver a la lista de clientes
-                </a>
+            <div class="form-group">
+              <label for="correo">Correo</label>
+              <div class="input-container">
+                <i data-lucide="mail" class="input-icon"></i>
+                <input
+                  th:field="*{correo}"
+                  type="email"
+                  id="correo"
+                  placeholder="Ingresa el correo" />
+              </div>
             </div>
+
+            <div class="form-group">
+              <label for="celular">Celular</label>
+              <div class="input-container">
+                <i data-lucide="phone" class="input-icon"></i>
+                <input
+                  th:field="*{celular}"
+                  type="text"
+                  id="celular"
+                  placeholder="Ingresa el celular" />
+              </div>
+            </div>
+          </div>
+
+          <div class="password-section">
+            <div class="password-toggle">
+              <label class="toggle-container">
+                <input
+                  type="checkbox"
+                  id="changePassword"
+                  name="changePassword" />
+                <span class="toggle-label">
+                  <i data-lucide="key" class="toggle-icon"></i>
+                  Cambiar contraseña
+                </span>
+              </label>
+            </div>
+
+            <div id="passwordFields" class="password-fields">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="newPassword">Nueva Contraseña</label>
+                  <div class="input-container">
+                    <i data-lucide="lock" class="input-icon"></i>
+                    <input
+                      type="password"
+                      id="newPassword"
+                      name="newPassword"
+                      placeholder="Nueva contraseña" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword">Confirmar Contraseña</label>
+                  <div class="input-container">
+                    <i data-lucide="lock" class="input-icon"></i>
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      placeholder="Confirmar contraseña" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <a href="/cliente/all" class="cancel-button">
+              <i data-lucide="x"></i>
+              Cancelar
+            </a>
+            <button type="submit" class="submit-button">
+              <i data-lucide="save"></i>
+              Guardar Cambios
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div th:if="${cliente == null}" class="error-container">
+        <div class="error-content">
+          <i data-lucide="alert-circle" class="error-icon"></i>
+          <h2>Cliente no encontrado</h2>
+          <p>No se pudo encontrar la información del cliente solicitado.</p>
+          <a href="/cliente/list" class="return-button">
+            <i data-lucide="arrow-left"></i>
+            Volver a la lista de clientes
+          </a>
         </div>
+      </div>
     </div>
 
     <script>
-        // Inicializar los íconos de Lucide
-        lucide.createIcons();
+      // Inicializar los íconos de Lucide
+      lucide.createIcons();
 
-        // Manejar la visibilidad de los campos de contraseña
-        document.getElementById('changePassword').addEventListener('change', function() {
-            const passwordFields = document.getElementById('passwordFields');
-            passwordFields.style.display = this.checked ? 'block' : 'none';
-            
-            if (!this.checked) {
-                document.getElementById('newPassword').value = '';
-                document.getElementById('confirmPassword').value = '';
-            }
+      // Manejar la visibilidad de los campos de contraseña
+      document
+        .getElementById("changePassword")
+        .addEventListener("change", function () {
+          const passwordFields = document.getElementById("passwordFields");
+          passwordFields.style.display = this.checked ? "block" : "none";
+
+          if (!this.checked) {
+            document.getElementById("newPassword").value = "";
+            document.getElementById("confirmPassword").value = "";
+          }
         });
     </script>
-</body>
+  </body>
 </html>
