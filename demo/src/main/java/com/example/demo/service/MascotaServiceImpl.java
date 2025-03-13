@@ -32,8 +32,12 @@ public class MascotaServiceImpl  implements MascotaService {
 
     @Override
     public void update(Mascota mascota) {
-        repo.save(mascota);
+        // Verificar que la mascota existe
+        if (repo.existsById(mascota.getId())) {
+            // Guardar directamente la mascota actualizada
+            repo.save(mascota);
         }
+    }
 
     @Override
     public void add(Mascota mascota) {

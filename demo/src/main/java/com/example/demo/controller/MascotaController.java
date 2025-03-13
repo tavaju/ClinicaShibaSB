@@ -58,15 +58,21 @@ public class MascotaController {
 
     @GetMapping("/add")
     public String mostrarFormularioCrear(Model model) {
-        Mascota mascota = new Mascota("", "", 0, 0.0f, "", "", "");
+        Mascota mascota = new Mascota("", "", 0, 0.0f, "", "", true);
         model.addAttribute("mascota", mascota);
         return "crear_mascota";
     }
 
     @PostMapping("/agregar")
-        public String agregarMascota(@ModelAttribute("mascota") Mascota mascota){
+    public String agregarMascota(@ModelAttribute("mascota") Mascota mascota, @RequestParam("cedulaCliente") String cedulaCliente) {
+        Cliente cliente = clienteService.searchByCedula(cedulaCliente);
+        if (cliente != null) {
+            mascota.setCliente(cliente);
             mascotaService.add(mascota);
             return "redirect:/mascota/all";
+        }
+        // Manejar el caso cuando el cliente no existe
+        return "redirect:/mascota/add?error=cliente-no-encontrado";
     }
 
 
@@ -85,17 +91,23 @@ public class MascotaController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateMascota(@PathVariable("id") int identificacion, @ModelAttribute("mascota") Mascota mascota){
-        Mascota mascotaExistente = mascotaService.SearchById(mascota.getId());
+    public String updateMascota(@PathVariable("id") Long id, 
+                              @ModelAttribute Mascota mascota,
+                              @RequestParam("cedulaCliente") String cedulaCliente) {
+        
+        Mascota mascotaExistente = mascotaService.SearchById(id);
         if(mascotaExistente != null) {
-            Cliente cliente = clienteService.searchByCedula(mascota.getCliente().getCedula());
+            Cliente cliente = clienteService.searchByCedula(cedulaCliente);
             if(cliente != null) {
+                // Mantener el ID original
+                mascota.setId(id);
                 mascota.setCliente(cliente);
-                mascota.setId(mascotaExistente.getId());
+                
+                // Actualizar la mascota
                 mascotaService.update(mascota);
                 return "redirect:/mascota/edit";
             }
         }
-        return "redirect:/mascota/edit";
+        return "redirect:/mascota/edit?error=update-failed";
     }
 }
