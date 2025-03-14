@@ -37,7 +37,7 @@ public class LoginController {
             return "login_user";
         }
         
-        return "redirect:/cliente/find?cedula=" + cliente.getCedula();
+        return "redirect:/cliente/find/" + cliente.getId();
     }
 
 

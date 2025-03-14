@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.Cliente;
 import com.example.demo.service.ClienteService;
+import com.example.demo.service.MascotaService;
 import com.example.demo.repository.MascotaRepository;
 
 @RequestMapping("/cliente")
@@ -19,18 +20,22 @@ public class ClienteController {
     @Autowired
     MascotaRepository mascotaRepository;
 
+        @Autowired
+        MascotaService mascotaService;
+
     @GetMapping("/all")
     public String mostrarClientes(Model model) {
         model.addAttribute("clientes", clienteService.searchAll());
         return "mostrar_todos_clientes";
     }
 
-    @GetMapping("/find")
-    public String mostrarInfoCliente(Model model, @RequestParam("cedula") String cedula) {
-        Cliente cliente = clienteService.searchByCedula(cedula);
+
+    @GetMapping("/find/{id}")
+    public String mostrarInfoCliente(@PathVariable("id") Long id, Model model) {
+        Cliente cliente = clienteService.searchById(id);
         if (cliente != null) {
             model.addAttribute("cliente", cliente);
-            model.addAttribute("mascotas", mascotaRepository.findByClienteCedula(cedula));
+            model.addAttribute("mascotas", mascotaService.findByClienteId(id));
         } else {
             return "redirect:/login?error=notfound";
         }
@@ -39,7 +44,7 @@ public class ClienteController {
 
     @GetMapping("/add")
     public String mostrarFormularioCrear(Model model) {
-        Cliente cliente = new Cliente("", "", "", "");
+        Cliente cliente = new Cliente("", "", "", "", null);
         cliente.setContrasena("");
         model.addAttribute("cliente", cliente);
         return "crear_cliente";
@@ -58,15 +63,16 @@ public class ClienteController {
         return "redirect:/cliente/all";
     }
 
-    @GetMapping("/delete/{cedula}")
-    public String eliminarCliente(@PathVariable("cedula") String cedula) {
-        clienteService.deleteByCedula(cedula);
+    @GetMapping("/delete/{id}")
+    public String eliminarCliente(@PathVariable("id") Long id) {
+        clienteService.deleteById(id);
         return "redirect:/cliente/all";
     }
 
-    @GetMapping("/update/{cedula}")
-    public String mostrarFormularioUpdate(@PathVariable("cedula") String cedula, Model model) {
-        Cliente cliente = clienteService.searchByCedula(cedula);
+
+    @GetMapping("/update/{id}")
+    public String mostrarFormularioUpdate(@PathVariable("id") Long id, Model model) {
+        Cliente cliente = clienteService.searchById(id);
         if (cliente == null) {
             return "redirect:/cliente/all";
         }
@@ -74,9 +80,9 @@ public class ClienteController {
         return "modificar_cliente";
     }
 
-    @PostMapping("/update/{cedula}")
+    @PostMapping("/update/{id}")
     public String updateCliente(
-            @PathVariable("cedula") String cedula,
+            @PathVariable("id") Long id,
             @ModelAttribute("cliente") Cliente cliente,
             @RequestParam(value = "changePassword", required = false) Boolean changePassword,
             @RequestParam(value = "newPassword", required = false) String newPassword,
@@ -95,7 +101,7 @@ public class ClienteController {
             cliente.setContrasena(newPassword);
         } else {
             // Mantener la contraseña existente
-            Cliente clienteExistente = clienteService.searchByCedula(cedula);
+            Cliente clienteExistente = clienteService.searchById(id);
             cliente.setContrasena(clienteExistente.getContrasena());
         }
         
@@ -103,9 +109,9 @@ public class ClienteController {
         return "redirect:/cliente/all";
     }
 
-    @GetMapping("/mascotas/{cedula}")
-    public String mostrarClienteMascotas(@PathVariable String cedula, Model model) {
-        model.addAttribute("mascotas", mascotaRepository.findByClienteCedula(cedula));
+    @GetMapping("/mascotas/{id}")
+    public String mostrarClienteMascotas(@PathVariable Long id, Model model) {
+        model.addAttribute("mascotas", mascotaService.findByClienteId(id));
         return "mostrar_mascotas";
     }
 }

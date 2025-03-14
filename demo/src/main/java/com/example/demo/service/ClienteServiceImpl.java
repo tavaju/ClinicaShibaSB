@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Cliente;
 import com.example.demo.repository.ClienteRepository;
+import com.example.demo.repository.MascotaRepository;
 
 @Service
 @Transactional  // Añadir esta anotación a nivel de clase
@@ -14,6 +15,9 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
     ClienteRepository repo;
+
+    @Autowired
+    MascotaRepository mascotaRepository;
 
     @Override
     public Cliente searchByCedula(String cedula) {
@@ -27,8 +31,9 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     @Transactional  // Añadir esta anotación específicamente para el método de eliminar
-    public void deleteByCedula(String cedula) {
-        repo.deleteByCedula(cedula);
+    public void deleteById(Long id) {
+        // Simplemente elimina el cliente; las mascotas asociadas se eliminarán automáticamente
+        repo.deleteById(id);
     }
 
     @Override
@@ -44,5 +49,10 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public Cliente searchByEmail(String email) {
         return repo.findByCorreo(email);
+    }
+
+    @Override
+    public Cliente searchById(Long id) {
+        return repo.findById(id).orElse(null);
     }
 }

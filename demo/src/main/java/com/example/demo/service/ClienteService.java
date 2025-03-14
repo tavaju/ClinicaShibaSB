@@ -1,17 +1,16 @@
 package com.example.demo.service;
-
-import java.util.Collection;
 import java.util.List;
 
 import com.example.demo.entity.Cliente;
 
 public interface ClienteService {
+    public Cliente searchById(Long id);
 
     public Cliente searchByCedula(String cedula);
 
     public List<Cliente> searchAll();
 
-    public void deleteByCedula(String cedula);
+    public void deleteById(Long id);
 
     public void update(Cliente cliente);
 
