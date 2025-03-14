@@ -18,5 +18,7 @@ public interface MascotaService {
 
     public void add(Mascota mascota);
 
+    public Collection<Mascota> findByClienteId(Long id);
+
     
 }

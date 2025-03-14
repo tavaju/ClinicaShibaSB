@@ -10,7 +10,6 @@ import com.example.demo.repository.MascotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 

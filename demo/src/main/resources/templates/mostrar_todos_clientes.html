@@ -47,7 +47,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr th:each="cliente : ${clientes}">
+            <tr th:each="cliente : ${clientes}" th:attr="data-id=${cliente.id}">
               <td th:text="${cliente.cedula}"></td>
               <td th:text="${cliente.nombre}"></td>
               <td th:text="${cliente.correo}"></td>
@@ -115,11 +115,11 @@
       // Funcionalidad del modal de eliminación
       const deleteModal = document.getElementById("deleteModal");
       const deleteMessage = document.getElementById("deleteMessage");
-      let currentCedula = "";
+      let currentId = null; // Cambiar a currentId para usar el ID del cliente
 
-      function showDeleteModal(cedula, nombre) {
-        deleteMessage.textContent = `¿Está seguro que quiere eliminar al usuario ${nombre}: ${cedula}?`;
-        currentCedula = cedula;
+      function showDeleteModal(id, nombre) {
+        deleteMessage.textContent = `¿Está seguro que quiere eliminar al cliente ${nombre}?`;
+        currentId = id; // Guardar el ID del cliente seleccionado
         deleteModal.style.display = "flex";
       }
 
@@ -127,15 +127,15 @@
       document.querySelectorAll(".delete-button").forEach((button) => {
         button.addEventListener("click", (e) => {
           const row = e.target.closest("tr");
-          const cedula = row.querySelector("td").textContent;
-          const nombre = row.querySelector("td:nth-child(2)").textContent;
-          showDeleteModal(cedula, nombre);
+          const id = row.getAttribute("data-id"); // Obtener el ID del cliente desde el atributo data-id
+          const nombre = row.querySelector("td:nth-child(2)").textContent; // Obtener el nombre del cliente
+          showDeleteModal(id, nombre);
         });
       });
 
       // Manejar la confirmación de eliminación
       document.getElementById("confirmDelete").addEventListener("click", () => {
-        window.location.href = `/cliente/delete/${currentCedula}`;
+        window.location.href = `/cliente/delete/${currentId}`; // Usar el ID del cliente en la URL
       });
 
       // Manejar la cancelación de eliminación
