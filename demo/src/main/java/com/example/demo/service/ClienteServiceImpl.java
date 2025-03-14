@@ -53,6 +53,6 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente searchById(Long id) {
-        return repo.findById(id).orElse(null);
+        return repo.findById(id).orElse(null); // Buscar cliente por ID
     }
 }
