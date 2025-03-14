@@ -10,7 +10,7 @@
     <!-- Announcement Banner -->
     <div class="announcement-banner">
       <button class="banner-arrow left">&lt;</button>
-      <p class="announcement-text">URGENCIAS 24/7 EN TODAS NUESTRAS SEDES</p>
+      <p class="announcement-text">💉 20% de descuento en vacunas este mes</p>
       <button class="banner-arrow right">&gt;</button>
     </div>
 
@@ -24,7 +24,7 @@
 
         <div class="nav-center">
           <a href="#" class="nav-link active">Inicio</a>
-          <a href="#" class="nav-link">Servicios</a>
+          <a href="/specialties" class="nav-link">Servicios</a>
           <a href="#" class="nav-link">Nosotros</a>
           <a href="#" class="nav-link">Contacto</a>
         </div>
@@ -112,7 +112,6 @@
       </div>
     </section>
 
-    <!-- Features Section -->
     <section class="features">
       <div class="features-container">
         <header class="features-header">
@@ -160,7 +159,7 @@
             <div class="stat-label">Años</div>
           </div>
           <div class="stat-item">
-            <div class="stat-number">30,000</div>
+            <div class="stat-number">30000</div>
             <div class="stat-label">Mascotas Atendidas</div>
           </div>
           <div class="stat-item">
@@ -175,7 +174,6 @@
       </div>
     </section>
 
-    <!-- Specialties Section -->
     <section id="specialties" class="specialties">
       <h2>Especialidades</h2>
 
@@ -186,7 +184,7 @@
             Cuida la salud dental de tu mascota! Trata enfermedades
             periodontales y cirugía dental.
           </p>
-          <a href="#" class="read-more">Leer más</a>
+          <a href="/specialties" class="read-more">Leer más</a>
         </article>
 
         <article class="specialty-card orange">
@@ -196,7 +194,7 @@
               Elaboración de dietas personalizadas y seguimiento continuo para
               ajustar la alimentación de tu compañero según sus necesidades.
             </p>
-            <a href="#" class="read-more">Leer más</a>
+            <a href="/specialties" class="read-more">Leer más</a>
           </div>
           <img
             src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=500"
@@ -211,7 +209,7 @@
               de estimulación para mejorar la movilidad, reducir el dolor y
               acelerar la recuperación.
             </p>
-            <a href="#" class="read-more">Leer más</a>
+            <a href="/specialties" class="read-more">Leer más</a>
           </div>
           <img
             src="https://www.animalshealth.es/fileuploads/news/perro-osteoartritis-fisioterapiamesa-de-trabajo-216738618451.jpg"
@@ -224,7 +222,7 @@
             ¡Ofrecemos 12 especialidades para tratar a tu mascota! Conócelas
             aquí
           </p>
-          <a href="#" class="read-more">Ver más</a>
+          <a href="/specialties" class="read-more">Ver más</a>
         </article>
       </div>
     </section>
@@ -404,22 +402,35 @@
             <span class="sparkle-emoji">✨</span>
           </div>
         </div>
-        <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+        <form
+          class="contact-form"
+          id="contactForm"
+          onsubmit="handleSubmit(event)">
           <div class="form-group">
-            <input type="text" placeholder="Nombre completo" required id="nombre">
-            <input type="email" placeholder="Correo electrónico" required id="email">
+            <input
+              type="text"
+              placeholder="Nombre completo"
+              required
+              id="nombre" />
+            <input
+              type="email"
+              placeholder="Correo electrónico"
+              required
+              id="email" />
           </div>
           <div class="form-group">
-            <input type="tel" placeholder="Teléfono" id="telefono">
-
+            <input type="tel" placeholder="Teléfono" id="telefono" />
           </div>
-          <textarea placeholder="Tu mensaje" required rows="4" id="mensaje"></textarea>
+          <textarea
+            placeholder="Tu mensaje"
+            required
+            rows="4"
+            id="mensaje"></textarea>
           <button type="submit" class="btn white">Enviar mensaje</button>
           <div id="formStatus" class="form-status"></div>
         </form>
       </div>
     </section>
-
 
     <!-- Footer -->
     <footer>
@@ -497,5 +508,6 @@
     </footer>
 
     <script src="/js/script.js"></script>
+    <script src="/js/announcements.js"></script>
   </body>
 </html>

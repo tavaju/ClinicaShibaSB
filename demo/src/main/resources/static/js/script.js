@@ -116,17 +116,14 @@ let currentBlogIndex = 0;
 const blogCards = document.querySelectorAll(".blog-card");
 const totalBlogs = blogCards.length;
 
-// Function to update visible blog entries
 function updateBlogCarousel() {
   blogCards.forEach((card, index) => {
-    // Calculate the index of the card to display
     const displayIndex = (currentBlogIndex + index) % totalBlogs;
     card.style.display = displayIndex < 3 ? "block" : "none";
     card.style.order = displayIndex; // Use order to rearrange the cards
   });
 }
 
-// Event listeners for blog navigation buttons
 document.querySelector(".blog-nav .prev").addEventListener("click", () => {
   currentBlogIndex = (currentBlogIndex - 1 + totalBlogs) % totalBlogs;
   updateBlogCarousel();
@@ -141,94 +138,122 @@ updateBlogCarousel();
 
 // Función para manejar el scroll
 function handleScroll() {
-    const navbar = document.querySelector('.navbar');
-    const announcement = document.querySelector('.announcement-banner');
-    const scrollPosition = window.scrollY;
-    
-    // Añadir efecto glassmorphism a la navbar
-    if (scrollPosition > 0) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-    
-    // Ocultar announcement banner
-    if (scrollPosition > 100) {
-        announcement.classList.add('hide');
-    } else {
-        announcement.classList.remove('hide');
-    }
+  const navbar = document.querySelector(".navbar");
+  const announcement = document.querySelector(".announcement-banner");
+  const scrollPosition = window.scrollY;
+
+  // Añadir efecto glassmorphism a la navbar
+  if (scrollPosition > 0) {
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
+  }
+
+  // Ocultar announcement banner
+  if (scrollPosition > 100) {
+    announcement.classList.add("hide");
+  } else {
+    announcement.classList.remove("hide");
+  }
 }
 
 // Agregar event listener para el scroll
-window.addEventListener('scroll', handleScroll);
+window.addEventListener("scroll", handleScroll);
 
 let lastScrollTop = 0;
-const navbar = document.querySelector('.navbar');
-const banner = document.querySelector('.announcement-banner');
+const navbar = document.querySelector(".navbar");
+const banner = document.querySelector(".announcement-banner");
 
-window.addEventListener('scroll', () => {
-    // Para el navbar
-    if (window.scrollY > 10) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
+window.addEventListener("scroll", () => {
+  // Para el navbar
+  if (window.scrollY > 10) {
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
+  }
 
-    // Para el banner
-    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-    if (currentScroll > lastScrollTop && currentScroll > 50) {
-        // Scrolling down & past 50px
-        banner.classList.add('hide');
-    } else if (currentScroll < lastScrollTop) {
-        // Scrolling up
-        banner.classList.remove('hide');
-    }
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+  // Para el banner
+  const currentScroll =
+    window.pageYOffset || document.documentElement.scrollTop;
+  if (currentScroll > lastScrollTop && currentScroll > 50) {
+    // Scrolling down & past 50px
+    banner.classList.add("hide");
+  } else if (currentScroll < lastScrollTop) {
+    // Scrolling up
+    banner.classList.remove("hide");
+  }
+  lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
 });
-
 
 function handleSubmit(event) {
   event.preventDefault();
-  
+
   const formData = {
-      nombre: document.getElementById('nombre').value,
-      email: document.getElementById('email').value,
-      telefono: document.getElementById('telefono').value,
-      tipoMascota: document.getElementById('tipoMascota').value,
-      mensaje: document.getElementById('mensaje').value
+    nombre: document.getElementById("nombre").value,
+    email: document.getElementById("email").value,
+    telefono: document.getElementById("telefono").value,
+    tipoMascota: document.getElementById("tipoMascota").value,
+    mensaje: document.getElementById("mensaje").value,
   };
 
-  const formStatus = document.getElementById('formStatus');
-  showStatus('success', '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.');
-  document.getElementById('contactForm').reset();
+  const formStatus = document.getElementById("formStatus");
+  showStatus(
+    "success",
+    "¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto."
+  );
+  document.getElementById("contactForm").reset();
 }
 
 function showStatus(type, message) {
-  const formStatus = document.getElementById('formStatus');
+  const formStatus = document.getElementById("formStatus");
   formStatus.textContent = message;
   formStatus.className = `form-status ${type}`;
-  
+
   // Ocultar el mensaje después de 5 segundos
   setTimeout(() => {
-      formStatus.style.display = 'none';
+    formStatus.style.display = "none";
   }, 5000);
 }
 
-// Agregar el manejo del click para el perfil
-document.addEventListener('DOMContentLoaded', function() {
-    const profileContainer = document.querySelector('.profile-container');
-    
-    // Toggle dropdown al hacer click
-    profileContainer.addEventListener('click', function(e) {
-        this.classList.toggle('active');
-    });
 
-    // Cerrar dropdown al hacer click fuera
-    document.addEventListener('click', function(e) {
-        if (!profileContainer.contains(e.target)) {
-            profileContainer.classList.remove('active');
-        }
-    });
-});
+const statsRef = document.querySelector(".stats");
+let animated = false;
 
+const animateNumber = (element, target, duration) => {
+  let start = 0;
+  const increment = target / (duration / 16);
+  const startTime = performance.now();
+
+  const updateNumber = (currentTime) => {
+    const elapsed = currentTime - startTime;
+    if (elapsed < duration) {
+      start = Math.min(start + increment, target);
+      element.textContent = Math.floor(start);
+      requestAnimationFrame(updateNumber);
+    } else {
+      element.textContent = target;
+    }
+  };
+
+  requestAnimationFrame(updateNumber);
+};
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && !animated) {
+        animated = true;
+        const statNumbers = entry.target.querySelectorAll(".stat-number");
+        statNumbers.forEach((statElement) => {
+          const target = parseInt(statElement.textContent || "0", 10);
+          animateNumber(statElement, target, 2000);
+        });
+      }
+    });
+  },
+  { threshold: 0.5 }
+);
+
+if (statsRef) {
+  observer.observe(statsRef);
+}

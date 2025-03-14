@@ -1,0 +1,211 @@
+/* Specialties Hero Section */
+.specialties-hero {
+  background: url("/assets/backgrounds/login_background.svg") center/cover;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  position: relative;
+}
+
+body {
+  background-color: #fff7ed;
+}
+
+/* Floating Card */
+.floating-card {
+  position: relative;
+  width: 80%;
+  height: 400px;
+  max-width: 1200px;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(252, 250, 250, 0.217);
+  border: none;
+}
+
+/* Imagen de fondo de la tarjeta */
+.floating-card-bg {
+  width: 120%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  filter: brightness(0.8);
+}
+
+/* Contenido de la tarjeta flotante */
+.floating-card-content {
+  position: relative;
+  z-index: 2;
+  padding: 3rem;
+  text-align: center;
+  color: white;
+}
+
+/* Estilo del título */
+.floating-card-content h1 {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-family: "shiba-font", sans-serif;
+  text-align: left;
+}
+
+/* Estilo del párrafo */
+.floating-card-content p {
+  font-size: 1.5rem;
+  color: #d1c4e9; /* Un morado claro */
+  font-family: "shiba-font", sans-serif;
+  text-align: left;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .floating-card-content h1 {
+    font-size: 2rem;
+  }
+
+  .floating-card-content p {
+    font-size: 1rem;
+  }
+
+  .floating-card {
+    height: 300px;
+  }
+}
+
+/* Specialties Section */
+.specialties-section {
+  max-width: 1280px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.specialties-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #4c1d95;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+/* Specialties Grid */
+.especialidades-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.especialidades-card {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.especialidades-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2);
+}
+
+.especialidades-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 1.5rem;
+}
+
+.card-content h3 {
+  color: #4c1d95;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.card-content p {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: #f5f3ff;
+  color: #8b5cf6;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Consultation Card */
+.consultation-card {
+  background: #f5f3ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.consultation-card .card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.consultation-card .search-icon {
+  width: 3rem;
+  height: 3rem;
+  color: #8b5cf6;
+}
+
+.consultation-btn {
+  background: #8b5cf6;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.consultation-btn:hover {
+  background: #7c3aed;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .specialties-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .specialties-hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .specialties-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .specialties-section h2::before,
+  .specialties-section h2::after {
+    display: none;
+  }
+}
