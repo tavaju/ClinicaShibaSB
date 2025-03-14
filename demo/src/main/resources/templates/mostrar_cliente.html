@@ -11,8 +11,19 @@
     <link rel="stylesheet" href="/css/multi_pet_table.css" />
   </head>
   <body>
-    <div style="text-align: right; padding: 10px;">
-        <a href="/logout" class="logout-btn" style="padding: 8px 15px; background-color: #fc7a43; color: white; text-decoration: none; border-radius: 5px;">Cerrar Sesión</a>
+    <div style="text-align: right; padding: 10px">
+      <a
+        href="/logout"
+        class="logout-btn"
+        style="
+          padding: 8px 15px;
+          background-color: #fc7a43;
+          color: white;
+          text-decoration: none;
+          border-radius: 5px;
+        "
+        >Cerrar Sesión</a
+      >
     </div>
 
     <div class="pet-container" id="small-pet-container">
@@ -58,19 +69,24 @@
               <td th:text="${mascota.edad}"></td>
               <td th:text="${mascota.peso}"></td>
               <td class="pet-image">
-                <img
-                  th:src="${mascota.foto}"
-                  alt="Foto de Mascota" />
-                </td>
-              <td th:text="${mascota.estado}"></td>
+                <img th:src="${mascota.foto}" alt="Foto de Mascota" />
+              </td>
+              <td>
+                <span
+                  th:text="${mascota.estado ? 'Activo' : 'Inactivo'}"
+                  th:style="${mascota.estado ? 'color: green;' : 'color: red;'}"
+                  class="status">
+                </span>
+              </td>
             </tr>
             <tr th:if="${#lists.isEmpty(mascotas)}">
-              <td colspan="5" class="text-center">No tienes mascotas registradas</td>
+              <td colspan="6" class="text-center">
+                No tienes mascotas registradas
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-
   </body>
 </html>

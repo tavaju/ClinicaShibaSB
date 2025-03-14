@@ -93,11 +93,11 @@ public class MascotaController {
     @PostMapping("/update/{id}")
     public String updateMascota(@PathVariable("id") Long id, 
                               @ModelAttribute Mascota mascota,
-                              @RequestParam("cedulaCliente") String cedulaCliente) {
+                              @RequestParam("idCliente") Long idCliente) {
         
         Mascota mascotaExistente = mascotaService.SearchById(id);
         if(mascotaExistente != null) {
-            Cliente cliente = clienteService.searchByCedula(cedulaCliente);
+            Cliente cliente = clienteService.searchById(idCliente); // Buscar cliente por ID
             if(cliente != null) {
                 // Mantener el ID original
                 mascota.setId(id);

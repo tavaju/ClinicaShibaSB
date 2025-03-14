@@ -15,6 +15,11 @@ public class LoginController {
     
     @Autowired
     private ClienteService clienteService;
+
+    @GetMapping("/specialties")
+    public String specialties() {
+        return "specialties"; // Nombre del archivo specialties.html en la carpeta templates
+    }
     
     @GetMapping("/login")
     public String login() {
@@ -47,3 +52,5 @@ public class LoginController {
     }
 
 }
+
+
