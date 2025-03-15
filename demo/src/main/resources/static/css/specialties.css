@@ -1,7 +1,7 @@
 /* Specialties Hero Section */
 .specialties-hero {
   background: url("/assets/backgrounds/login_background.svg") center/cover;
-  height: 500px;
+  height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +17,7 @@ body {
 .floating-card {
   position: relative;
   width: 80%;
-  height: 400px;
+  height: 450px;
   max-width: 1200px;
   border-radius: 1rem;
   overflow: hidden;
@@ -92,6 +92,60 @@ body {
   position: relative;
 }
 
+/* Contenedor del subtítulo */
+.subtitle-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+/* Estilo del subtítulo */
+.specialties-section h2 {
+  position: relative;
+  font-size: 2.5rem;
+  color: #4c1d95;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Detalles decorativos */
+.subtitle-detail {
+  width: 75px;
+  height: auto;
+  position: relative;
+}
+
+.subtitle-detail.left {
+  margin-right: -10px;
+  top: 5px;
+}
+
+.subtitle-detail.right {
+  margin-left: -10px;
+  top: -5px;
+}
+
+/* Ajustes Responsivos */
+@media (max-width: 768px) {
+  .specialties-section h2 {
+    font-size: 2rem;
+  }
+
+  .subtitle-detail {
+    width: 50px;
+  }
+
+  .subtitle-detail.left {
+    margin-right: -5px;
+    top: 4px;
+  }
+
+  .subtitle-detail.right {
+    margin-left: -5px;
+    top: -4px;
+  }
+}
+
 /* Specialties Grid */
 .especialidades-grid {
   display: grid;
@@ -158,8 +212,12 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Contenido de la Card */
 .consultation-card .card-content {
   display: flex;
   flex-direction: column;
@@ -167,14 +225,24 @@ body {
   gap: 1.5rem;
 }
 
+/* Estilo de la Lupa */
 .consultation-card .search-icon {
-  width: 3rem;
-  height: 3rem;
+  width: 4rem;
+  height: 4rem;
   color: #8b5cf6;
 }
 
+/* Texto de la Card */
+.consultation-card p {
+  color: #374151;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Botón de Consulta */
 .consultation-btn {
-  background: #8b5cf6;
+  background: #4c1d95;
   color: white;
   padding: 1rem 2rem;
   border-radius: 0.5rem;
@@ -182,10 +250,27 @@ body {
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-decoration: none;
 }
 
 .consultation-btn:hover {
-  background: #7c3aed;
+  background: #3b0d78;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .consultation-card .search-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .consultation-card p {
+    font-size: 1rem;
+  }
+
+  .consultation-btn {
+    padding: 0.8rem 1.5rem;
+  }
 }
 
 /* Responsive Design */
