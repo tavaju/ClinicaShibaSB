@@ -5,7 +5,6 @@ En **Clínica Veterinaria Shiba**, nos especializamos en el cuidado integral de 
 🐕 **¿Por qué elegirnos?**
 - Tratamientos personalizados para que cada peludo reciba lo que realmente necesita.
 - Un ambiente seguro, acogedor y lleno de mimos.
-- Veterinarios que hablan "perruno" y entienden cada guau.
 
 🌿 Porque no se trata sólo de salud, sino de bienestar y felicidad canina.
 
