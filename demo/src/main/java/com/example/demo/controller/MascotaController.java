@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.entity.Cliente;
-import com.example.demo.entity.Mascota;
+import com.example.demo.model.Cliente;
+import com.example.demo.model.Mascota;
 import com.example.demo.service.ClienteService;
 import com.example.demo.service.MascotaService;
 import org.springframework.web.bind.annotation.PostMapping;

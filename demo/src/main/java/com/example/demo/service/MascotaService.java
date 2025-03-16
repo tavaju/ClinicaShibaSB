@@ -2,8 +2,7 @@ package com.example.demo.service;
 
 import java.util.Collection;
 
-
-import com.example.demo.entity.Mascota;
+import com.example.demo.model.Mascota;
 
 public interface MascotaService {
 

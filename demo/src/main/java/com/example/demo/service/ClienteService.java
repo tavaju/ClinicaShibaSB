@@ -1,7 +1,7 @@
 package com.example.demo.service;
 import java.util.List;
 
-import com.example.demo.entity.Cliente;
+import com.example.demo.model.Cliente;
 
 public interface ClienteService {
     public Cliente searchById(Long id);

@@ -5,9 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.Cliente;
 import com.example.demo.service.ClienteService;
 import com.example.demo.service.MascotaService;
+import com.example.demo.model.Cliente;
 import com.example.demo.repository.MascotaRepository;
 
 @RequestMapping("/cliente")

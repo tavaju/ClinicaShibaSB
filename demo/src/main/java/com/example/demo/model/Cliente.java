@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,20 +8,38 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
+// POJO Cliente
 @Entity
 public class Cliente {
     @Id
     @GeneratedValue
     private Long id;
-    
+
+    @NotBlank(message = "La cédula es obligatoria")
+    @Size(max = 20, message = "La cédula no puede tener más de 20 caracteres")
     private String cedula;
+
+    @NotBlank(message = "El nombre es obligatorio")
+    @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres")
     private String nombre;
+
+    @NotBlank(message = "El correo es obligatorio")
+    @Email(message = "El correo debe tener un formato válido")
     private String correo;
+
+    @NotBlank(message = "El celular es obligatorio")
+    @Size(max = 10, message = "El celular no puede tener más de 10 caracteres")
     private String celular;
+
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Size(min = 8, max = 50, message = "La contraseña debe tener entre 8 y 50 caracteres")
     private String contrasena;
 
+    // Relación uno a muchos con Mascota
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mascota> mascotas = new ArrayList<>();
 
@@ -102,7 +120,4 @@ public class Cliente {
     public void setMascotas(List<Mascota> mascotas) {
         this.mascotas = mascotas;
     }
-
-    
-
 }
