@@ -47,7 +47,7 @@ body {
     margin: auto;
     position: relative;
     transform: translateY(0);
-    min-height: fit-content;  /* Ensure container fits content */
+    min-height: fit-content;
 }
 
 .form-container {

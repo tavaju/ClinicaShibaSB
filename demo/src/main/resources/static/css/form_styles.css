@@ -79,7 +79,7 @@ body {
   content: "Clínica Shiba";
 }
 
-/* Container principal - Updated size */
+/* Container principal */
 .container {
   max-width: 1000px;
   margin: 2rem auto;
@@ -139,7 +139,7 @@ body {
 
 .input-container {
   position: relative;
-  width: 75%; /* Reduced from 100% to 75% */
+  width: 75%; 
 }
 
 .input-icon {
