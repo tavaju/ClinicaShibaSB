@@ -26,6 +26,7 @@ public class DatabaseInit implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
+        // Crear clientes de ejemplo si la base de datos esta vacia
         List<Cliente> clientes = clienteRepository.findAll();
         if (clientes.isEmpty()) {
             clienteRepository.save(new Cliente("12345678", "John Doe", "zL2t0@example.com", "1234567890", "password"));
@@ -81,7 +82,7 @@ public class DatabaseInit implements ApplicationRunner {
             clientes = clienteRepository.findAll();
         }
         
-        // Initialize mascotas
+        // imagen de ejemplo para mascotas
         String imageUrl = "https://plus.unsplash.com/premium_photo-1694819488591-a43907d1c5cc?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y3V0ZSUyMGRvZ3xlbnwwfHwwfHx8MA%3D%3D";
 
         mascotaRepository.save(new Mascota("Firulais", "Labrador", 5, 20, "Alergia", imageUrl, true));
@@ -210,10 +211,12 @@ public class DatabaseInit implements ApplicationRunner {
             List<Mascota> mascotas = mascotaRepository.findAll();
             Random random = new Random();
 
+            // Asignar mascotas a clientes aleatoriamente (de 1 a 3 mascotas por cliente)
             for (Cliente cliente : clientes) {
-                int numMascotas = random.nextInt(3) + 1; // Número aleatorio entre 1 y 3
+                int numMascotas = random.nextInt(3) + 1;
                 for (int i = 0; i < numMascotas; i++) {
                     if (!mascotas.isEmpty()) {
+                        // asignar mascota aleatoria al cliente y eliminarla de la lista de mascotas disponibles
                         Mascota mascota = mascotas.remove(random.nextInt(mascotas.size()));
                         mascota.setCliente(cliente);
                         mascotaRepository.save(mascota);
