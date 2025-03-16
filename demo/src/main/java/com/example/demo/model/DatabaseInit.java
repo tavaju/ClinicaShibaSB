@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -25,59 +25,61 @@ public class DatabaseInit implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        // Initialize clients first since mascotas depend on them
 
-        clienteRepository.save(new Cliente("12345678", "John Doe", "zL2t0@example.com", "1234567890", "password"));
-        clienteRepository.save(new Cliente("87654321", "Jane Doe", "4aB4y@example.com", "9876543210", "password"));
-        clienteRepository.save(new Cliente("11111111", "Alice Smith", "sHwHt@example.com", "1111111111", "password"));
-        clienteRepository.save(new Cliente("22222222", "Bob Johnson", "wWw0l@example.com", "2222222222", "password"));
-        clienteRepository.save(new Cliente("33333333", "Eva Williams", "2TlP2@example.com", "3333333333", "password"));
-        clienteRepository.save(new Cliente("44444444", "Michael Brown", "aWw3G@example.com", "4444444444" , "password"));
-        clienteRepository.save(new Cliente("55555555", "Sophia Davis", "www@example.com", "5555555555"   , "password"));
-        clienteRepository.save(new Cliente("66666666", "William Wilson", "3aB4y@example.com", "6666666666"  , "password"));
-        clienteRepository.save(new Cliente("77777777", "Olivia Taylor", "eg2TlP2@example.com", "7777777777"  , "password"));
-        clienteRepository.save(new Cliente("88888888", "James Anderson", "rwWw0l@example.com", "8888888888", "password"));
-        clienteRepository.save(new Cliente("99999999", "Emma Thomas", "eeg2TlP2@example.com", "9999999999", "password"));
-        clienteRepository.save(new Cliente("00000000", "Noah Martinez", "g@example.com", "0000000000", "password"));
-        clienteRepository.save(new Cliente("10101010", "Isabella Hernandez", "r3aB4y@example.com", "1010101010", "password"));
-        clienteRepository.save(new Cliente("20202020", "Liam Clark", "peg2TlP2@example.com", "2020202020", "password"));
-        clienteRepository.save(new Cliente("30303030", "Ava Lewis", "oeg2TlP2@example.com", "3030303030", "password"));
-        clienteRepository.save(new Cliente("40404040", "Mason Walker", "poeg2TlP2@example.com", "4040404040", "password"));
-        clienteRepository.save(new Cliente("50505050", "Sophia Hall", "k3aB4y@example.com", "5050505050", "password"));
-        clienteRepository.save(new Cliente("60606060", "Ethan Young", "mnoeg2TlP2@example.com", "6060606060", "password"));
-        clienteRepository.save(new Cliente("70707070", "Emma Scott", "rr3aB4y@example.com", "7070707070", "password"));
-        clienteRepository.save(new Cliente("80808080", "Noah Green", "gfoeg2TlP2@example.com", "8080808080", "password"));
-        clienteRepository.save(new Cliente("90909090", "Isabella Adams", "lkmnoe@example.com", "9090909090", "password"));
-        clienteRepository.save(new Cliente("01010101", "Liam Baker", "vfoeg2TlP2@example.com", "0101010101", "password"));
-        clienteRepository.save(new Cliente("11111111", "Ava Hill", "vedfrg@example.com", "1111111111", "password"));
-        clienteRepository.save(new Cliente("22222222", "Noah Wilson", "vgrtvfs@example.com", "2222222222", "password"));
-        clienteRepository.save(new Cliente("33333333", "Sophia Davis", "jyhgt@example.com", "3333333333", "password"));
-        clienteRepository.save(new Cliente("44444444", "William Taylor", "wrbrtfb@example.com", "4444444444", "password"));
-        clienteRepository.save(new Cliente("55555555", "Olivia Anderson", "grsrgv@example.com", "5555555555", "password"));
-        clienteRepository.save(new Cliente("66666666", "James Thomas", "aqefdfc@example.com", "6666666666", "password"));
-        clienteRepository.save(new Cliente("77777777", "Emma Martinez", "kiujy@example.com", "7777777777", "password"));
-        clienteRepository.save(new Cliente("88888888", "Noah Hernandez", "btgd@example.com", "8888888888", "password"));
-        clienteRepository.save(new Cliente("99999999", "Isabella Clark", "wrt5hth@example.com", "9999999999", "password"));
-        clienteRepository.save(new Cliente("00000000", "Mason Lewis", "wwwrgfb@example.com", "0000000000", "password"));
-        clienteRepository.save(new Cliente("00000000", "Liam Lewis", "lkmlbg@example.com", "0000000000", "password"));
-        clienteRepository.save(new Cliente("10101010", "Ava Walker", "amfde@example.com", "1010101010", "password"));
-        clienteRepository.save(new Cliente("20202020", "Noah Hall", "alkmfog@example.com", "2020202020", "password"));
-        clienteRepository.save(new Cliente("30303030", "Sophia Young", "brmergk4@example.com", "3030303030", "password"));
-        clienteRepository.save(new Cliente("40404040", "Ethan Scott", "g4joer4g@example.com", "4040404040", "password"));
-        clienteRepository.save(new Cliente("50505050", "Emma Green", "jgi4ogmr@example.com", "5050505050", "password"));
-        clienteRepository.save(new Cliente("60606060", "Noah Adams", "brm4@example.com", "6060606060", "password"));
-        clienteRepository.save(new Cliente("70707070", "Isabella Baker", "3opkmgw@example.com", "7070707070", "password"));
-        clienteRepository.save(new Cliente("80808080", "Liam Hill", "o90jfgke@example.com", "8080808080", "password"));
-        clienteRepository.save(new Cliente("90909090", "Ava Wilson", "34jmfe3w@example.com", "9090909090", "password"));
-        clienteRepository.save(new Cliente("01010101", "Noah Davis", "3o4pj3@example.com", "0101010101", "password"));
-        clienteRepository.save(new Cliente("11111111", "Sophia Taylor", "fe34f@example.com", "1111111111", "password"));
-        clienteRepository.save(new Cliente("22222222", "Ethan Anderson", "g4bw4q@example.com", "2222222222", "password"));
-        clienteRepository.save(new Cliente("33333333", "Emma Thomas", "b4bw45gew@example.com", "3333333333", "password"));
-        clienteRepository.save(new Cliente("44444444", "Noah Martinez", "q4hgq4hq@example.com", "4444444444", "password"));
-        clienteRepository.save(new Cliente("55555555", "Isabella Hernandez", "q4gbnts@example.com", "5555555555", "password"));
-        clienteRepository.save(new Cliente("66666666", "Liam Clark", "d7Cw3@example.com", "6666666666", "password"));
-        clienteRepository.save(new Cliente("77777777", "Ava Lewis", "t2HdM@example.com", "7777777777", "password"));
-
+        List<Cliente> clientes = clienteRepository.findAll();
+        if (clientes.isEmpty()) {
+            clienteRepository.save(new Cliente("12345678", "John Doe", "zL2t0@example.com", "1234567890", "password"));
+            clienteRepository.save(new Cliente("87654321", "Jane Doe", "4aB4y@example.com", "9876543210", "password"));
+            clienteRepository.save(new Cliente("11111111", "Alice Smith", "sHwHt@example.com", "1111111111", "password"));
+            clienteRepository.save(new Cliente("22222222", "Bob Johnson", "wWw0l@example.com", "2222222222", "password"));
+            clienteRepository.save(new Cliente("33333333", "Eva Williams", "2TlP2@example.com", "3333333333", "password"));
+            clienteRepository.save(new Cliente("44444444", "Michael Brown", "aWw3G@example.com", "4444444444" , "password"));
+            clienteRepository.save(new Cliente("55555555", "Sophia Davis", "www@example.com", "5555555555"   , "password"));
+            clienteRepository.save(new Cliente("66666666", "William Wilson", "3aB4y@example.com", "6666666666"  , "password"));
+            clienteRepository.save(new Cliente("77777777", "Olivia Taylor", "eg2TlP2@example.com", "7777777777"  , "password"));
+            clienteRepository.save(new Cliente("88888888", "James Anderson", "rwWw0l@example.com", "8888888888", "password"));
+            clienteRepository.save(new Cliente("99999999", "Emma Thomas", "eeg2TlP2@example.com", "9999999999", "password"));
+            clienteRepository.save(new Cliente("00000000", "Noah Martinez", "g@example.com", "0000000000", "password"));
+            clienteRepository.save(new Cliente("10101010", "Isabella Hernandez", "r3aB4y@example.com", "1010101010", "password"));
+            clienteRepository.save(new Cliente("20202020", "Liam Clark", "peg2TlP2@example.com", "2020202020", "password"));
+            clienteRepository.save(new Cliente("30303030", "Ava Lewis", "oeg2TlP2@example.com", "3030303030", "password"));
+            clienteRepository.save(new Cliente("40404040", "Mason Walker", "poeg2TlP2@example.com", "4040404040", "password"));
+            clienteRepository.save(new Cliente("50505050", "Sophia Hall", "k3aB4y@example.com", "5050505050", "password"));
+            clienteRepository.save(new Cliente("60606060", "Ethan Young", "mnoeg2TlP2@example.com", "6060606060", "password"));
+            clienteRepository.save(new Cliente("70707070", "Emma Scott", "rr3aB4y@example.com", "7070707070", "password"));
+            clienteRepository.save(new Cliente("80808080", "Noah Green", "gfoeg2TlP2@example.com", "8080808080", "password"));
+            clienteRepository.save(new Cliente("90909090", "Isabella Adams", "lkmnoe@example.com", "9090909090", "password"));
+            clienteRepository.save(new Cliente("01010101", "Liam Baker", "vfoeg2TlP2@example.com", "0101010101", "password"));
+            clienteRepository.save(new Cliente("11111111", "Ava Hill", "vedfrg@example.com", "1111111111", "password"));
+            clienteRepository.save(new Cliente("22222222", "Noah Wilson", "vgrtvfs@example.com", "2222222222", "password"));
+            clienteRepository.save(new Cliente("33333333", "Sophia Davis", "jyhgt@example.com", "3333333333", "password"));
+            clienteRepository.save(new Cliente("44444444", "William Taylor", "wrbrtfb@example.com", "4444444444", "password"));
+            clienteRepository.save(new Cliente("55555555", "Olivia Anderson", "grsrgv@example.com", "5555555555", "password"));
+            clienteRepository.save(new Cliente("66666666", "James Thomas", "aqefdfc@example.com", "6666666666", "password"));
+            clienteRepository.save(new Cliente("77777777", "Emma Martinez", "kiujy@example.com", "7777777777", "password"));
+            clienteRepository.save(new Cliente("88888888", "Noah Hernandez", "btgd@example.com", "8888888888", "password"));
+            clienteRepository.save(new Cliente("99999999", "Isabella Clark", "wrt5hth@example.com", "9999999999", "password"));
+            clienteRepository.save(new Cliente("00000000", "Mason Lewis", "wwwrgfb@example.com", "0000000000", "password"));
+            clienteRepository.save(new Cliente("00000000", "Liam Lewis", "lkmlbg@example.com", "0000000000", "password"));
+            clienteRepository.save(new Cliente("10101010", "Ava Walker", "amfde@example.com", "1010101010", "password"));
+            clienteRepository.save(new Cliente("20202020", "Noah Hall", "alkmfog@example.com", "2020202020", "password"));
+            clienteRepository.save(new Cliente("30303030", "Sophia Young", "brmergk4@example.com", "3030303030", "password"));
+            clienteRepository.save(new Cliente("40404040", "Ethan Scott", "g4joer4g@example.com", "4040404040", "password"));
+            clienteRepository.save(new Cliente("50505050", "Emma Green", "jgi4ogmr@example.com", "5050505050", "password"));
+            clienteRepository.save(new Cliente("60606060", "Noah Adams", "brm4@example.com", "6060606060", "password"));
+            clienteRepository.save(new Cliente("70707070", "Isabella Baker", "3opkmgw@example.com", "7070707070", "password"));
+            clienteRepository.save(new Cliente("80808080", "Liam Hill", "o90jfgke@example.com", "8080808080", "password"));
+            clienteRepository.save(new Cliente("90909090", "Ava Wilson", "34jmfe3w@example.com", "9090909090", "password"));
+            clienteRepository.save(new Cliente("01010101", "Noah Davis", "3o4pj3@example.com", "0101010101", "password"));
+            clienteRepository.save(new Cliente("11111111", "Sophia Taylor", "fe34f@example.com", "1111111111", "password"));
+            clienteRepository.save(new Cliente("22222222", "Ethan Anderson", "g4bw4q@example.com", "2222222222", "password"));
+            clienteRepository.save(new Cliente("33333333", "Emma Thomas", "b4bw45gew@example.com", "3333333333", "password"));
+            clienteRepository.save(new Cliente("44444444", "Noah Martinez", "q4hgq4hq@example.com", "4444444444", "password"));
+            clienteRepository.save(new Cliente("55555555", "Isabella Hernandez", "q4gbnts@example.com", "5555555555", "password"));
+            clienteRepository.save(new Cliente("66666666", "Liam Clark", "d7Cw3@example.com", "6666666666", "password"));
+            clienteRepository.save(new Cliente("77777777", "Ava Lewis", "t2HdM@example.com", "7777777777", "password"));
+            clientes = clienteRepository.findAll();
+        }
         
         // Initialize mascotas
         String imageUrl = "https://plus.unsplash.com/premium_photo-1694819488591-a43907d1c5cc?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y3V0ZSUyMGRvZ3xlbnwwfHwwfHx8MA%3D%3D";
@@ -205,31 +207,28 @@ public class DatabaseInit implements ApplicationRunner {
         mascotaRepository.save(new Mascota("Dottie", "Beagle", 121, 605, "Moquillo", imageUrl, true));
     
     
-    
-        List<Cliente> clientes = clienteRepository.findAll();
-        List<Mascota> mascotas = mascotaRepository.findAll();
-        Random random = new Random();
+            List<Mascota> mascotas = mascotaRepository.findAll();
+            Random random = new Random();
 
-        for (Cliente cliente : clientes) {
-            int numMascotas = random.nextInt(3) + 1; // Número aleatorio entre 1 y 3
-            for (int i = 0; i < numMascotas; i++) {
-                if (!mascotas.isEmpty()) {
-                    Mascota mascota = mascotas.remove(random.nextInt(mascotas.size()));
-                    mascota.setCliente(cliente);
-                    mascotaRepository.save(mascota);
+            for (Cliente cliente : clientes) {
+                int numMascotas = random.nextInt(3) + 1; // Número aleatorio entre 1 y 3
+                for (int i = 0; i < numMascotas; i++) {
+                    if (!mascotas.isEmpty()) {
+                        Mascota mascota = mascotas.remove(random.nextInt(mascotas.size()));
+                        mascota.setCliente(cliente);
+                        mascotaRepository.save(mascota);
+                    }
                 }
             }
+
+            while (!mascotas.isEmpty()) {
+                Cliente cliente = clientes.get(random.nextInt(clientes.size()));
+                Mascota mascota = mascotas.remove(0);
+                mascota.setCliente(cliente);
+                mascotaRepository.save(mascota);
+            }
+
         }
 
-        // Ensure no mascota is left without a cliente
-        while (!mascotas.isEmpty()) {
-            Cliente cliente = clientes.get(random.nextInt(clientes.size()));
-            Mascota mascota = mascotas.remove(0);
-            mascota.setCliente(cliente);
-            mascotaRepository.save(mascota);
-        }
-
+        
     }
-
-    
-}
