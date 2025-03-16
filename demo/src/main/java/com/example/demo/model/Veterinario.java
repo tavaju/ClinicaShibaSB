@@ -15,6 +15,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
 
 // POJO Veterinario
 @Entity
@@ -51,9 +53,15 @@ public class Veterinario {
     @NotNull(message = "El veterinario debe estar asociado a un administrador")
     private Administrador administrador;
 
-    // Relación uno a muchos con Mascota
-    @OneToMany(mappedBy = "veterinario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Mascota> mascotas = new ArrayList<>();
+
+    // Relación muchos a muchos con Mascota por medio de la tabla tratamiento 
+    @ManyToMany
+    @JoinTable(
+        name = "tratamiento",
+        joinColumns = @JoinColumn(name = "id_veterinario"),
+        inverseJoinColumns = @JoinColumn(name = "id_mascota")
+    )
+    private List<Mascota> mascotas;
 
     // Relación uno a muchos con Tratamiento
     @OneToMany(mappedBy = "veterinario", cascade = CascadeType.ALL, orphanRemoval = true)

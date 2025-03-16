@@ -10,6 +10,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import jakarta.persistence.ManyToMany;
+import java.util.List;
 
 // POJO Mascota
 @Entity
@@ -49,10 +51,9 @@ public class Mascota {
     @NotNull(message = "La mascota debe estar asociada a un cliente")
     private Cliente cliente;
 
-    // Relación muchos a uno con Veterinario
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_veterinario", nullable = true) // Puede ser nulo si no tiene veterinario asignado
-    private Veterinario veterinario;
+    // Relación muchos a muchos con Veterinario
+    @ManyToMany(mappedBy = "mascotas")
+    private List<Veterinario> veterinarios;
 
     public Cliente getCliente() {
         return cliente;
@@ -62,12 +63,12 @@ public class Mascota {
         this.cliente = cliente;
     }
 
-    public Veterinario getVeterinario() {
-        return veterinario;
+    public List<Veterinario> getVeterinarios() {
+        return veterinarios;
     }
 
-    public void setVeterinario(Veterinario veterinario) {
-        this.veterinario = veterinario;
+    public void setVeterinarios(List<Veterinario> veterinarios) {
+        this.veterinarios = veterinarios;
     }
 
     public Mascota() {
@@ -76,7 +77,7 @@ public class Mascota {
 
     public Mascota(String nombre, String raza, int edad, float peso, String enfermedad, String foto,
             boolean estado) {
-        this.nombre = nombre;
+        this.nombre = nombre; 
         this.raza = raza;
         this.edad = edad;
         this.peso = peso;
