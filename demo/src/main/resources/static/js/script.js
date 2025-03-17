@@ -1,3 +1,31 @@
+// Efecto de transición para elementos con la clase 'scroll-reveal'
+document.addEventListener("DOMContentLoaded", () => {
+  const elements = document.querySelectorAll(".scroll-reveal");
+
+  const observerOptions = {
+    threshold: 0.1,
+  };
+
+  const revealElement = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("reveal");
+        observer.unobserve(entry.target);
+      }
+    });
+  };
+
+  const elementObserver = new IntersectionObserver(
+    revealElement,
+    observerOptions
+  );
+
+  elements.forEach((element) => {
+    element.classList.add("hidden");
+    elementObserver.observe(element);
+  });
+});
+
 // Array de testimonios de prueba
 const testimonials = [
   {
@@ -214,7 +242,6 @@ function showStatus(type, message) {
     formStatus.style.display = "none";
   }, 5000);
 }
-
 
 const statsRef = document.querySelector(".stats");
 let animated = false;
