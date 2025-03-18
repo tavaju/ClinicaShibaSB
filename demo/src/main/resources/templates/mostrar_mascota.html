@@ -1,112 +1,116 @@
 <!-- Mostrar_mascota.html -->
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Información de tu Peludito</title>
-    <link rel="stylesheet" href="/css/mostrar_mascota.css">
+    <link rel="stylesheet" href="/css/mostrar_mascota.css" />
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-<body>
+  </head>
+  <body>
     <header class="banner">
-        <div class="banner-content">
-            <div class="nav-left">
-                <img src="/assets/images/logo_shiba.png" alt="Logo" class="logo" />
-                <span class="brand-name">Clínica Shiba</span>
-            </div>
+      <div class="banner-content">
+        <div class="nav-left">
+          <img src="/assets/images/logo_shiba.png" alt="Logo" class="logo" />
+          <span class="brand-name">Clínica Shiba</span>
         </div>
+      </div>
     </header>
 
     <div class="container">
-        <div class="pet-section">
-            <div class="section-header">
-                <div class="title-section">
-                    <i data-lucide="paw-print"></i>
-                    <h1>Información de tu Peludito</h1>
-                </div>
-            </div>
-
-            <div class="pet-card">
-                <div class="pet-image-section">
-                    <img th:src="${mascota.foto}" alt="Foto de Mascota" class="pet-photo" />
-                    <span th:text="${mascota.estado ? 'Activo' : 'Inactivo'}"
-                          th:class="${mascota.estado ? 'status-badge status-active' : 'status-badge status-inactive'}">
-                    </span>
-                </div>
-
-                <div class="pet-info-grid">
-                    <div class="info-item">
-                        <div class="info-label">
-                            <i data-lucide="tag"></i>
-                            <span>Nombre</span>
-                        </div>
-                        <p th:text="${mascota.nombre}" class="info-value"></p>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-label">
-                            <i data-lucide="calendar"></i>
-                            <span>Edad</span>
-                        </div>
-                        <p th:text="${mascota.edad}" class="info-value"></p>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-label">
-                            <i data-lucide="scale"></i>
-                            <span>Peso</span>
-                        </div>
-                        <p th:text="${mascota.peso}" class="info-value"></p>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-label">
-                            <i data-lucide="dog"></i>
-                            <span>Raza</span>
-                        </div>
-                        <p th:text="${mascota.raza}" class="info-value"></p>
-                    </div>
-
-                    <div class="info-item full-width">
-                        <div class="info-label">
-                            <i data-lucide="stethoscope"></i>
-                            <span>Enfermedad</span>
-                        </div>
-                        <p th:text="${mascota.enfermedad}" class="info-value"></p>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-label">
-                            <i data-lucide="user"></i>
-                            <span>Dueño</span>
-                        </div>
-                        <p th:text="${mascota.cliente.nombre}" class="info-value"></p>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-label">
-                            <i data-lucide="id-card"></i>
-                            <span>Cédula del Dueño</span>
-                        </div>
-                        <p th:text="${mascota.cliente.cedula}" class="info-value"></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="actions-footer">
-                <a href="/mascota/all" class="back-button">
-                    <i data-lucide="arrow-left"></i>
-                    Volver a Lista de Mascotas
-                </a>
-            </div>
+      <div class="pet-section">
+        <div class="section-header">
+          <div class="title-section">
+            <i data-lucide="paw-print"></i>
+            <h1>Información de tu Peludito</h1>
+          </div>
         </div>
+
+        <div class="pet-card">
+          <div class="pet-image-section">
+            <img
+              th:src="${mascota.foto}"
+              alt="Foto de Mascota"
+              class="pet-photo" />
+            <span
+              th:text="${mascota.estado ? 'Activo' : 'Inactivo'}"
+              th:class="${mascota.estado ? 'status-badge status-active' : 'status-badge status-inactive'}">
+            </span>
+          </div>
+
+          <div class="pet-info-grid">
+            <div class="info-item">
+              <div class="info-label">
+                <i data-lucide="tag"></i>
+                <span>Nombre</span>
+              </div>
+              <p th:text="${mascota.nombre}" class="info-value"></p>
+            </div>
+
+            <div class="info-item">
+              <div class="info-label">
+                <i data-lucide="calendar"></i>
+                <span>Edad</span>
+              </div>
+              <p th:text="${mascota.edad}" class="info-value"></p>
+            </div>
+
+            <div class="info-item">
+              <div class="info-label">
+                <i data-lucide="scale"></i>
+                <span>Peso</span>
+              </div>
+              <p th:text="${mascota.peso}" class="info-value"></p>
+            </div>
+
+            <div class="info-item">
+              <div class="info-label">
+                <i data-lucide="dog"></i>
+                <span>Raza</span>
+              </div>
+              <p th:text="${mascota.raza}" class="info-value"></p>
+            </div>
+
+            <div class="info-item full-width">
+              <div class="info-label">
+                <i data-lucide="stethoscope"></i>
+                <span>Enfermedad</span>
+              </div>
+              <p th:text="${mascota.enfermedad}" class="info-value"></p>
+            </div>
+
+            <div class="info-item">
+              <div class="info-label">
+                <i data-lucide="user"></i>
+                <span>Dueño</span>
+              </div>
+              <p th:text="${mascota.cliente.nombre}" class="info-value"></p>
+            </div>
+
+            <div class="info-item">
+              <div class="info-label">
+                <i data-lucide="id-card"></i>
+                <span>Cédula del Dueño</span>
+              </div>
+              <p th:text="${mascota.cliente.cedula}" class="info-value"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions-footer">
+          <a href="/mascota/edit" class="back-button">
+            <i data-lucide="arrow-left"></i>
+            Volver a Lista de Mascotas
+          </a>
+        </div>
+      </div>
     </div>
 
     <script>
-        // Inicializar los íconos de Lucide
-        lucide.createIcons();
+      // Inicializar los íconos de Lucide
+      lucide.createIcons();
     </script>
-</body>
+  </body>
 </html>

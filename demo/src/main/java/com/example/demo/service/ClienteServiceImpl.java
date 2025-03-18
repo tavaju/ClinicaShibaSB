@@ -10,7 +10,7 @@ import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.MascotaRepository;
 
 @Service
-@Transactional  // Añadir esta anotación a nivel de clase
+@Transactional // Añadir esta anotación a nivel de clase
 public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
@@ -30,9 +30,11 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    @Transactional  // Añadir esta anotación específicamente para el método de eliminar
+    @Transactional // Añadir esta anotación específicamente para el método de eliminar
     public void deleteById(Long id) {
-        // Simplemente elimina el cliente; las mascotas asociadas se eliminarán automáticamente
+        // Eliminar las mascotas asociadas al cliente
+        mascotaRepository.deleteAll(mascotaRepository.findByClienteId(id));
+        // Luego eliminar el cliente
         repo.deleteById(id);
     }
 
