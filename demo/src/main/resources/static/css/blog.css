@@ -26,13 +26,7 @@
   text-align: center;
 }
 
-/* Elementos decorativos */
-.blog-hero::before, .blog-hero::after {
-  content: "";
-  position: absolute;
-  background-color: #4A1D73; /* Morado oscuro */
-  border-radius: 50%;
-}
+
 
 .blog-hero::before {
   width: 80px;
@@ -48,7 +42,6 @@
   left: -10px;
 }
 
-/* Tarjeta flotante */
 .floating-card {
   background: white;
   border-radius: 12px;
@@ -84,7 +77,6 @@
   font-weight: normal;
 }
 
-/* Estilos para metadatos */
 .article-header {
   margin-top: 20px;
   font-size: 14px;
@@ -114,17 +106,21 @@
 }
 
 .tag {
-  background: #FDD835;
   padding: 5px 10px;
   border-radius: 8px;
   font-size: 12px;
-  color: #1D1D1D;
   font-weight: bold;
 }
 
+.tag-datos-curiosos {
+  background: #EDE9FE; /* Light purple background */
+  color: #6D28D9; /* Dark purple text */
+}
 
-
-
+.tag-perros {
+  background: #FFF7E6; /* Light orange background */
+  color: #FFA500; /* Orange text */
+}
 
 /* Imagen principal del artículo */
 .article-main-image {
