@@ -1,0 +1,267 @@
+/* Estilo del encabezado del artículo */
+.article-header {
+  display: block;
+  color: white;
+  text-align: center;
+  position: relative;
+  top: auto;
+  left: auto;
+  padding: 0 2rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 800px;
+  z-index: 3;
+}
+
+/* Hero Section */
+.blog-hero {
+  background: url("/assets/backgrounds/login_background.svg") center/cover;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  position: relative;
+  text-align: center;
+}
+
+/* Elementos decorativos */
+.blog-hero::before, .blog-hero::after {
+  content: "";
+  position: absolute;
+  background-color: #4A1D73; /* Morado oscuro */
+  border-radius: 50%;
+}
+
+.blog-hero::before {
+  width: 80px;
+  height: 80px;
+  top: -20px;
+  right: -20px;
+}
+
+.blog-hero::after {
+  width: 60px;
+  height: 60px;
+  bottom: -10px;
+  left: -10px;
+}
+
+/* Tarjeta flotante */
+.floating-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 800px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.floating-card-bg {
+  width: 100%;
+  display: block;
+}
+
+.floating-card-content {
+  padding: 20px;
+}
+
+.floating-card-content h1 {
+  font-size: 32px;
+  color: #1D1D1D;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.floating-card-content h2 {
+  font-size: 18px;
+  color: #555;
+  font-weight: normal;
+}
+
+/* Estilos para metadatos */
+.article-header {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+}
+
+.article-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.meta-item {
+  margin-bottom: 5px;
+}
+
+.label {
+  font-weight: bold;
+  color: #000;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.tag {
+  background: #FDD835;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #1D1D1D;
+  font-weight: bold;
+}
+
+
+
+
+
+/* Imagen principal del artículo */
+.article-main-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+
+/* Contenido del artículo */
+.article-content {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.article-text p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.article-inline-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+/* Sección del autor */
+.author-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: #F3E8FF;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+.author-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.author-details h4 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.author-link {
+  color: #8B5CF6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Sección de contenido relacionado */
+.related-content {
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+.related-articles {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.related-article {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  flex: 1;
+}
+
+.related-article:hover {
+  transform: translateY(-5px);
+}
+
+.related-article img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.related-article h4 {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.tag {
+  background: #EDE9FE;
+  color: #6D28D9;
+  padding: 0.3rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+/* Estilo del newsletter */
+.newsletter {
+  background: #F3E8FF;
+  padding: 3rem 2rem;
+  text-align: center;
+  border-radius: 12px;
+}
+
+.newsletter h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.subscribe-btn {
+  background: #8B5CF6;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.subscribe-btn:hover {
+  background: #6D28D9;
+}
+
+

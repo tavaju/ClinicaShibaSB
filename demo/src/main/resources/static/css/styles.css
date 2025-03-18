@@ -1186,6 +1186,21 @@ footer {
 .social-icon:hover img {
   color: white;
 }
+.social-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-icon img {
+  width: 1.5rem;
+  height: 1.5rem;
+  filter: brightness(0) invert(1); /* This makes the icons white */
+  transition: opacity 0.3s ease;
+}
+
+.social-icon:hover img {
+  opacity: 0.8;
+}
 
 .footer-bottom {
   text-align: center;
