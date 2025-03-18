@@ -17,29 +17,37 @@ import jakarta.validation.constraints.Size;
 //POJO Tratamiento
 @Entity
 public class Tratamiento {
+
+    // Atributo id: clave primaria autogenerada
     @Id
     @GeneratedValue
     private Long id;
 
+    // Atributo fecha: obligatorio
     @NotNull(message = "La fecha del tratamiento es obligatoria")
     private Date fecha;
 
+    // Atributo nombreDroga: obligatorio, máximo 100 caracteres
     @NotBlank(message = "El nombre de la droga es obligatorio")
     @Size(max = 100, message = "El nombre de la droga no puede tener más de 100 caracteres")
     private String nombreDroga;
 
+    // Atributo precioCompra: obligatorio, número positivo
     @NotNull(message = "El precio de compra es obligatorio")
     @Positive(message = "El precio de compra debe ser un número positivo")
     private float precioCompra;
 
+    // Atributo precioVenta: obligatorio, número positivo
     @NotNull(message = "El precio de venta es obligatorio")
     @Positive(message = "El precio de venta debe ser un número positivo")
     private float precioVenta;
 
+    // Atributo unidadesDisponibles: obligatorio, número positivo o cero
     @NotNull(message = "Las unidades disponibles son obligatorias")
     @PositiveOrZero(message = "Las unidades disponibles deben ser un número positivo o cero")
     private float unidadesDisponibles;
 
+    // Atributo unidadesVendidas: obligatorio, número positivo o cero
     @NotNull(message = "Las unidades vendidas son obligatorias")
     @PositiveOrZero(message = "Las unidades vendidas deben ser un número positivo o cero")
     private int unidadesVendidas;
@@ -59,7 +67,8 @@ public class Tratamiento {
     public Tratamiento() {
     }
 
-    public Tratamiento(Date fecha, String nombreDroga, float precioCompra, float precioVenta, float unidadesDisponibles, int unidadesVendidas) {
+    public Tratamiento(Date fecha, String nombreDroga, float precioCompra, float precioVenta, float unidadesDisponibles,
+            int unidadesVendidas) {
         this.fecha = fecha;
         this.nombreDroga = nombreDroga;
         this.precioCompra = precioCompra;
@@ -68,8 +77,9 @@ public class Tratamiento {
         this.unidadesVendidas = unidadesVendidas;
     }
 
-    public Tratamiento(Long id, Date fecha, String nombreDroga, float precioCompra, float precioVenta, float unidadesDisponibles, int unidadesVendidas,
-                       Mascota mascota, Veterinario veterinario) {
+    public Tratamiento(Long id, Date fecha, String nombreDroga, float precioCompra, float precioVenta,
+            float unidadesDisponibles, int unidadesVendidas,
+            Mascota mascota, Veterinario veterinario) {
         this.id = id;
         this.fecha = fecha;
         this.nombreDroga = nombreDroga;
@@ -153,5 +163,4 @@ public class Tratamiento {
         this.veterinario = veterinario;
     }
 
-    
 }

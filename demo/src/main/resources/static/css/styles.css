@@ -1,6 +1,6 @@
 @font-face {
   font-family: "shiba-font";
-  src: url("resources/fonnts.com-New_Order_Semibold.otf") format("opentype");
+  src: url("/assets/fonts/fonnts.com-New_Order_Semibold.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
@@ -18,7 +18,7 @@ h3 {
     "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Reveal Animation */
+/* Animacion Reveal cuando se hace scroll en los elementos */
 .hidden {
   opacity: 0;
   transform: translateY(50px);
@@ -29,6 +29,7 @@ h3 {
   opacity: 1;
   transform: translateY(0);
 }
+
 
 /* Announcement Banner */
 .announcement-banner {
@@ -41,7 +42,7 @@ h3 {
   position: relative;
   transition: all 0.3s ease-in-out;
   transform: translateY(0);
-  height: 48px; /* Altura fija para la animación */
+  height: 48px;
   overflow: hidden;
 }
 
@@ -73,6 +74,7 @@ h3 {
   font-size: 1.2rem;
   font-weight: 500;
 }
+
 
 /* Navigation */
 .navbar {
@@ -166,6 +168,8 @@ h3 {
   align-items: center;
   gap: 1.5rem;
 }
+
+/* Elementos dentro de la Navigation */
 
 .search-container {
   position: relative;
@@ -316,6 +320,7 @@ h3 {
   gap: 1rem;
 }
 
+/* Botones, usado a partir de aqui */
 .btn {
   padding: 0.75rem 2rem;
   border-radius: 0.5rem;
@@ -1091,6 +1096,8 @@ h3 {
   color: #fff;
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
+
+
 /* Footer */
 footer {
   background: #4c1d95;

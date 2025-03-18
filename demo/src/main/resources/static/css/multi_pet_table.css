@@ -1,10 +1,12 @@
+/* Tabla para mostrar todas las mascotas y clientes */
+
 @font-face {
   font-family: "shiba-font";
   src: url("resources/fonnts.com-New_Order_Semibold.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
-/* Base styles */
+
 body {
   max-width: 1280px;
   margin: 2rem auto;
@@ -52,7 +54,6 @@ h2 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Table styles */
 .table {
   margin-bottom: 0;
 }
@@ -71,7 +72,6 @@ h2 {
   text-align: center;
 }
 
-/* Image styles */
 .table img {
   border-radius: 0.5rem;
   object-fit: cover;
@@ -82,7 +82,6 @@ h2 {
   transform: scale(1.1);
 }
 
-/* Button styles */
 .btn-details {
   background-color: #8b5cf6;
   border: none;
@@ -97,7 +96,14 @@ h2 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive styles */
+.logout-btn {
+  padding: 8px 15px;
+  background-color: #fc7a43;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
 @media (max-width: 768px) {
   .pet-container {
     margin: 1rem auto;
@@ -119,7 +125,6 @@ h2 {
   }
 }
 
-/* Add specific styles for small-pet-container images */
 #small-pet-container .pet-image {
   width: 80px;
   height: 80px;

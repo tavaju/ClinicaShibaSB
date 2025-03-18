@@ -7,13 +7,17 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.Cliente;
 
+// Repositorio de Cliente 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-    
+
+    // Métodos personalizados para buscar un cliente por cédula y correo
+
     Cliente findByCedula(String cedula);
 
     Cliente findByCorreo(String correo);
     
+    // Método personalizado para eliminar un cliente por id (por implementar)
     @Modifying
     @Query("DELETE FROM Cliente c WHERE c.id = ?1")
     void deleteById(Long id);

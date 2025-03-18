@@ -1,14 +1,15 @@
+<!-- Modificar_mascota.html -->
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modificar Mascota</title>
-    <link rel="stylesheet" href="/css/modificar_cliente.css" />
-    <!-- Lucide Icons -->
+    <link rel="stylesheet" href="/css/update_form.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
+    <!-- Encabezado de la página -->
     <header class="banner">
       <div class="banner-content">
         <div class="nav-left">
@@ -18,21 +19,22 @@
       </div>
     </header>
 
-    <div class="container">
-      <div class="form-header">
+    <main class="container">
+      <section class="form-header">
         <div class="title-section">
           <i data-lucide="edit"></i>
           <h1>Modificar Mascota</h1>
         </div>
-      </div>
+      </section>
 
-      <div th:if="${mascota != null}" class="form-wrapper">
+      <!-- Formulario de modificación de mascota -->
+      <section th:if="${mascota != null}" class="form-wrapper">
         <form
           class="form-container"
           th:object="${mascota}"
           th:action="@{/mascota/update/{id}(id=${mascota.id})}"
           method="post">
-          <div class="form-grid">
+          <article class="form-grid">
             <div class="form-group">
               <label for="nombre">Nombre</label>
               <div class="input-container">
@@ -153,9 +155,10 @@
                   required />
               </div>
             </div>
-          </div>
+          </article>
 
-          <div class="form-footer">
+          <!-- Botones de cancelar y enviar con redirect -->
+          <article class="form-footer">
             <a href="/mascota/all" class="cancel-button">
               <i data-lucide="x"></i>
               Cancelar
@@ -164,11 +167,12 @@
               <i data-lucide="save"></i>
               Guardar Cambios
             </button>
-          </div>
+          </article>
         </form>
-      </div>
+      </section>
 
-      <div th:if="${mascota == null}" class="error-container">
+      <!-- Sección de error si la mascota no se encuentra -->
+      <section th:if="${mascota == null}" class="error-container">
         <div class="error-content">
           <i data-lucide="alert-circle" class="error-icon"></i>
           <h2>Mascota no encontrada</h2>
@@ -178,11 +182,11 @@
             Volver a la lista de mascotas
           </a>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
 
+    <!-- Iconos Lucide -->
     <script>
-      // Inicializar los íconos de Lucide
       lucide.createIcons();
     </script>
   </body>
