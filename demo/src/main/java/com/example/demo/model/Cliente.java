@@ -15,26 +15,32 @@ import jakarta.validation.constraints.Size;
 // POJO Cliente
 @Entity
 public class Cliente {
+    // Atributo id: clave primaria autogenerada
     @Id
     @GeneratedValue
     private Long id;
 
+    // Atributo cedula: obligatorio, máximo 20 caracteres
     @NotBlank(message = "La cédula es obligatoria")
     @Size(max = 20, message = "La cédula no puede tener más de 20 caracteres")
     private String cedula;
 
+    // Atributo nombre: obligatorio, máximo 100 caracteres
     @NotBlank(message = "El nombre es obligatorio")
     @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres")
     private String nombre;
 
+    // Atributo correo: obligatorio, formato de correo
     @NotBlank(message = "El correo es obligatorio")
     @Email(message = "El correo debe tener un formato válido")
     private String correo;
 
+    // Atributo celular: obligatorio, máximo 10 caracteres
     @NotBlank(message = "El celular es obligatorio")
     @Size(max = 10, message = "El celular no puede tener más de 10 caracteres")
     private String celular;
 
+    // Atributo contrasena: obligatorio, mínimo 8 caracteres, máximo 50 caracteres
     @NotBlank(message = "La contraseña es obligatoria")
     @Size(min = 8, max = 50, message = "La contraseña debe tener entre 8 y 50 caracteres")
     private String contrasena;

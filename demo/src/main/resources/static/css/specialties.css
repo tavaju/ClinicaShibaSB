@@ -1,4 +1,6 @@
-/* Specialties Hero Section */
+/* Pagina Specialties*/
+
+/* Hero Section */
 .specialties-hero {
   background: url("/assets/backgrounds/login_background.svg") center/cover;
   height: 600px;
@@ -25,7 +27,6 @@ body {
   border: none;
 }
 
-/* Imagen de fondo de la tarjeta */
 .floating-card-bg {
   width: 120%;
   height: 100%;
@@ -36,7 +37,6 @@ body {
   filter: brightness(0.8);
 }
 
-/* Contenido de la tarjeta flotante */
 .floating-card-content {
   position: relative;
   z-index: 2;
@@ -45,7 +45,6 @@ body {
   color: white;
 }
 
-/* Estilo del título */
 .floating-card-content h1 {
   font-size: 4rem;
   font-weight: bold;
@@ -54,15 +53,13 @@ body {
   text-align: left;
 }
 
-/* Estilo del párrafo */
 .floating-card-content p {
   font-size: 1.5rem;
-  color: #d1c4e9; /* Un morado claro */
+  color: #d1c4e9; 
   font-family: "shiba-font", sans-serif;
   text-align: left;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .floating-card-content h1 {
     font-size: 2rem;
@@ -77,7 +74,7 @@ body {
   }
 }
 
-/* Specialties Section */
+/* Specialties Subsection */
 .specialties-section {
   max-width: 1280px;
   margin: 4rem auto;
@@ -92,14 +89,12 @@ body {
   position: relative;
 }
 
-/* Contenedor del subtítulo */
 .subtitle-container {
   display: flex;
   justify-content: center;
   margin-bottom: 3rem;
 }
 
-/* Estilo del subtítulo */
 .specialties-section h2 {
   position: relative;
   font-size: 2.5rem;
@@ -108,7 +103,6 @@ body {
   align-items: center;
 }
 
-/* Detalles decorativos */
 .subtitle-detail {
   width: 75px;
   height: auto;
@@ -125,7 +119,6 @@ body {
   top: -5px;
 }
 
-/* Ajustes Responsivos */
 @media (max-width: 768px) {
   .specialties-section h2 {
     font-size: 2rem;
@@ -205,7 +198,6 @@ body {
   font-weight: 500;
 }
 
-/* Consultation Card */
 .consultation-card {
   background: #f5f3ff;
   display: flex;
@@ -217,7 +209,6 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Contenido de la Card */
 .consultation-card .card-content {
   display: flex;
   flex-direction: column;
@@ -225,14 +216,12 @@ body {
   gap: 1.5rem;
 }
 
-/* Estilo de la Lupa */
 .consultation-card .search-icon {
   width: 4rem;
   height: 4rem;
   color: #8b5cf6;
 }
 
-/* Texto de la Card */
 .consultation-card p {
   color: #374151;
   font-size: 1.1rem;
@@ -240,7 +229,6 @@ body {
   margin: 0;
 }
 
-/* Botón de Consulta */
 .consultation-btn {
   background: #4c1d95;
   color: white;
@@ -257,7 +245,6 @@ body {
   background: #3b0d78;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .consultation-card .search-icon {
     width: 3rem;
@@ -273,7 +260,6 @@ body {
   }
 }
 
-/* Responsive Design */
 @media (max-width: 1024px) {
   .specialties-grid {
     grid-template-columns: repeat(2, 1fr);

@@ -1,3 +1,4 @@
+/* Pagina de login */
 @font-face {
     font-family: "shiba-font";
     src: url("/assets/fonts/fonnts.com-New_Order_Semibold.otf") format("opentype");
@@ -193,7 +194,7 @@ button[type="submit"]:hover {
 @media (max-height: 600px), (max-width: 1024px) {
     body {
         align-items: flex-start;
-        padding-top: 100px; /* Space for brand name */
+        padding-top: 100px; 
     }
 
     .brand-name {
@@ -216,7 +217,7 @@ button[type="submit"]:hover {
 
 @media (max-height: 500px) {
     body {
-        padding-top: 70px; /* Less space for very small heights */
+        padding-top: 70px;
     }
 
     .brand-name {

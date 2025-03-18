@@ -17,17 +17,22 @@ import jakarta.validation.constraints.Size;
 //POJO Tratamiento
 @Entity
 public class Tratamiento {
+
+    // Atributo id: clave primaria autogenerada
     @Id
     @GeneratedValue
     private Long id;
 
+    // Atributo fecha: obligatorio
     @NotNull(message = "La fecha del tratamiento es obligatoria")
     private Date fecha;
 
+    // Atributo nombreDroga: obligatorio, máximo 100 caracteres
     @NotBlank(message = "El nombre de la droga es obligatorio")
     @Size(max = 100, message = "El nombre de la droga no puede tener más de 100 caracteres")
     private String nombreDroga;
 
+    // Atributo precioCompra: obligatorio, número positivo
     @NotNull(message = "El precio de compra es obligatorio")
     @Positive(message = "El precio de compra debe ser un número positivo")
     private float precioCompra;

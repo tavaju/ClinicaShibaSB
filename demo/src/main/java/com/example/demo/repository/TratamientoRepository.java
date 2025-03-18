@@ -5,8 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.Tratamiento;
 
+// Repositorio de Tratamiento
 @Repository
 public interface TratamientoRepository  extends JpaRepository<Tratamiento, Long> {
+    // Métodos personalizados para buscar un tratamiento por cualquier atributo
     Tratamiento findByNombreDroga(String nombreDroga);
     Tratamiento findByPrecioCompra(float precioCompra);
     Tratamiento findByPrecioVenta(float precioVenta);
