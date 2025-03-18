@@ -1,11 +1,11 @@
+<!-- Modificar_cliente.html -->
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modificar Cliente</title>
-    <link rel="stylesheet" href="/css/modificar_cliente.css" />
-    <!-- Lucide Icons -->
+    <link rel="stylesheet" href="/css/update_form.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
@@ -18,21 +18,23 @@
       </div>
     </header>
 
-    <div class="container">
-      <div class="form-header">
+    <!-- Contenido de la página -->
+    <main class="container">
+      <section class="form-header">
         <div class="title-section">
           <i data-lucide="user-cog"></i>
           <h1>Modificar Cliente</h1>
         </div>
-      </div>
+      </section>
 
-      <div th:if="${cliente != null}" class="form-wrapper">
+      <!-- Formulario de modificación de cliente -->
+      <section th:if="${cliente != null}" class="form-wrapper">
         <form
           class="form-container"
           th:object="${cliente}"
           th:action="@{/cliente/update/{id}(id=${cliente.id})}"
           method="post">
-          <div class="form-grid">
+          <article class="form-grid">
             <div class="form-group">
               <label for="cedula">Cédula</label>
               <div class="input-container">
@@ -79,9 +81,10 @@
                   placeholder="Ingresa el celular" />
               </div>
             </div>
-          </div>
+          </article>
 
-          <div class="password-section">
+          <!-- Sección de contraseña -->
+          <article class="password-section">
             <div class="password-toggle">
               <label class="toggle-container">
                 <input
@@ -121,9 +124,10 @@
                 </div>
               </div>
             </div>
-          </div>
+          </article>
 
-          <div class="form-footer">
+          <!-- Botones de acción -->
+          <article class="form-footer">
             <a href="/cliente/all" class="cancel-button">
               <i data-lucide="x"></i>
               Cancelar
@@ -132,11 +136,12 @@
               <i data-lucide="save"></i>
               Guardar Cambios
             </button>
-          </div>
+          </article>
         </form>
-      </div>
+      </section>
 
-      <div th:if="${cliente == null}" class="error-container">
+      <!-- Mensaje de error si el cliente no se encuentra -->
+      <section th:if="${cliente == null}" class="error-container">
         <div class="error-content">
           <i data-lucide="alert-circle" class="error-icon"></i>
           <h2>Cliente no encontrado</h2>
@@ -146,14 +151,13 @@
             Volver a la lista de clientes
           </a>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
 
     <script>
-      // Inicializar los íconos de Lucide
       lucide.createIcons();
 
-      // Manejar la visibilidad de los campos de contraseña
+      // Maneja la visibilidad de los campos de contraseña. Como es único de este archivo, se puede hacer directamente en el HTML
       document
         .getElementById("changePassword")
         .addEventListener("change", function () {

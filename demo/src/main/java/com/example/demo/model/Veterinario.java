@@ -21,28 +21,36 @@ import jakarta.persistence.JoinTable;
 // POJO Veterinario
 @Entity
 public class Veterinario {
+
+    // Atributo id: clave primaria autogenerada
     @Id
     @GeneratedValue
     private Long id;
 
+    // Atributo cedula: obligatorio, máximo 20 caracteres
     @NotBlank(message = "La cédula es obligatoria")
     @Size(max = 20, message = "La cédula no puede tener más de 20 caracteres")
     private String cedula;
 
+    // Atributo nombre: obligatorio, máximo 100 caracteres
     @NotBlank(message = "El nombre es obligatorio")
     @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres")
     private String nombre;
 
+    // Atributo especialidad: obligatorio, máximo 50 caracteres
     @NotBlank(message = "La especialidad es obligatoria")
     @Size(max = 50, message = "La especialidad no puede tener más de 50 caracteres")
     private String especialidad;
 
-    @Size(max = 255, message = "La URL de la foto no puede tener más de 255 caracteres")
+    // Atributo foto: máximo 1000 caracteres (URL de la foto). Puede ser nulo
+    @Size(max = 1000, message = "La URL de la foto no puede tener más de 1000 caracteres")
     private String foto;
 
+    // Atributo numAtenciones: obligatorio, número positivo o cero
     @PositiveOrZero(message = "El número de atenciones debe ser un número positivo o cero")
-    private int numAtenciones; // Obligatorio pero puede ser 0
+    private int numAtenciones;
 
+    // Atributo contrasena: obligatorio, mínimo 8 caracteres, máximo 50 caracteres
     @NotBlank(message = "La contraseña es obligatoria")
     @Size(min = 8, max = 50, message = "La contraseña debe tener entre 8 y 50 caracteres")
     private String contrasena;
@@ -53,14 +61,9 @@ public class Veterinario {
     @NotNull(message = "El veterinario debe estar asociado a un administrador")
     private Administrador administrador;
 
-
-    // Relación muchos a muchos con Mascota por medio de la tabla tratamiento 
+    // Relación muchos a muchos con Mascota por medio de la tabla tratamiento
     @ManyToMany
-    @JoinTable(
-        name = "tratamiento",
-        joinColumns = @JoinColumn(name = "id_veterinario"),
-        inverseJoinColumns = @JoinColumn(name = "id_mascota")
-    )
+    @JoinTable(name = "tratamiento", joinColumns = @JoinColumn(name = "id_veterinario"), inverseJoinColumns = @JoinColumn(name = "id_mascota"))
     private List<Mascota> mascotas;
 
     // Relación uno a muchos con Tratamiento
@@ -70,7 +73,8 @@ public class Veterinario {
     public Veterinario() {
     }
 
-    public Veterinario(String cedula, String nombre, String especialidad, String foto, int numAtenciones, String contrasena) {
+    public Veterinario(String cedula, String nombre, String especialidad, String foto, int numAtenciones,
+            String contrasena) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.especialidad = especialidad;
@@ -79,8 +83,9 @@ public class Veterinario {
         this.contrasena = contrasena;
     }
 
-    public Veterinario(Long id, String cedula, String nombre, String especialidad, String foto, int numAtenciones, String contrasena,
-                       Administrador administrador, List<Mascota> mascotas, List<Tratamiento> tratamientos) {
+    public Veterinario(Long id, String cedula, String nombre, String especialidad, String foto, int numAtenciones,
+            String contrasena,
+            Administrador administrador, List<Mascota> mascotas, List<Tratamiento> tratamientos) {
         this.id = id;
         this.cedula = cedula;
         this.nombre = nombre;

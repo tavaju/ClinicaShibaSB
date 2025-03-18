@@ -1,13 +1,16 @@
+<!-- Crear_mascota.html -->
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Crear Nueva Mascota</title>
-    <link rel="stylesheet" href="/css/form_styles.css" />
+    <link rel="stylesheet" href="/css/create_form.css" />
+    <!-- Lucide Icons; iconos de decoración -->
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
+    <!-- Encabezado de la página -->
     <header class="banner">
       <div class="banner-content">
         <div class="nav-left">
@@ -18,20 +21,21 @@
       </div>
     </header>
 
-    <div class="container">
-      <div class="form-header">
+    <section class="container">
+      <article class="form-header">
         <div class="title-section">
           <i data-lucide="paw-print"></i>
           <h1>Crear Nueva Mascota</h1>
         </div>
-      </div>
+      </article>
 
+      <!-- Formulario de creación de mascota -->
       <form
         class="form-container"
         th:object="${mascota}"
         th:action="@{/mascota/agregar}"
         method="post">
-        <div class="form-grid">
+        <article class="form-grid">
           <div class="form-group">
             <label for="nombre">Nombre</label>
             <div class="input-container">
@@ -133,9 +137,10 @@
                 required />
             </div>
           </div>
-        </div>
+        </article>
 
-        <div class="form-footer">
+        <!-- Pie de página del formulario -->
+        <article class="form-footer">
           <a href="/mascota/all" class="cancel-button">
             <i data-lucide="x"></i>
             Cancelar
@@ -144,12 +149,11 @@
             <i data-lucide="paw-print"></i>
             Crear Mascota
           </button>
-        </div>
+        </article>
       </form>
-    </div>
+    </section>
 
     <script>
-      // Inicializar los íconos de Lucide
       lucide.createIcons();
     </script>
   </body>

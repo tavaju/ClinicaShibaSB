@@ -1,3 +1,4 @@
+<!-- Mostrar_mascota.html -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
@@ -10,34 +11,56 @@
     <link rel="stylesheet" href="/css/pet_table.css" />
   </head>
   <body>
-    <div class="pet-container">
+    <section class="pet-container">
       <h1>Información de tu Peludito</h1>
       <div class="pet-card">
-        <div class="pet-image">
-          <img
-            th:src="${mascota.foto}"
-            alt="Foto de Mascota" />
-        </div>
-        <div class="pet-info">
-          <p><span class="label">Nombre:</span> <span th:text="${mascota.nombre}"></span></p>
-          <p><span class="label">Edad:</span> <span th:text="${mascota.edad}"></span></p>
-          <p><span class="label">Peso:</span> <span th:text="${mascota.peso}"></span></p>
-          <p><span class="label">Raza:</span> <span th:text="${mascota.raza}"></span></p>
-          <p><span class="label">Enfermedad:</span> <span th:text="${mascota.enfermedad}"></span></p>
+        <article class="pet-image">
+          <img th:src="${mascota.foto}" alt="Foto de Mascota" />
+        </article>
+        <article class="pet-info">
           <p>
-            <span class="label">Estado:</span> 
-            <span th:text="${mascota.estadoTexto}" 
-                  th:style="${mascota.estado ? 'color: green;' : 'color: red;'}"
-                  class="status">
+            <span class="label">Nombre:</span>
+            <span th:text="${mascota.nombre}"></span>
+          </p>
+          <p>
+            <span class="label">Edad:</span>
+            <span th:text="${mascota.edad}"></span>
+          </p>
+          <p>
+            <span class="label">Peso:</span>
+            <span th:text="${mascota.peso}"></span>
+          </p>
+          <p>
+            <span class="label">Raza:</span>
+            <span th:text="${mascota.raza}"></span>
+          </p>
+          <p>
+            <span class="label">Enfermedad:</span>
+            <span th:text="${mascota.enfermedad}"></span>
+          </p>
+          <p>
+            <span class="label">Estado:</span>
+            <span
+              th:text="${mascota.estadoTexto}"
+              th:style="${mascota.estado ? 'color: green;' : 'color: red;'}"
+              class="status">
             </span>
           </p>
-          <p><span class="label">Dueño:</span> <span th:text="${mascota.cliente.nombre}"></span></p>
-          <p><span class="label">Cédula del Dueño:</span> <span th:text="${mascota.cliente.cedula}"></span></p>
-        </div>
+          <p>
+            <span class="label">Dueño:</span>
+            <span th:text="${mascota.cliente.nombre}"></span>
+          </p>
+          <p>
+            <span class="label">Cédula del Dueño:</span>
+            <span th:text="${mascota.cliente.cedula}"></span>
+          </p>
+        </article>
       </div>
-    </div>
+    </section>
     <div class="d-flex justify-content-center mt-4">
-      <a href="/mascota/all" class="btn btn-primary btn-details">Volver a Lista de Mascotas</a>
+      <a href="/mascota/all" class="btn btn-primary btn-details"
+        >Volver a Lista de Mascotas</a
+      >
     </div>
   </body>
 </html>
