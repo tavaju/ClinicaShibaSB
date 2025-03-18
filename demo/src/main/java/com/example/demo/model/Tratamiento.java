@@ -1,18 +1,16 @@
 package com.example.demo.model;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
 
 //POJO Tratamiento
 @Entity
@@ -27,27 +25,9 @@ public class Tratamiento {
     @NotNull(message = "La fecha del tratamiento es obligatoria")
     private Date fecha;
 
-    // Atributo nombreDroga: obligatorio, máximo 100 caracteres
-    @NotBlank(message = "El nombre de la droga es obligatorio")
-    @Size(max = 100, message = "El nombre de la droga no puede tener más de 100 caracteres")
-    private String nombreDroga;
-
-    // Atributo precioCompra: obligatorio, número positivo
-    @NotNull(message = "El precio de compra es obligatorio")
-    @Positive(message = "El precio de compra debe ser un número positivo")
-    private float precioCompra;
-
-    @NotNull(message = "El precio de venta es obligatorio")
-    @Positive(message = "El precio de venta debe ser un número positivo")
-    private float precioVenta;
-
-    @NotNull(message = "Las unidades disponibles son obligatorias")
-    @PositiveOrZero(message = "Las unidades disponibles deben ser un número positivo o cero")
-    private float unidadesDisponibles;
-
-    @NotNull(message = "Las unidades vendidas son obligatorias")
-    @PositiveOrZero(message = "Las unidades vendidas deben ser un número positivo o cero")
-    private int unidadesVendidas;
+    // Relación uno a muchos con Droga
+    @OneToMany(mappedBy = "tratamiento", fetch = FetchType.LAZY)
+    private List<Droga> drogas;
 
     // Relación muchos a uno con Mascota
     @ManyToOne(fetch = FetchType.LAZY)
@@ -64,24 +44,17 @@ public class Tratamiento {
     public Tratamiento() {
     }
 
-    public Tratamiento(Date fecha, String nombreDroga, float precioCompra, float precioVenta, float unidadesDisponibles, int unidadesVendidas) {
+    public Tratamiento(Date fecha, List<Droga> drogas, Mascota mascota, Veterinario veterinario) {
         this.fecha = fecha;
-        this.nombreDroga = nombreDroga;
-        this.precioCompra = precioCompra;
-        this.precioVenta = precioVenta;
-        this.unidadesDisponibles = unidadesDisponibles;
-        this.unidadesVendidas = unidadesVendidas;
+        this.drogas = drogas;
+        this.mascota = mascota;
+        this.veterinario = veterinario;
     }
 
-    public Tratamiento(Long id, Date fecha, String nombreDroga, float precioCompra, float precioVenta, float unidadesDisponibles, int unidadesVendidas,
-                       Mascota mascota, Veterinario veterinario) {
+    public Tratamiento(Long id, Date fecha, List<Droga> drogas, Mascota mascota, Veterinario veterinario) {
         this.id = id;
         this.fecha = fecha;
-        this.nombreDroga = nombreDroga;
-        this.precioCompra = precioCompra;
-        this.precioVenta = precioVenta;
-        this.unidadesDisponibles = unidadesDisponibles;
-        this.unidadesVendidas = unidadesVendidas;
+        this.drogas = drogas;
         this.mascota = mascota;
         this.veterinario = veterinario;
     }
@@ -102,44 +75,12 @@ public class Tratamiento {
         this.fecha = fecha;
     }
 
-    public String getNombreDroga() {
-        return nombreDroga;
+    public List<Droga> getDrogas() {
+        return drogas;
     }
 
-    public void setNombreDroga(String nombreDroga) {
-        this.nombreDroga = nombreDroga;
-    }
-
-    public float getPrecioCompra() {
-        return precioCompra;
-    }
-
-    public void setPrecioCompra(float precioCompra) {
-        this.precioCompra = precioCompra;
-    }
-
-    public float getPrecioVenta() {
-        return precioVenta;
-    }
-
-    public void setPrecioVenta(float precioVenta) {
-        this.precioVenta = precioVenta;
-    }
-
-    public float getUnidadesDisponibles() {
-        return unidadesDisponibles;
-    }
-
-    public void setUnidadesDisponibles(float unidadesDisponibles) {
-        this.unidadesDisponibles = unidadesDisponibles;
-    }
-
-    public int getUnidadesVendidas() {
-        return unidadesVendidas;
-    }
-
-    public void setUnidadesVendidas(int unidadesVendidas) {
-        this.unidadesVendidas = unidadesVendidas;
+    public void setDrogas(List<Droga> drogas) {
+        this.drogas = drogas;
     }
 
     public Mascota getMascota() {
@@ -157,6 +98,4 @@ public class Tratamiento {
     public void setVeterinario(Veterinario veterinario) {
         this.veterinario = veterinario;
     }
-
-    
 }

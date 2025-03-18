@@ -1124,6 +1124,12 @@ footer {
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
+.footer-logo span {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: "shiba-font", sans-serif;
+
+}
 
 .footer-logo .logo-icon {
   width: 2rem;
