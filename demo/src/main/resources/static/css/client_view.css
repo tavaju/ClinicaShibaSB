@@ -107,7 +107,7 @@ body {
 .title-section {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .title-section i {
@@ -258,6 +258,7 @@ tr:nth-child(even) {
   font-weight: 500;
   text-decoration: none;
   transition: background-color 0.2s;
+  margin-left: 1rem;
 }
 
 .add-button:hover {
