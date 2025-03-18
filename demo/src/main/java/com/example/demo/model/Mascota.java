@@ -60,12 +60,13 @@ public class Mascota {
     @NotNull(message = "La mascota debe estar asociada a un cliente")
     private Cliente cliente;
 
+    /* 
     // Relación muchos a muchos con Veterinario
-    // Se crea una tabla intermedia llamada "mascota_veterinario" con las claves
-    // foráneas id_mascota e id_veterinario
+    // Se crea una tabla intermedia llamada "mascota_veterinario" con las claves foráneas id_mascota e id_veterinario
     @ManyToMany
     @JoinTable(name = "mascota_veterinario", joinColumns = @JoinColumn(name = "id_mascota"), inverseJoinColumns = @JoinColumn(name = "id_veterinario"))
     private List<Veterinario> veterinarios;
+    */
 
     public Cliente getCliente() {
         return cliente;
@@ -75,6 +76,7 @@ public class Mascota {
         this.cliente = cliente;
     }
 
+    /*
     public List<Veterinario> getVeterinarios() {
         return veterinarios;
     }
@@ -82,6 +84,8 @@ public class Mascota {
     public void setVeterinarios(List<Veterinario> veterinarios) {
         this.veterinarios = veterinarios;
     }
+
+    */ 
 
     public Mascota() {
         this.estado = true; // Por defecto, las mascotas se crean activas

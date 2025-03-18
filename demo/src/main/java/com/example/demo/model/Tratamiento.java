@@ -37,17 +37,14 @@ public class Tratamiento {
     @Positive(message = "El precio de compra debe ser un número positivo")
     private float precioCompra;
 
-    // Atributo precioVenta: obligatorio, número positivo
     @NotNull(message = "El precio de venta es obligatorio")
     @Positive(message = "El precio de venta debe ser un número positivo")
     private float precioVenta;
 
-    // Atributo unidadesDisponibles: obligatorio, número positivo o cero
     @NotNull(message = "Las unidades disponibles son obligatorias")
     @PositiveOrZero(message = "Las unidades disponibles deben ser un número positivo o cero")
     private float unidadesDisponibles;
 
-    // Atributo unidadesVendidas: obligatorio, número positivo o cero
     @NotNull(message = "Las unidades vendidas son obligatorias")
     @PositiveOrZero(message = "Las unidades vendidas deben ser un número positivo o cero")
     private int unidadesVendidas;
@@ -67,8 +64,7 @@ public class Tratamiento {
     public Tratamiento() {
     }
 
-    public Tratamiento(Date fecha, String nombreDroga, float precioCompra, float precioVenta, float unidadesDisponibles,
-            int unidadesVendidas) {
+    public Tratamiento(Date fecha, String nombreDroga, float precioCompra, float precioVenta, float unidadesDisponibles, int unidadesVendidas) {
         this.fecha = fecha;
         this.nombreDroga = nombreDroga;
         this.precioCompra = precioCompra;
@@ -77,9 +73,8 @@ public class Tratamiento {
         this.unidadesVendidas = unidadesVendidas;
     }
 
-    public Tratamiento(Long id, Date fecha, String nombreDroga, float precioCompra, float precioVenta,
-            float unidadesDisponibles, int unidadesVendidas,
-            Mascota mascota, Veterinario veterinario) {
+    public Tratamiento(Long id, Date fecha, String nombreDroga, float precioCompra, float precioVenta, float unidadesDisponibles, int unidadesVendidas,
+                       Mascota mascota, Veterinario veterinario) {
         this.id = id;
         this.fecha = fecha;
         this.nombreDroga = nombreDroga;
@@ -163,4 +158,5 @@ public class Tratamiento {
         this.veterinario = veterinario;
     }
 
+    
 }
