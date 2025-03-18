@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Random;
 
+// Clase para inicializar la base de datos
 @Controller
 @Transactional
 public class DatabaseInit implements ApplicationRunner {
@@ -29,7 +30,7 @@ public class DatabaseInit implements ApplicationRunner {
         // Crear clientes de ejemplo si la base de datos esta vacia
         List<Cliente> clientes = clienteRepository.findAll();
         if (clientes.isEmpty()) {
-            clienteRepository.save(new Cliente("12345678", "John Doe", "zL2t0@example.com", "1234567890", "password"));
+            clienteRepository.save(new Cliente("12345678", "Juan Pablo C", "juanbap@example.com", "1234567890", "password"));
             clienteRepository.save(new Cliente("87654321", "Jane Doe", "4aB4y@example.com", "9876543210", "password"));
             clienteRepository.save(new Cliente("11111111", "Alice Smith", "sHwHt@example.com", "1111111111", "password"));
             clienteRepository.save(new Cliente("22222222", "Bob Johnson", "wWw0l@example.com", "2222222222", "password"));
@@ -85,6 +86,7 @@ public class DatabaseInit implements ApplicationRunner {
         // imagen de ejemplo para mascotas
         String imageUrl = "https://plus.unsplash.com/premium_photo-1694819488591-a43907d1c5cc?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y3V0ZSUyMGRvZ3xlbnwwfHwwfHx8MA%3D%3D";
 
+        // Crear mascotas de ejemplo si la base de datos esta vacia
         mascotaRepository.save(new Mascota("Firulais", "Labrador", 5, 20, "Alergia", imageUrl, true));
         mascotaRepository.save(new Mascota("Rex", "Pastor Aleman", 3, 25, "Mal de oído", imageUrl, true));
         mascotaRepository.save(new Mascota("Toby", "Bulldog", 2, 15, "Alergia", imageUrl, true));
@@ -224,6 +226,7 @@ public class DatabaseInit implements ApplicationRunner {
                 }
             }
 
+            // Asignar las mascotas restantes a clientes aleatoriamente
             while (!mascotas.isEmpty()) {
                 Cliente cliente = clientes.get(random.nextInt(clientes.size()));
                 Mascota mascota = mascotas.remove(0);

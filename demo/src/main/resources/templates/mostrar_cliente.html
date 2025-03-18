@@ -1,3 +1,4 @@
+<!-- Mostrar_cliente.html -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
@@ -11,24 +12,15 @@
     <link rel="stylesheet" href="/css/multi_pet_table.css" />
   </head>
   <body>
-    <div style="text-align: right; padding: 10px">
-      <a
-        href="/logout"
-        class="logout-btn"
-        style="
-          padding: 8px 15px;
-          background-color: #fc7a43;
-          color: white;
-          text-decoration: none;
-          border-radius: 5px;
-        "
-        >Cerrar Sesión</a
-      >
-    </div>
+    <!-- Barra de navegación  con cerrar sesión -->
+    <section style="text-align: right; padding: 10px">
+      <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+    </section>
 
-    <div class="pet-container" id="small-pet-container">
+    <!-- Contenido informacion de la página -->
+    <section class="pet-container" id="small-pet-container">
       <h1>Información del Cliente</h1>
-      <div class="pet-card">
+      <article class="pet-card">
         <div class="pet-info">
           <p>
             <span class="label">Cédula:</span>
@@ -47,10 +39,11 @@
             <span th:text="${cliente.celular}"></span>
           </p>
         </div>
-      </div>
+      </article>
 
+      <!-- Tabla de mascotas -->
       <h2 class="mt-4">Mis Mascotas</h2>
-      <div class="table-responsive">
+      <article class="table-responsive">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -86,7 +79,7 @@
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
+      </article>
+    </section>
   </body>
 </html>

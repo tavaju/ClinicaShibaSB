@@ -1,13 +1,16 @@
+<!-- Crear_cliente.html -->
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Crear Cliente</title>
-    <link rel="stylesheet" href="/css/form_styles.css" />
+    <link rel="stylesheet" href="/css/create_form.css" />
+    <!-- Lucide Icons; iconos de decoración -->
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
+    <!-- Encabezado de la página -->
     <header class="banner">
       <div class="banner-content">
         <div class="nav-left">
@@ -18,20 +21,21 @@
       </div>
     </header>
 
-    <div class="container">
-      <div class="form-header">
+    <section class="container">
+      <article class="form-header">
         <div class="title-section">
           <i data-lucide="user-plus"></i>
           <h1>Crear Nuevo Cliente</h1>
         </div>
-      </div>
+      </article>
 
+      <!-- Formulario de creación de cliente -->
       <form
         class="form-container"
         th:object="${cliente}"
         th:action="@{/cliente/agregar}"
         method="post">
-        <div class="form-grid">
+        <article class="form-grid">
           <div class="form-group">
             <label for="cedula">Cédula</label>
             <div class="input-container">
@@ -103,8 +107,9 @@
                 placeholder="Confirma la contraseña" />
             </div>
           </div>
-        </div>
+        </article>
 
+        <!-- Botones de cancelar y enviar con redirect -->
         <div class="form-footer">
           <a href="/cliente/all" class="cancel-button">
             <i data-lucide="x"></i>
@@ -116,10 +121,9 @@
           </button>
         </div>
       </form>
-    </div>
+    </section>
 
     <script>
-      // Inicializar los íconos de Lucide
       lucide.createIcons();
     </script>
   </body>

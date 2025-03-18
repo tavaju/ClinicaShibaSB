@@ -1,3 +1,4 @@
+<!-- Mostrar_todos_clientes.html -->
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -5,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todos Nuestros Clientes</title>
     <link rel="stylesheet" href="/css/client_view.css" />
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
@@ -18,8 +18,9 @@
       </div>
     </header>
 
-    <div class="container">
-      <div class="table-header">
+    <!-- Contenido de modificación de la página -->
+    <section class="container">
+      <article class="table-header">
         <div class="title-section">
           <i data-lucide="users"></i>
           <h1>Lista de Clientes</h1>
@@ -33,9 +34,9 @@
               class="search-input" />
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="table-container">
+      <article class="table-container">
         <table>
           <thead>
             <tr>
@@ -65,9 +66,9 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      </article>
 
-      <div class="table-footer">
+      <article class="table-footer">
         <a href="/cliente/add" class="add-button"> Agregar Cliente </a>
         <div class="pagination">
           <button class="pagination-button" disabled>
@@ -78,24 +79,24 @@
             <i data-lucide="chevron-right"></i>
           </button>
         </div>
-      </div>
-    </div>
+      </article>
+    </section>
 
     <!-- Modal de confirmación -->
-    <div id="deleteModal" class="modal">
-      <div class="modal-content">
+    <section id="deleteModal" class="modal">
+      <article class="modal-content">
         <h2>Confirmar eliminación</h2>
         <p id="deleteMessage"></p>
         <div class="modal-buttons">
           <button id="confirmDelete" class="confirm-button">Aceptar</button>
           <button id="cancelDelete" class="cancel-button">Cancelar</button>
         </div>
-      </div>
-    </div>
+      </article>
+    </section>
 
     <!-- Modal de modificación -->
-    <div id="editModal" class="modal">
-      <div class="modal-content">
+    <section id="editModal" class="modal">
+      <article class="modal-content">
         <h2>Modificar Cliente</h2>
         <form id="editForm" method="get">
           <div class="modal-buttons">
@@ -105,11 +106,11 @@
             </button>
           </div>
         </form>
-      </div>
-    </div>
+      </article>
+    </section>
 
     <script>
-      // Inicializar los íconos de Lucide
+      // Funcionalidad extra modales de confirmación y eliminación. Como por ahora son únicos para cliente, se dejan en el HTML
       lucide.createIcons();
 
       // Funcionalidad del modal de eliminación

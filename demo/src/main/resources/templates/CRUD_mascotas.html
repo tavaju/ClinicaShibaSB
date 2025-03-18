@@ -1,3 +1,4 @@
+<!-- Mostrar_todas_mascotas.html con posibilidad de edicion-->
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -5,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todas Nuestras Mascotas</title>
     <link rel="stylesheet" href="/css/client_view.css" />
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
+    <!-- Encabezado de la página -->
     <header class="banner">
       <div class="banner-content">
         <div class="nav-left">
@@ -18,8 +19,9 @@
       </div>
     </header>
 
-    <div class="container">
-      <div class="table-header">
+    <!-- Contenido de la página -->
+    <section class="container">
+      <article class="table-header">
         <div class="title-section">
           <i data-lucide="users"></i>
           <h1>Lista de Mascotas</h1>
@@ -33,9 +35,10 @@
               class="search-input" />
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="table-container">
+      <!-- Tabla de mascotas -->
+      <article class="table-container">
         <table>
           <thead>
             <tr>
@@ -53,7 +56,8 @@
           <tbody>
             <tr th:each="mascota : ${mascotas}" th:attr="data-id=${mascota.id}">
               <td>
-                <a class="pet-link"
+                <a
+                  class="pet-link"
                   th:href="@{/mascota/find(id=${mascota.id})}"
                   th:text="${mascota.nombre}">
                 </a>
@@ -89,9 +93,9 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      </article>
 
-      <div class="table-footer">
+      <article class="table-footer">
         <a href="/mascota/add" class="add-button"> Agregar Mascota </a>
         <div class="pagination">
           <button class="pagination-button" disabled>
@@ -102,8 +106,8 @@
             <i data-lucide="chevron-right"></i>
           </button>
         </div>
-      </div>
-    </div>
+      </article>
+    </section>
 
     <script>
       lucide.createIcons();

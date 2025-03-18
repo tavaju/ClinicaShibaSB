@@ -9,6 +9,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
+    <!-- Encabezado de la página -->
     <header class="banner">
       <div class="banner-content">
         <div class="nav-left">
@@ -18,13 +19,14 @@
       </div>
     </header>
 
-    <div class="container">
-      <div class="table-header">
-        <div class="title-section">
+    <!-- Contenido de la página -->
+    <main class="container">
+      <section class="table-header">
+        <article class="title-section">
           <i data-lucide="users"></i>
           <h1>Lista de Mascotas</h1>
-        </div>
-        <div class="search-section">
+        </article>
+        <article class="search-section">
           <div class="search-container">
             <i data-lucide="search" class="search-icon"></i>
             <input
@@ -32,10 +34,11 @@
               placeholder="Buscar mascota..."
               class="search-input" />
           </div>
-        </div>
-      </div>
+        </article>
+      </section>
 
-      <div class="table-container">
+      <!-- Tabla de todas las mascotas -->
+      <section class="table-container">
         <table>
           <thead>
             <tr>
@@ -78,11 +81,12 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      </section>
 
-      <div class="table-footer">
+      <!-- Pie de la tabla con botones y paginacion-->
+      <section class="table-footer">
         <a href="/mascota/add" class="add-button"> Agregar Mascota </a>
-        <div class="pagination">
+        <article class="pagination">
           <button class="pagination-button" disabled>
             <i data-lucide="chevron-left"></i>
           </button>
@@ -90,9 +94,9 @@
           <button class="pagination-button" disabled>
             <i data-lucide="chevron-right"></i>
           </button>
-        </div>
-      </div>
-    </div>
+        </article>
+      </section>
+    </main>
 
     <script>
       // Inicializar los íconos de Lucide

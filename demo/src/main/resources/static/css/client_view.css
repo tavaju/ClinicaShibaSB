@@ -1,3 +1,5 @@
+/* CSS for the client view */
+
 @font-face {
   font-family: "shiba-font";
   src: url("/assets/fonts/fonnts.com-New_Order_Semibold.otf") format("opentype");
@@ -5,7 +7,6 @@
   font-style: normal;
 }
 
-/* Variables */
 :root {
   --purple-50: #f5f3ff;
   --purple-500: #8b5cf6;
@@ -24,7 +25,6 @@
   --red-600: #dc2626;
 }
 
-/* Estilos generales */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
@@ -33,7 +33,6 @@ body {
   padding: 0;
 }
 
-/* Banner */
 .banner {
   width: 100%;
   background-color: var(--purple-600);
@@ -89,7 +88,6 @@ body {
   margin: 0;
 }
 
-/* Container principal */
 .container {
   max-width: 1200px;
   margin: 2rem auto;
@@ -99,7 +97,6 @@ body {
   padding: 1.5rem;
 }
 
-/* Encabezado de la tabla */
 .table-header {
   display: flex;
   justify-content: space-between;
@@ -126,7 +123,6 @@ body {
   margin: 0;
 }
 
-/* Barra de búsqueda */
 .search-container {
   position: relative;
 }
@@ -155,7 +151,6 @@ body {
   box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
 }
 
-/* Tabla */
 .table-container {
   overflow-x: auto;
   margin-bottom: 1rem;
@@ -213,7 +208,6 @@ tr:nth-child(even) {
   vertical-align: middle;
 }
 
-/* Botones de acción */
 .action-button {
   padding: 0.5rem;
   border: none;
@@ -221,7 +215,7 @@ tr:nth-child(even) {
   background: none;
   cursor: pointer;
   transition: background-color 0.2s;
-  display: inline-flex; /* Asegurar que el ícono esté centrado */
+  display: inline-flex; 
   justify-content: center;
   align-items: center;
 }
@@ -237,7 +231,7 @@ tr:nth-child(even) {
 
 .edit-button:hover {
   background-color: var(--blue-50);
-  box-shadow: 0 0 0 2px var(--blue-50); /* Efecto de borde */
+  box-shadow: 0 0 0 2px var(--blue-50);
 }
 
 .delete-button {
@@ -248,7 +242,6 @@ tr:nth-child(even) {
   background-color: var(--red-50);
 }
 
-/* Footer de la tabla */
 .table-footer {
   display: flex;
   justify-content: space-between;
@@ -271,7 +264,6 @@ tr:nth-child(even) {
   background-color: #ede9fe;
 }
 
-/* Paginación */
 .pagination {
   display: flex;
   align-items: center;
@@ -307,7 +299,6 @@ tr:nth-child(even) {
   color: var(--gray-600);
 }
 
-/* Modal styles */
 .modal {
   display: none;
   position: fixed;
@@ -375,7 +366,6 @@ tr:nth-child(even) {
   background-color: var(--gray-300);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .banner-content {
     padding: 0.75rem 1rem;
