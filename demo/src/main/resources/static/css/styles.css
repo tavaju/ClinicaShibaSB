@@ -1,6 +1,6 @@
 @font-face {
   font-family: "shiba-font";
-  src: url("resources/fonnts.com-New_Order_Semibold.otf") format("opentype");
+  src: url("/assets/fonts/fonnts.com-New_Order_Semibold.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
