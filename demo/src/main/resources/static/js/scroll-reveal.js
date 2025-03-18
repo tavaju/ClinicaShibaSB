@@ -27,14 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     };
 
-    // Immediately display the hero section and its children
+    // Immediately display the hero section with slide-up effect
     const heroSection = document.querySelector('.blog-hero');
     if (heroSection) {
-        heroSection.classList.add('visible');
-        const heroChildren = heroSection.querySelectorAll('.scroll-reveal');
-        heroChildren.forEach((child) => {
-            child.classList.add('visible');
-        });
+        heroSection.classList.add('slide-up');
+        setTimeout(() => {
+            heroSection.classList.add('visible');
+        }, 100); // Delay to trigger the transition
     }
 
     window.addEventListener('scroll', () => {
