@@ -24,9 +24,14 @@
   padding: 0 2rem;
   position: relative;
   text-align: center;
+  opacity: 1; /* Ensure hero section is visible */
+  transform: none; /* Ensure hero section is not transformed */
 }
 
-
+.blog-hero .scroll-reveal {
+  opacity: 1; /* Ensure hero children are visible */
+  transform: none; /* Ensure hero children are not transformed */
+}
 
 .blog-hero::before {
   width: 80px;
