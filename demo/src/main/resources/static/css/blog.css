@@ -113,13 +113,18 @@
 }
 
 .tag-datos-curiosos {
-  background: #EDE9FE; /* Light purple background */
+  background: rgba(237, 233, 254, 0.5); /* Light purple transparent background */
   color: #6D28D9; /* Dark purple text */
 }
 
 .tag-perros {
-  background: #FFF7E6; /* Light orange background */
+  background: rgba(255, 247, 230, 0.5); /* Light orange transparent background */
   color: #FFA500; /* Orange text */
+}
+
+.tag-gatos {
+  background: rgba(173, 216, 230, 0.5); /* Light blue transparent background */
+  color: #0000FF; /* Blue text */
 }
 
 /* Imagen principal del artículo */
