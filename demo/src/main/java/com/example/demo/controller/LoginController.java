@@ -12,9 +12,16 @@ import com.example.demo.service.ClienteService;
 
 @Controller
 public class LoginController {
+    
 
     @Autowired
     private ClienteService clienteService;
+
+    @GetMapping("/blog")
+    public String blog() {
+        return "blog";
+    }
+
 
     // Mapea la URL /specialties a la vista specialties.html
     @GetMapping("/specialties")
