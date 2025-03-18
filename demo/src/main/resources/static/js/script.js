@@ -220,7 +220,6 @@ function handleSubmit(event) {
     nombre: document.getElementById("nombre").value,
     email: document.getElementById("email").value,
     telefono: document.getElementById("telefono").value,
-    tipoMascota: document.getElementById("tipoMascota").value,
     mensaje: document.getElementById("mensaje").value,
   };
 
@@ -243,6 +242,7 @@ function showStatus(type, message) {
   }, 5000);
 }
 
+// Event listener para el formulario 
 const statsRef = document.querySelector(".stats");
 let animated = false;
 
@@ -262,6 +262,7 @@ const animateNumber = (element, target, duration) => {
     }
   };
 
+  // Animación de los números
   requestAnimationFrame(updateNumber);
 };
 
