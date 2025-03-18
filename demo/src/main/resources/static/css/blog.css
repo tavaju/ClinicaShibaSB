@@ -133,8 +133,9 @@
 
 /* Contenido del artículo */
 .article-content {
+  flex: 3;
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0;
   background: white;
   padding: 2rem;
   border-radius: 12px;
@@ -158,12 +159,15 @@
 /* Sección del autor */
 .author-section {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
   background: #F3E8FF;
   padding: 1.5rem;
   border-radius: 12px;
   margin-top: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 2rem auto;
 }
 
 .author-image {
@@ -186,12 +190,14 @@
 
 /* Sección de contenido relacionado */
 .related-content {
-  max-width: 900px;
-  margin: 2rem auto;
+  flex: 1;
+  max-width: 300px;
+  margin: 0;
 }
 
 .related-articles {
   display: flex;
+  flex-direction: column;
   gap: 1.5rem;
 }
 
@@ -258,6 +264,20 @@
 
 .subscribe-btn:hover {
   background: #6D28D9;
+}
+
+.blog-article {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.content-wrapper {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 
