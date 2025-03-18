@@ -27,6 +27,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     };
 
+    // Immediately display the hero section and its children
+    const heroSection = document.querySelector('.blog-hero');
+    if (heroSection) {
+        heroSection.classList.add('visible');
+        const heroChildren = heroSection.querySelectorAll('.scroll-reveal');
+        heroChildren.forEach((child) => {
+            child.classList.add('visible');
+        });
+    }
+
     window.addEventListener('scroll', () => {
         handleScrollAnimation();
     });
