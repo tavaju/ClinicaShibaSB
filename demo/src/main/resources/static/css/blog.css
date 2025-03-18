@@ -175,11 +175,22 @@
   margin: 2rem auto;
 }
 
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
 .author-image {
   width: 80px;
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.author-details {
+  display: flex;
+  flex-direction: column;
 }
 
 .author-details h4 {
@@ -245,10 +256,30 @@
 
 /* Estilo del newsletter */
 .newsletter {
-  background: #F3E8FF;
+  background: url("/assets/backgrounds/blog_background.svg") center/100% no-repeat;
   padding: 3rem 2rem;
   text-align: center;
   border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsletter-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.newsletter-image {
+  width: 150px;
+  height: auto;
+  border-radius: 12px;
+}
+
+.newsletter-text {
+  max-width: 600px;
+  text-align: left;
 }
 
 .newsletter h3 {
