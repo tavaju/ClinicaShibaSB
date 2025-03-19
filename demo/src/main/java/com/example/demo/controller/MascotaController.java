@@ -14,6 +14,7 @@ import com.example.demo.model.Mascota;
 import com.example.demo.service.ClienteService;
 import com.example.demo.service.MascotaService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 // Controlador de Mascota
 @RequestMapping("/mascota")
@@ -121,5 +122,12 @@ public class MascotaController {
         }
         // Manejar el caso cuando la mascota no existe
         return "redirect:/mascota/edit?error=update-failed";
+    }
+
+    // Método para buscar mascotas por cualquier atributo
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String buscarMascotas(@RequestParam("query") String query, Model model) {
+        model.addAttribute("mascotas", mascotaService.searchByQuery(query));
+        return "mostrar_todas_mascotas";
     }
 }

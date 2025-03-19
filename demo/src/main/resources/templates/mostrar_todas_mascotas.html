@@ -22,18 +22,20 @@
     <!-- Contenido de la página -->
     <main class="container">
       <section class="table-header">
-        <article class="title-section">
-          <i data-lucide="users"></i>
-          <h1>Lista de Mascotas</h1>
-        </article>
+        <a href="/mascota/all" style="text-decoration: none;">
+          <article class="title-section" style="color: black;">
+            <i data-lucide="users"></i>
+            <h1>Lista de Mascotas</h1>
+          </article>
+        </a>
         <article class="search-section">
-          <div class="search-container">
-            <i data-lucide="search" class="search-icon"></i>
-            <input
-              type="text"
-              placeholder="Buscar mascota..."
-              class="search-input" />
-          </div>
+          <form action="/mascota/search" method="get">
+            <div class="search-container">
+              <i data-lucide="search" class="search-icon"></i>
+              <input type="text" name="query" placeholder="Buscar mascota..." class="search-input" required>
+              <!-- Remove the search button -->
+            </div>
+          </form>
         </article>
       </section>
 

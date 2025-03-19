@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,11 @@ public class MascotaServiceImpl  implements MascotaService {
     @Override
     public Collection<Mascota> findByClienteId(Long id) {
         return repo.findByClienteId(id);
+    }
+
+    @Override
+    public List<Mascota> searchByQuery(String query) {
+        return repo.searchByQuery(query);
     }
 
 
