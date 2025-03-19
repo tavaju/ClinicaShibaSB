@@ -28,13 +28,14 @@
           <a href="/mascota/add" class="add-button"> Agregar Mascota </a>
         </div>
         <div class="search-section">
-          <div class="search-container">
-            <i data-lucide="search" class="search-icon"></i>
-            <input
-              type="text"
-              placeholder="Buscar mascota..."
-              class="search-input" />
-          </div>
+          <form action="/mascota/search" method="get">
+            <div class="search-container">
+              <i data-lucide="search" class="search-icon"></i>
+              <input type="text" name="query" placeholder="Buscar mascotas..." required class="search-input">
+              <!-- Remove the search button -->
+            </div>
+          </form>
+          <button id="reset-search" class="reset-button">Ver todas las mascotas</button>
         </div>
       </article>
 

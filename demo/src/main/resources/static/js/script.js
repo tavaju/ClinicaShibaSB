@@ -24,6 +24,35 @@ document.addEventListener("DOMContentLoaded", () => {
     element.classList.add("hidden");
     elementObserver.observe(element);
   });
+
+  // Handle search form submission
+  const searchForm = document.querySelector(".search-section form");
+  searchForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const query = searchForm.querySelector("input[name='query']").value;
+    const response = await fetch(`/mascota/search?query=${query}`);
+    const mascotas = await response.json();
+    updateMascotasTable(mascotas);
+  });
+
+  // Function to update the mascotas table
+  function updateMascotasTable(mascotas) {
+    const tbody = document.querySelector(".table-container tbody");
+    tbody.innerHTML = "";
+    mascotas.forEach((mascota) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><a class="pet-link" href="/mascota/find?id=${mascota.id}">${mascota.nombre}</a></td>
+        <td>${mascota.edad}</td>
+        <td>${mascota.raza}</td>
+        <td>${mascota.peso}</td>
+        <td>${mascota.enfermedad}</td>
+        <td><img src="${mascota.foto}" alt="Foto de Mascota" width="100" height="100"></td>
+        <td><span class="status" style="color: ${mascota.estado ? 'green' : 'red'};">${mascota.estadoTexto}</span></td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
 });
 
 // Array de testimonios de prueba
