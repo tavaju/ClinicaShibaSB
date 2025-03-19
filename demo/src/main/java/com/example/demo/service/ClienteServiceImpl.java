@@ -30,11 +30,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    @Transactional // Añadir esta anotación específicamente para el método de eliminar
     public void deleteById(Long id) {
-        // Eliminar las mascotas asociadas al cliente
-        mascotaRepository.deleteAll(mascotaRepository.findByClienteId(id));
-        // Luego eliminar el cliente
         repo.deleteById(id);
     }
 

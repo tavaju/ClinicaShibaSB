@@ -5,14 +5,12 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import jakarta.persistence.ManyToMany;
-import java.util.List;
+
 
 // POJO Mascota
 @Entity
@@ -55,9 +53,7 @@ public class Mascota {
     private boolean estado;
 
     // Relación muchos a uno con Cliente
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cc_cliente", nullable = true) // Puede ser nulo para crearla ANTES de asociarla a un cliente
-    @NotNull(message = "La mascota debe estar asociada a un cliente")
+    @ManyToOne
     private Cliente cliente;
 
 
