@@ -22,10 +22,11 @@
     <!-- Contenido de la página -->
     <section class="container">
       <article class="table-header">
-        <div class="title-section">
+        <div class="title-section" style="display: flex; align-items: center;">
           <i data-lucide="users"></i>
-          <h1>Lista de Mascotas</h1>
-          <a href="/mascota/add" class="add-button"> Agregar Mascota </a>
+
+          <a href="/mascota/edit" style="text-decoration: none;"><h1 style="margin: 1 10px 0 0;">Lista de Mascotas</h1>
+          <a href="/mascota/add" class="add-button" style="margin: 1rem;"> Agregar Mascota </a>
         </div>
         <div class="search-section">
           <form action="/mascota/search" method="get">
@@ -35,7 +36,6 @@
               <!-- Remove the search button -->
             </div>
           </form>
-          <button id="reset-search" class="reset-button">Ver todas las mascotas</button>
         </div>
       </article>
 
