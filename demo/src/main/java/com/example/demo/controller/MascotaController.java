@@ -76,7 +76,7 @@ public class MascotaController {
         if (cliente != null) {
             mascota.setCliente(cliente);
             mascotaService.add(mascota);
-            return "redirect:/mascota/all";
+            return "redirect:/mascota/edit";
         }
         // Manejar el caso cuando el cliente no existe
         return "redirect:/mascota/add?error=cliente-no-encontrado";
