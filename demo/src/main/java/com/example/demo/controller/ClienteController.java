@@ -94,7 +94,17 @@ public class ClienteController {
             @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
             Model model) {
 
-        // Verificar si se cambia la contraseña correctamente (verificar si la nueva contraseña y la confirmación coinciden)
+        // Retrieve the existing Cliente from the database
+        Cliente clienteExistente = clienteService.searchById(id);
+        if (clienteExistente == null) {
+            model.addAttribute("error", "El cliente no existe");
+            return "modificar_cliente";
+        }
+
+        // Preserve the existing Mascota relationships
+        cliente.setMascotas(clienteExistente.getMascotas());
+
+        // Handle password change logic
         if (Boolean.TRUE.equals(changePassword)) {
             if (newPassword == null || newPassword.isEmpty()) {
                 model.addAttribute("error", "La nueva contraseña no puede estar vacía");
@@ -106,17 +116,16 @@ public class ClienteController {
             }
             cliente.setContrasena(newPassword);
         } else {
-            // Mantener la contraseña existente
-            Cliente clienteExistente = clienteService.searchById(id);
+            // Maintain the existing password
             cliente.setContrasena(clienteExistente.getContrasena());
         }
 
+        // Update the Cliente entity
         clienteService.update(cliente);
         return "redirect:/cliente/all";
     }
 
-
-    // Metodo GET para mostrar las mascotas de un cliente elegido por su id 
+    // Metodo GET para mostrar las mascotas de un cliente elegido por su id
     @GetMapping("/mascotas/{id}")
     public String mostrarClienteMascotas(@PathVariable Long id, Model model) {
         model.addAttribute("mascotas", mascotaService.findByClienteId(id));

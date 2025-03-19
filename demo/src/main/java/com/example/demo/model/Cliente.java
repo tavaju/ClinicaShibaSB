@@ -48,6 +48,7 @@ public class Cliente {
     // Relación uno a muchos con Mascota
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mascota> mascotas = new ArrayList<>();
+    
 
     public Cliente() {
     }

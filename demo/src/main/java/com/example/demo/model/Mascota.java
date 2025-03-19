@@ -5,14 +5,12 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import jakarta.persistence.ManyToMany;
-import java.util.List;
+
 
 // POJO Mascota
 @Entity
@@ -55,18 +53,9 @@ public class Mascota {
     private boolean estado;
 
     // Relación muchos a uno con Cliente
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cc_cliente", nullable = true) // Puede ser nulo para crearla ANTES de asociarla a un cliente
-    @NotNull(message = "La mascota debe estar asociada a un cliente")
+    @ManyToOne
     private Cliente cliente;
 
-    /* 
-    // Relación muchos a muchos con Veterinario
-    // Se crea una tabla intermedia llamada "mascota_veterinario" con las claves foráneas id_mascota e id_veterinario
-    @ManyToMany
-    @JoinTable(name = "mascota_veterinario", joinColumns = @JoinColumn(name = "id_mascota"), inverseJoinColumns = @JoinColumn(name = "id_veterinario"))
-    private List<Veterinario> veterinarios;
-    */
 
     public Cliente getCliente() {
         return cliente;
@@ -76,16 +65,6 @@ public class Mascota {
         this.cliente = cliente;
     }
 
-    /*
-    public List<Veterinario> getVeterinarios() {
-        return veterinarios;
-    }
-
-    public void setVeterinarios(List<Veterinario> veterinarios) {
-        this.veterinarios = veterinarios;
-    }
-
-    */ 
 
     public Mascota() {
         this.estado = true; // Por defecto, las mascotas se crean activas
