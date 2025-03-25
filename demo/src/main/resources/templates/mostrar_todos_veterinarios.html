@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todos Nuestros Veterinarios</title>
+    <link rel="stylesheet" href="/css/client_view.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <header class="banner">
+      <div class="banner-content">
+        <div class="nav-left">
+          <img src="/assets/images/logo_shiba.png" alt="Logo" class="logo" />
+          <span class="brand-name">Clínica Shiba</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenido de modificación de la página -->
+    <section class="container">
+      <article class="table-header">
+        <div class="title-section">
+          <i data-lucide="users"></i>
+          <h1>Lista de Veterinarios</h1>
+          <a href="/veterinario/add" class="add-button"> Agregar Veterinario </a>
+        </div>
+        <div class="search-section">
+          <div class="search-container">
+            <i data-lucide="search" class="search-icon"></i>
+            <input
+              type="text"
+              placeholder="Buscar veterinario..."
+              class="search-input" />
+          </div>
+        </div>
+      </article>
+
+      <article class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Especialidad</th>
+              <th>Cédula</th>
+              <th>Número de Atenciones</th>
+              <th class="actions-header">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="veterinario : ${veterinarios}" th:attr="data-id=${veterinario.id}">
+              <td>
+                <a
+                  class="pet-link"
+                  th:href="@{/veterinario/find/{id}(id=${veterinario.id})}"
+                  th:text="${veterinario.nombre}">
+                </a>
+              </td>
+              <td th:text="${veterinario.especialidad}"></td>
+              <td th:text="${veterinario.cedula}"></td>
+              <td th:text="${veterinario.numAtenciones}"></td>
+              <td class="actions-cell">
+                <a
+                  th:href="@{/veterinario/update/{id}(id=${veterinario.id})}"
+                  class="action-button edit-button">
+                  <i data-lucide="edit-2"></i>
+                </a>
+                <button class="action-button delete-button">
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="table-footer">
+        <div class="pagination">
+          <button class="pagination-button" disabled>
+            <i data-lucide="chevron-left"></i>
+          </button>
+          <span class="pagination-info">Página 1 de 1</span>
+          <button class="pagination-button" disabled>
+            <i data-lucide="chevron-right"></i>
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <!-- Modal de confirmación -->
+    <section id="deleteModal" class="modal">
+      <article class="modal-content">
+        <h2>Confirmar eliminación</h2>
+        <p id="deleteMessage"></p>
+        <div class="modal-buttons">
+          <button id="confirmDelete" class="confirm-button">Aceptar</button>
+          <button id="cancelDelete" class="cancel-button">Cancelar</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- Modal de modificación -->
+    <section id="editModal" class="modal">
+      <article class="modal-content">
+        <h2>Modificar Veterinario</h2>
+        <form id="editForm" method="get">
+          <div class="modal-buttons">
+            <button type="submit" class="confirm-button">Aceptar</button>
+            <button type="button" id="cancelEdit" class="cancel-button">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </article>
+    </section>
+
+    <script>
+      // Funcionalidad extra modales de confirmación y eliminación. Como por ahora son únicos para veterinario, se dejan en el HTML
+      lucide.createIcons();
+
+      // Funcionalidad del modal de eliminación
+      const deleteModal = document.getElementById("deleteModal");
+      const deleteMessage = document.getElementById("deleteMessage");
+      let currentId = null; // Cambiar a currentId para usar el ID del veterinario
+
+      function showDeleteModal(id, nombre) {
+        deleteMessage.textContent = `¿Está seguro que quiere eliminar al veterinario ${nombre}?`;
+        currentId = id; // Guardar el ID del veterinario seleccionado
+        deleteModal.style.display = "flex";
+      }
+
+      // Asignar eventos a los botones de eliminar
+      document.querySelectorAll(".delete-button").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          const row = e.target.closest("tr");
+          const id = row.getAttribute("data-id"); // Obtener el ID del veterinario desde el atributo data-id
+          const nombre = row.querySelector("td:nth-child(2)").textContent; // Obtener el nombre del veterinario
+          showDeleteModal(id, nombre);
+        });
+      });
+
+      // Manejar la confirmación de eliminación
+      document.getElementById("confirmDelete").addEventListener("click", () => {
+        window.location.href = `/veterinario/delete/${currentId}`; // Usar el ID del veterinario en la URL
+      });
+
+      // Manejar la cancelación de eliminación
+      document.getElementById("cancelDelete").addEventListener("click", () => {
+        deleteModal.style.display = "none";
+      });
+
+      // Cerrar el modal de eliminación si se hace clic fuera de él
+      window.addEventListener("click", (e) => {
+        if (e.target === deleteModal) {
+          deleteModal.style.display = "none";
+        }
+      });
+
+      // Funcionalidad de modificación
+      const editModal = document.getElementById("editModal");
+      const editForm = document.getElementById("editForm");
+      function showEditModal(id) {
+        editForm.action = `/veterinario/update/${id}`;
+        editModal.style.display = "flex";
+      }
+    </script>
+  </body>
+</html>

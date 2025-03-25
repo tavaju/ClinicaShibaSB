@@ -57,8 +57,7 @@ public class Veterinario {
 
     // Relación muchos a uno con Administrador
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_administrador", nullable = false)
-    @NotNull(message = "El veterinario debe estar asociado a un administrador")
+    @JoinColumn(name = "id_administrador", nullable = true) // Allow null values
     private Administrador administrador;
 
     // Relación muchos a muchos con Mascota por medio de la tabla tratamiento

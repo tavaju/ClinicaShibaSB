@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información del Veterinario</title>
+    <link rel="stylesheet" href="/css/mostrar_veterinario.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <header class="banner">
+        <div class="banner-content">
+            <div class="nav-left">
+                <img src="/assets/images/logo_shiba.png" alt="Logo" class="logo" />
+                <span class="brand-name">Clínica Shiba</span>
+            </div>
+            <!--
+            <a href="/logout" class="logout-button">
+                <i data-lucide="log-out"></i>
+                Cerrar Sesión
+            </a>
+        -->
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="veterinarian-section">
+            <div class="section-header">
+                <div class="title-section">
+                    <i data-lucide="user"></i>
+                    <h1>Información del Veterinario</h1>
+                </div>
+            </div>
+
+            <div class="veterinarian-card">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i data-lucide="id-card"></i>
+                            <span>Cédula</span>
+                        </div>
+                        <p th:text="${veterinario.cedula}" class="info-value"></p>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i data-lucide="user"></i>
+                            <span>Nombre</span>
+                        </div>
+                        <p th:text="${veterinario.nombre}" class="info-value"></p>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i data-lucide="mail"></i>
+                            <span>Especialidad</span>
+                        </div>
+                        <p th:text="${veterinario.especialidad}" class="info-value"></p>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i data-lucide="activity"></i>
+                            <span>Número de Atenciones</span>
+                        </div>
+                        <p th:text="${veterinario.numAtenciones}" class="info-value"></p>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i data-lucide="image"></i>
+                            <span>Foto</span>
+                        </div>
+                        <div class="info-value" style="text-align: center;">
+                            <img th:src="${veterinario.foto}" alt="Foto del Veterinario" class="portrait-photo" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--
+        <div class="pets-section">
+            <div class="section-header">
+                <div class="title-section">
+                    <i data-lucide="paw-print"></i>
+                    <h2>Mascotas Asignadas</h2>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Especialidad</th>
+                            <th>Cédula</th>
+                            <th>Número de Atenciones</th>
+                            <th>Foto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="mascota : ${mascotas}">
+                            <td th:text="${mascota.nombre}"></td>
+                            <td th:text="${mascota.especialidad}"></td>
+                            <td th:text="${mascota.cedula}"></td>
+                            <td th:text="${mascota.numAtenciones}"></td>
+                            <td class="pet-image">
+                                <img th:src="${mascota.foto}" alt="Foto de Mascota" />
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(mascotas)}">
+                            <td colspan="5" class="empty-message">
+                                <div class="empty-content">
+                                    <i data-lucide="alert-circle"></i>
+                                    <p>No hay mascotas asignadas</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        -->
+        </div>
+
+    </div>
+
+    <script>
+        // Inicializar los íconos de Lucide
+        lucide.createIcons();
+    </script>
+</body>
+</html>
