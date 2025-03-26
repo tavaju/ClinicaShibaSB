@@ -89,6 +89,7 @@ public class VeterinarioController {
             @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
             @RequestParam(value = "especialidad", required = false) String especialidad,
             @RequestParam(value = "foto", required = false) String foto,
+            @RequestParam(value = "numAtenciones", required = false, defaultValue = "0") int numAtenciones,
             Model model) {
 
         // Retrieve the existing Veterinario from the database
@@ -119,9 +120,10 @@ public class VeterinarioController {
             veterinario.setContrasena(veterinarioExistente.getContrasena());
         }
 
-        // Update the new fields
+        // Update the fields
         veterinario.setEspecialidad(especialidad);
         veterinario.setFoto(foto);
+        veterinario.setNumAtenciones(numAtenciones);
 
         // Update the Veterinario entity
         veterinarioService.update(veterinario);
