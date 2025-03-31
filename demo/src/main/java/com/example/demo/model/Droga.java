@@ -38,7 +38,7 @@ public class Droga {
     // Atributo unidadesDisponibles: obligatorio, número positivo o cero
     @NotNull(message = "Las unidades disponibles son obligatorias")
     @PositiveOrZero(message = "Las unidades disponibles deben ser un número positivo o cero")
-    private float unidadesDisponibles;
+    private int unidadesDisponibles;
 
     // Atributo unidadesVendidas: obligatorio, número positivo o cero
     @NotNull(message = "Las unidades vendidas son obligatorias")
@@ -53,7 +53,7 @@ public class Droga {
     public Droga() {
     }
 
-    public Droga(String nombre, float precioCompra, float precioVenta, float unidadesDisponibles, int unidadesVendidas, Tratamiento tratamiento) {
+    public Droga(String nombre, float precioCompra, float precioVenta, int unidadesDisponibles, int unidadesVendidas, Tratamiento tratamiento) {
         this.nombre = nombre;
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
@@ -62,7 +62,7 @@ public class Droga {
         this.tratamiento = tratamiento;
     }
 
-    public Droga(Long id, String nombre,float precioCompra,float precioVenta, float unidadesDisponibles, int unidadesVendidas,Tratamiento tratamiento) {
+    public Droga(Long id, String nombre,float precioCompra,float precioVenta, int unidadesDisponibles, int unidadesVendidas,Tratamiento tratamiento) {
         this.id = id;
         this.nombre = nombre;
         this.precioCompra = precioCompra;
@@ -108,7 +108,7 @@ public class Droga {
         return unidadesDisponibles;
     }
 
-    public void setUnidadesDisponibles(float unidadesDisponibles) {
+    public void setUnidadesDisponibles(int unidadesDisponibles) {
         this.unidadesDisponibles = unidadesDisponibles;
     }
 
