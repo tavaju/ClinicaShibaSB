@@ -36,6 +36,7 @@ public class ClienteController {
         return clienteService.searchAll();
     }
 
+    // http://localhost:8090/cliente/find/1
     @GetMapping("/find/{id}")
     @Operation(summary = "Buscar cliente por ID")
     public Cliente mostrarInfoCliente(@PathVariable("id") Long id) {
@@ -72,6 +73,7 @@ public class ClienteController {
             // model.addAttribute("error", "Las contraseñas no coinciden");
             // Si las contraseñas no coinciden, redirigir al formulario de creación
             // return "crear_cliente";
+            throw new IllegalArgumentException("Las contraseñas no coinciden");
         }
         cliente.setId(null);
         clienteService.add(cliente);
@@ -81,9 +83,9 @@ public class ClienteController {
     // Metodo GET para eliminar un cliente elegido
     @GetMapping("/delete/{id}")
     @Operation(summary = "Eliminar cliente por ID")
-    public String eliminarCliente(@PathVariable("id") Long id) {
+    public void eliminarCliente(@PathVariable("id") Long id) {
         clienteService.deleteById(id);
-        return "redirect:/cliente/all";
+        //return "redirect:/cliente/all";
     }
 
     // http://localhost:8090/cliente/update/1
@@ -114,11 +116,8 @@ public class ClienteController {
             //throw new NotFoundException("Cliente con ID " + id + " no encontrado");
         }
         else{
-
-        // Mantener la lista de mascotas existente
         cliente.setMascotas(clienteExistente.getMascotas());
 
-        // Manejar el cambio de contraseña
         if (Boolean.TRUE.equals(changePassword)) {
             if (newPassword == null || newPassword.isEmpty()) {
                 throw new IllegalArgumentException("La nueva contraseña no puede estar vacía");
@@ -128,11 +127,9 @@ public class ClienteController {
             }
             cliente.setContrasena(newPassword);
         } else {
-            // Mantener la contraseña existente
             cliente.setContrasena(clienteExistente.getContrasena());
         }
 
-        // Actualizar el cliente
         clienteService.update(cliente);
         }
     }
