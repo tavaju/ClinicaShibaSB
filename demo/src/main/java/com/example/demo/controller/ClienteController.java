@@ -81,7 +81,7 @@ public class ClienteController {
     }
 
     // Metodo GET para eliminar un cliente elegido
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @Operation(summary = "Eliminar cliente por ID")
     public void eliminarCliente(@PathVariable("id") Long id) {
         clienteService.deleteById(id);

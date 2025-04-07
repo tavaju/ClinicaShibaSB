@@ -127,27 +127,6 @@ public class MascotaController {
     public void updateMascota(@RequestBody Mascota mascota,
             @RequestParam("idCliente") Long idCliente) {
 
-        /*
-         * // Buscar la mascota por ID
-         * Mascota mascotaExistente = mascotaService.SearchById(id);
-         * if (mascotaExistente != null) {
-         * Cliente cliente = clienteService.searchById(idCliente); // Buscar cliente por
-         * ID
-         * if (cliente != null) {
-         * // Mantener el ID original
-         * mascota.setId(id);
-         * mascota.setCliente(cliente);
-         * 
-         * // Actualizar la mascota
-         * mascotaService.update(mascota);
-         * return "redirect:/mascota/edit";
-         * }
-         * }
-         * // Manejar el caso cuando la mascota no existe
-         * return "redirect:/mascota/edit?error=update-failed";
-         * 
-         */
-
         Cliente cliente = clienteService.searchById(idCliente); // Buscar cliente por ID
         if (cliente != null) {
             // Mantener el ID original

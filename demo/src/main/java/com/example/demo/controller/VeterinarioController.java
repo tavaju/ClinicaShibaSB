@@ -71,7 +71,7 @@ public class VeterinarioController {
     }
 
     // Metodo GET para eliminar un veterinario elegido
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @Operation(summary = "Eliminar veterinario por ID")
     public void eliminarVeterinario(@PathVariable("id") Long id) {
         veterinarioService.deleteById(id);
