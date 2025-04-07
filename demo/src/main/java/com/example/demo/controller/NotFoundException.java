@@ -5,8 +5,8 @@ package com.example.demo.controller;
 public class NotFoundException extends RuntimeException {
     private Long id;
 
-    public NotFoundException(Long id) {
-        this.id = id;
+    public NotFoundException(Long identificacion) {
+        this.id = identificacion;
     }
 
     public Long getId() {

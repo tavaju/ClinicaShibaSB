@@ -17,4 +17,6 @@ public interface ClienteService {
     public void add(Cliente cliente);
 
     public Cliente searchByEmail(String email);
+
+    Cliente findByMascotaId(Long mascotaId);
 }

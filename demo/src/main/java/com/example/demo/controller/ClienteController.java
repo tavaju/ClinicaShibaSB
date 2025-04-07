@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,11 +9,15 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.service.ClienteService;
 import com.example.demo.service.MascotaService;
+
+import io.swagger.v3.oas.annotations.Operation;
+
 import com.example.demo.model.Cliente;
 
 // Controlador de Cliente 
 @RequestMapping("/cliente")
-@Controller
+@RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class ClienteController {
 
     // Inyeccion de dependencias de ClienteService y MascotaService
@@ -23,27 +29,32 @@ public class ClienteController {
 
     // http://localhost:8090/cliente/all
     @GetMapping("/all")
-    public String mostrarClientes(Model model) {
-        model.addAttribute("clientes", clienteService.searchAll());
-        return "mostrar_todos_clientes";
+    @Operation(summary = "Mostrar todos los clientes")
+    public List<Cliente> mostrarClientes() {
+        //model.addAttribute("clientes", clienteService.searchAll());
+        //return "mostrar_todos_clientes";
+        return clienteService.searchAll();
     }
 
-    // http://localhost:8090/cliente/find/1
     @GetMapping("/find/{id}")
-    public String mostrarInfoCliente(@PathVariable("id") Long id, Model model) {
-        Cliente cliente = clienteService.searchById(id);
-        if (cliente != null) {
-            model.addAttribute("cliente", cliente);
-            model.addAttribute("mascotas", mascotaService.findByClienteId(id));
-        } else {
-            // Redirigir a la pantalla de inicio de sesión con un mensaje de error
-            return "redirect:/login?error=notfound";
-        }
-        return "mostrar_cliente";
+    @Operation(summary = "Buscar cliente por ID")
+    public Cliente mostrarInfoCliente(@PathVariable("id") Long id) {
+        return clienteService.searchById(id);
+
+    }
+
+    // http://localhost:8090/cliente/mascota/1
+    // Este método busca un cliente por el ID de la mascota
+    @GetMapping("/mascota/{id}")
+    @Operation(summary = "Buscar cliente por ID de mascota")
+    public Cliente mostrarClienteMascota(@PathVariable("id") Long id) {
+            return clienteService.findByMascotaId(id);
+  
     }
 
     // http://localhost:8090/cliente/add
     @GetMapping("/add")
+    @Operation(summary = "Mostrar formulario para agregar cliente")
     public String mostrarFormularioCrear(Model model) {
         Cliente cliente = new Cliente("", "", "", "", null);
         cliente.setContrasena("");
@@ -53,6 +64,7 @@ public class ClienteController {
 
     // Metodo POST para agregar un cliente
     @PostMapping("/agregar")
+    @Operation(summary = "Agregar cliente")
     public String agregarCliente(@ModelAttribute("cliente") Cliente cliente,
             @RequestParam("confirmPassword") String confirmPassword,
             Model model) {
@@ -68,6 +80,7 @@ public class ClienteController {
 
     // Metodo GET para eliminar un cliente elegido
     @GetMapping("/delete/{id}")
+    @Operation(summary = "Eliminar cliente por ID")
     public String eliminarCliente(@PathVariable("id") Long id) {
         clienteService.deleteById(id);
         return "redirect:/cliente/all";
@@ -75,6 +88,7 @@ public class ClienteController {
 
     // http://localhost:8090/cliente/update/1
     @GetMapping("/update/{id}")
+    @Operation(summary = "Mostrar formulario para actualizar cliente")
     public String mostrarFormularioUpdate(@PathVariable("id") Long id, Model model) {
         Cliente cliente = clienteService.searchById(id);
         if (cliente == null) {
@@ -86,6 +100,7 @@ public class ClienteController {
 
     // Metodo POST para actualizar un cliente
     @PostMapping("/update/{id}")
+    @Operation(summary = "Actualizar cliente")
     public String updateCliente(
             @PathVariable("id") Long id,
             @ModelAttribute("cliente") Cliente cliente,
@@ -127,6 +142,7 @@ public class ClienteController {
 
     // Metodo GET para mostrar las mascotas de un cliente elegido por su id
     @GetMapping("/mascotas/{id}")
+    @Operation(summary = "Mostrar mascotas de un cliente por ID")
     public String mostrarClienteMascotas(@PathVariable Long id, Model model) {
         model.addAttribute("mascotas", mascotaService.findByClienteId(id));
         return "mostrar_mascotas";

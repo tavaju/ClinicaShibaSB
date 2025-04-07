@@ -9,7 +9,7 @@ public interface MascotaService {
 
     public Mascota SearchById(Long id);
 
-    public Collection<Mascota> SearchAll();
+    public List<Mascota> SearchAll();
 
     public void deleteById(Long id);
 
