@@ -50,7 +50,7 @@ public class Droga {
     // Relación muchos a uno con Tratamiento
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    @JoinColumn(name = "id_tratamiento", nullable = false)
+    @JoinColumn(name = "id_tratamiento", nullable = true)
     private Tratamiento tratamiento;
 
     public Droga() {
