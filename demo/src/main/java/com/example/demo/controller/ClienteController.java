@@ -31,8 +31,8 @@ public class ClienteController {
     @GetMapping("/all")
     @Operation(summary = "Mostrar todos los clientes")
     public List<Cliente> mostrarClientes() {
-        //model.addAttribute("clientes", clienteService.searchAll());
-        //return "mostrar_todos_clientes";
+        // model.addAttribute("clientes", clienteService.searchAll());
+        // return "mostrar_todos_clientes";
         return clienteService.searchAll();
     }
 
@@ -48,8 +48,8 @@ public class ClienteController {
     @GetMapping("/mascota/{id}")
     @Operation(summary = "Buscar cliente por ID de mascota")
     public Cliente mostrarClienteMascota(@PathVariable("id") Long id) {
-            return clienteService.findByMascotaId(id);
-  
+        return clienteService.findByMascotaId(id);
+
     }
 
     // http://localhost:8090/cliente/add
@@ -63,19 +63,19 @@ public class ClienteController {
     }
 
     // Metodo POST para agregar un cliente
-    @PostMapping("/agregar")
+    @PostMapping("/add")
     @Operation(summary = "Agregar cliente")
-    public String agregarCliente(@ModelAttribute("cliente") Cliente cliente,
-            @RequestParam("confirmPassword") String confirmPassword,
-            Model model) {
+    public void agregarCliente(@RequestBody Cliente cliente, @RequestParam("confirmPassword") String confirmPassword) {
+
         // Verificar si la contraseña y la confirmación coinciden
         if (!cliente.getContrasena().equals(confirmPassword)) {
-            model.addAttribute("error", "Las contraseñas no coinciden");
-            return "crear_cliente";
+            // model.addAttribute("error", "Las contraseñas no coinciden");
+            // Si las contraseñas no coinciden, redirigir al formulario de creación
+            // return "crear_cliente";
         }
-
+        cliente.setId(null);
         clienteService.add(cliente);
-        return "redirect:/cliente/all";
+        // return "redirect:/cliente/all";
     }
 
     // Metodo GET para eliminar un cliente elegido
@@ -98,46 +98,43 @@ public class ClienteController {
         return "modificar_cliente";
     }
 
-    // Metodo POST para actualizar un cliente
-    @PostMapping("/update/{id}")
+    // http://localhost:8090/cliente/update/1
+    @PutMapping("/update/{id}")
     @Operation(summary = "Actualizar cliente")
-    public String updateCliente(
+    public void updateCliente(
             @PathVariable("id") Long id,
-            @ModelAttribute("cliente") Cliente cliente,
+            @RequestBody Cliente cliente,
             @RequestParam(value = "changePassword", required = false) Boolean changePassword,
             @RequestParam(value = "newPassword", required = false) String newPassword,
-            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
-            Model model) {
+            @RequestParam(value = "confirmPassword", required = false) String confirmPassword) {
 
-        // Retrieve the existing Cliente from the database
+        // Verificar si el cliente existe
         Cliente clienteExistente = clienteService.searchById(id);
         if (clienteExistente == null) {
-            model.addAttribute("error", "El cliente no existe");
-            return "modificar_cliente";
+            //throw new NotFoundException("Cliente con ID " + id + " no encontrado");
         }
+        else{
 
-        // Preserve the existing Mascota relationships
+        // Mantener la lista de mascotas existente
         cliente.setMascotas(clienteExistente.getMascotas());
 
-        // Handle password change logic
+        // Manejar el cambio de contraseña
         if (Boolean.TRUE.equals(changePassword)) {
             if (newPassword == null || newPassword.isEmpty()) {
-                model.addAttribute("error", "La nueva contraseña no puede estar vacía");
-                return "modificar_cliente";
+                throw new IllegalArgumentException("La nueva contraseña no puede estar vacía");
             }
             if (!newPassword.equals(confirmPassword)) {
-                model.addAttribute("error", "Las contraseñas no coinciden");
-                return "modificar_cliente";
+                throw new IllegalArgumentException("Las contraseñas no coinciden");
             }
             cliente.setContrasena(newPassword);
         } else {
-            // Maintain the existing password
+            // Mantener la contraseña existente
             cliente.setContrasena(clienteExistente.getContrasena());
         }
 
-        // Update the Cliente entity
+        // Actualizar el cliente
         clienteService.update(cliente);
-        return "redirect:/cliente/all";
+        }
     }
 
     // Metodo GET para mostrar las mascotas de un cliente elegido por su id
