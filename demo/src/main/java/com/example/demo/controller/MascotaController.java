@@ -80,25 +80,27 @@ public class MascotaController {
 
     // http://localhost:8090/mascota/add
     @GetMapping("/add")
-    @Operation(summary = "Mostrar formulario para crear una nueva mascota")
-    public String mostrarFormularioCrear(Model model) {
-        Mascota mascota = new Mascota("", "", 0, 0.0f, "", "", true);
-        model.addAttribute("mascota", mascota);
-        return "crear_mascota";
+    @Operation(summary = "Obtener información del cliente por cédula")
+    public ResponseEntity<Cliente> obtenerClientePorCedula(@RequestParam("cedulaCliente") String cedulaCliente) {
+        Cliente cliente = clienteService.searchByCedula(cedulaCliente);
+        if (cliente == null) {
+            //throw new NotFoundException("Cliente con cédula " + cedulaCliente + " no encontrado.");
+        }
+        return ResponseEntity.ok(cliente); // Retorna la información del cliente en formato JSON
     }
 
     // Metodo POST para agregar una mascota
     @PostMapping("/add")
     @Operation(summary = "Agregar una nueva mascota")
-    public void agregarMascota(@RequestBody Mascota mascota, @RequestParam("idCliente") Long idCliente) {
+    public void agregarMascota(@RequestBody Mascota mascota, @RequestParam("cedula") String cedulaCliente) {
         // Verificar si el cliente existe
-        Cliente cliente = clienteService.searchById(idCliente);
+        Cliente cliente = clienteService.searchByCedula(cedulaCliente);
         if (cliente == null) {
-            // Lanzar excepción si el cliente no existe
+            //throw new NotFoundException("Cliente con cédula " + cedulaCliente + " no encontrado.");
         }
 
         // Asociar la mascota con el cliente y guardar
-        mascota.setId(null); // Asegurarse de que el ID sea nulo para crear una nueva mascota
+        mascota.setId(null); 
         mascota.setCliente(cliente);
         mascotaService.add(mascota);
     }

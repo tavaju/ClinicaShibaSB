@@ -11,6 +11,7 @@ import com.example.demo.service.ClienteService;
 import com.example.demo.service.MascotaService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.ResponseEntity;
 
 import com.example.demo.model.Cliente;
 
@@ -140,5 +141,15 @@ public class ClienteController {
     public String mostrarClienteMascotas(@PathVariable Long id, Model model) {
         model.addAttribute("mascotas", mascotaService.findByClienteId(id));
         return "mostrar_mascotas";
+    }
+
+    @GetMapping("/findByCedula")
+    @Operation(summary = "Buscar cliente por cédula")
+    public ResponseEntity<Cliente> obtenerClientePorCedula(@RequestParam("cedula") String cedula) {
+        Cliente cliente = clienteService.searchByCedula(cedula);
+        if (cliente == null) {
+            //throw new NotFoundException("Cliente con cédula " + cedula + " no encontrado.");
+        }
+        return ResponseEntity.ok(cliente); // Retorna la información del cliente en formato JSON
     }
 }
