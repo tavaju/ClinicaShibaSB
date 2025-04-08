@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -121,23 +122,30 @@ public class MascotaController {
 
     }
 
-    // Metodo POST para actualizar una mascota
-    @PostMapping("update/{id}")
-    @Operation(summary = "Actualizar una mascota")
-    public void updateMascota(@RequestBody Mascota mascota,
-            @RequestParam("idCliente") Long idCliente) {
 
-        Cliente cliente = clienteService.searchById(idCliente); // Buscar cliente por ID
-        if (cliente != null) {
-            // Mantener el ID original
-            // mascota.setId(id);
-            mascota.setCliente(cliente);
-
-            // Actualizar la mascota
-            mascotaService.update(mascota);
-        }
-
+    @PutMapping("/update/{id}")
+@Operation(summary = "Actualizar una mascota")
+public ResponseEntity<Mascota> updateMascota(@PathVariable("id") Long id, @RequestBody Mascota mascota) {
+    Mascota existingMascota = mascotaService.SearchById(id);
+    if (existingMascota == null) {
+        return ResponseEntity.notFound().build();  // Si no se encuentra la mascota
     }
+
+    // Actualiza los atributos de la mascota con los nuevos datos
+    existingMascota.setNombre(mascota.getNombre());
+    existingMascota.setRaza(mascota.getRaza());
+    existingMascota.setEdad(mascota.getEdad());
+    existingMascota.setPeso(mascota.getPeso());
+    existingMascota.setEnfermedad(mascota.getEnfermedad());
+    existingMascota.setFoto(mascota.getFoto());
+    existingMascota.setEstado(mascota.isEstado());
+
+    // Guarda la mascota actualizada
+    mascotaService.update(existingMascota);
+
+    return ResponseEntity.ok(existingMascota);  // Retorna la mascota actualizada
+}
+
 
     // Método para buscar mascotas por cualquier atributo
     @RequestMapping(value = "/search", method = RequestMethod.GET)

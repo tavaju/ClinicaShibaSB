@@ -56,7 +56,6 @@ public class Mascota {
     private boolean estado;
 
     // Relación muchos a uno con Cliente
-    @JsonIgnore
     @ManyToOne
     private Cliente cliente;
 
