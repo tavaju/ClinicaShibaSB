@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -47,7 +49,8 @@ public class Droga {
 
     // Relación muchos a uno con Tratamiento
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_tratamiento", nullable = false)
+    @JsonIgnore
+    @JoinColumn(name = "id_tratamiento", nullable = true)
     private Tratamiento tratamiento;
 
     public Droga() {

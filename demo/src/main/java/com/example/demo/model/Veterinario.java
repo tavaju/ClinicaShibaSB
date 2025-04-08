@@ -3,6 +3,8 @@ package com.example.demo.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -57,16 +59,19 @@ public class Veterinario {
 
     // Relación muchos a uno con Administrador
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "id_administrador", nullable = true) // Allow null values
     private Administrador administrador;
 
     // Relación muchos a muchos con Mascota por medio de la tabla tratamiento
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name = "tratamiento", joinColumns = @JoinColumn(name = "id_veterinario"), inverseJoinColumns = @JoinColumn(name = "id_mascota"))
     private List<Mascota> mascotas;
 
     // Relación uno a muchos con Tratamiento
     @OneToMany(mappedBy = "veterinario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Tratamiento> tratamientos = new ArrayList<>();
 
     public Veterinario() {

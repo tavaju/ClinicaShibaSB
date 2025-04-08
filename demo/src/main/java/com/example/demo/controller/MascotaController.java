@@ -1,24 +1,35 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Cliente;
 import com.example.demo.model.Mascota;
 import com.example.demo.service.ClienteService;
 import com.example.demo.service.MascotaService;
+
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 
 // Controlador de Mascota
 @RequestMapping("/mascota")
-@Controller
+@RestController
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class MascotaController {
 
     // Inyeccion de dependencias de MascotaService y ClienteService
@@ -31,37 +42,44 @@ public class MascotaController {
     // http://localhost:8090/mascota/all
     // Lista todas las mascotas sin poder editarlas
     @GetMapping("/all")
-    public String mostrarMascotas(Model model) {
-        model.addAttribute("mascotas", mascotaService.SearchAll());
-        return "mostrar_todas_mascotas";
+    @Operation(summary = "Mostrar todas las mascotas")
+    public List<Mascota> mostrarMascotas(Model model) {
+        // model.addAttribute("mascotas", mascotaService.SearchAll());
+        // return "mostrar_todas_mascotas";
+        return mascotaService.SearchAll();
 
     }
 
     // http://localhost:8090/mascota/edit
     // Lista todas las mascotas con la posibilidad de editarlas
     @GetMapping("/edit")
-    public String mostrarMascotas2(Model model) {
-        model.addAttribute("mascotas", mascotaService.SearchAll());
-        return "CRUD_mascotas";
+    @Operation(summary = "Mostrar todas las mascotas para editar")
+    public List<Mascota> mostrarMascotas2(Model model) {
+        // model.addAttribute("mascotas", mascotaService.SearchAll());
+        // return "CRUD_mascotas";
+        return mascotaService.SearchAll();
 
     }
 
     // http://localhost:8090/mascota/find?id=1
     @GetMapping("/find")
-    public String mostrarInfoMascota(Model model, @RequestParam("id") Long identificacion) {
+    @Operation(summary = "Buscar mascota por ID")
+    public Mascota mostrarInfoMascota(@RequestParam("id") Long identificacion) {
+
         Mascota mascota = mascotaService.SearchById(identificacion);
+
         // Si la mascota existe, mostrar la información
         if (mascota != null) {
-            model.addAttribute("mascota", mascota);
-            model.addAttribute("cliente", mascota.getCliente());
-            return "mostrar_mascota";
+            return mascota;
         }
         // Si la mascota no existe, lanzar la excepción creada
         throw new NotFoundException(identificacion);
+
     }
 
     // http://localhost:8090/mascota/add
     @GetMapping("/add")
+    @Operation(summary = "Mostrar formulario para crear una nueva mascota")
     public String mostrarFormularioCrear(Model model) {
         Mascota mascota = new Mascota("", "", 0, 0.0f, "", "", true);
         model.addAttribute("mascota", mascota);
@@ -69,31 +87,34 @@ public class MascotaController {
     }
 
     // Metodo POST para agregar una mascota
-    @PostMapping("/agregar")
-    public String agregarMascota(@ModelAttribute("mascota") Mascota mascota,
-            @RequestParam("cedulaCliente") String cedulaCliente) {
-        Cliente cliente = clienteService.searchByCedula(cedulaCliente);
-        // Si el cliente existe, agregar la mascota
-        if (cliente != null) {
-            mascota.setCliente(cliente);
-            mascotaService.add(mascota);
-            return "redirect:/mascota/edit";
+    @PostMapping("/add")
+    @Operation(summary = "Agregar una nueva mascota")
+    public void agregarMascota(@RequestBody Mascota mascota, @RequestParam("idCliente") Long idCliente) {
+        // Verificar si el cliente existe
+        Cliente cliente = clienteService.searchById(idCliente);
+        if (cliente == null) {
+            // Lanzar excepción si el cliente no existe
         }
-        // Manejar el caso cuando el cliente no existe
-        return "redirect:/mascota/add?error=cliente-no-encontrado";
+
+        // Asociar la mascota con el cliente y guardar
+        mascota.setId(null); // Asegurarse de que el ID sea nulo para crear una nueva mascota
+        mascota.setCliente(cliente);
+        mascotaService.add(mascota);
     }
 
     // Metodo GET para eliminar una mascota elegida
     // No se utiliza ya que una mascota no se elimina directamente, sino que se
     // desactiva
-    @GetMapping("/delete/{id}")
-    public String eliminarMascota(@PathVariable("id") Long id) {
+    @DeleteMapping("/delete/{id}")
+    @Operation(summary = "Eliminar una mascota por ID")
+    public void eliminarMascota(@PathVariable("id") Long id) {
         mascotaService.deleteById(id);
-        return "redirect:/mascota/edit";
+        // return "redirect:/mascota/edit";
     }
 
     // http://localhost:8090/mascota/update/1
     @GetMapping("/update/{id}")
+    @Operation(summary = "Mostrar formulario para actualizar una mascota")
     public String mostrarFormularioUpdate(@PathVariable("id") Long identificacion, Model model) {
         model.addAttribute("mascota", mascotaService.SearchById(identificacion));
         return "modificar_mascota";
@@ -101,27 +122,21 @@ public class MascotaController {
     }
 
     // Metodo POST para actualizar una mascota
-    @PostMapping("/update/{id}")
-    public String updateMascota(@PathVariable("id") Long id,
-            @ModelAttribute Mascota mascota,
+    @PostMapping("update/{id}")
+    @Operation(summary = "Actualizar una mascota")
+    public void updateMascota(@RequestBody Mascota mascota,
             @RequestParam("idCliente") Long idCliente) {
 
-        // Buscar la mascota por ID
-        Mascota mascotaExistente = mascotaService.SearchById(id);
-        if (mascotaExistente != null) {
-            Cliente cliente = clienteService.searchById(idCliente); // Buscar cliente por ID
-            if (cliente != null) {
-                // Mantener el ID original
-                mascota.setId(id);
-                mascota.setCliente(cliente);
+        Cliente cliente = clienteService.searchById(idCliente); // Buscar cliente por ID
+        if (cliente != null) {
+            // Mantener el ID original
+            // mascota.setId(id);
+            mascota.setCliente(cliente);
 
-                // Actualizar la mascota
-                mascotaService.update(mascota);
-                return "redirect:/mascota/edit";
-            }
+            // Actualizar la mascota
+            mascotaService.update(mascota);
         }
-        // Manejar el caso cuando la mascota no existe
-        return "redirect:/mascota/edit?error=update-failed";
+
     }
 
     // Método para buscar mascotas por cualquier atributo

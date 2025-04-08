@@ -53,4 +53,9 @@ public class ClienteServiceImpl implements ClienteService {
     public Cliente searchById(Long id) {
         return repo.findById(id).orElse(null); // Buscar cliente por ID
     }
+
+    @Override
+    public Cliente findByMascotaId(Long mascotaId) {
+        return repo.findByMascotas_Id(mascotaId);
+    }
 }

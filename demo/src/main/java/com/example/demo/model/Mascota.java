@@ -1,8 +1,11 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -11,13 +14,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-
 // POJO Mascota
 @Entity
 public class Mascota {
     // Atributo id: clave primaria autogenerada
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     // Atributo nombre: obligatorio, máximo 50 caracteres
@@ -53,9 +56,9 @@ public class Mascota {
     private boolean estado;
 
     // Relación muchos a uno con Cliente
+    @JsonIgnore
     @ManyToOne
     private Cliente cliente;
-
 
     public Cliente getCliente() {
         return cliente;
@@ -64,7 +67,6 @@ public class Mascota {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-
 
     public Mascota() {
         this.estado = true; // Por defecto, las mascotas se crean activas
