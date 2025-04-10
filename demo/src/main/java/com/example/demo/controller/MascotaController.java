@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,10 +161,26 @@ public ResponseEntity<Mascota> updateMascota(@PathVariable("id") Long id, @Reque
 }
 
 
+
+
     // Método para buscar mascotas por cualquier atributo
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String buscarMascotas(@RequestParam("query") String query, Model model) {
         model.addAttribute("mascotas", mascotaService.searchByQuery(query));
         return "mostrar_todas_mascotas";
     }
+
+
+    @GetMapping("/findByClientId")
+    @Operation(summary = "Buscar mascotas por ID de cliente")
+    public ResponseEntity<List<Mascota>> obtenerMascotasPorClienteId(@RequestParam("clientId") Long clientId) {
+        List<Mascota> mascotas = mascotaService.findByClienteId(clientId);
+        if (mascotas == null || mascotas.isEmpty()) {
+            return ResponseEntity.notFound().build(); // No se encontraron mascotas
+        }
+        return ResponseEntity.ok(mascotas); // Retorna la lista de mascotas
+    }
+
+
+    
 }

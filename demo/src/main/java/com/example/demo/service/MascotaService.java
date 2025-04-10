@@ -17,8 +17,8 @@ public interface MascotaService {
 
     public void add(Mascota mascota);
 
-    public Collection<Mascota> findByClienteId(Long id);
-
+    public List<Mascota> findByClienteId(Long id);
+    
     // Método para buscar mascotas por cualquier atributo
     public List<Mascota> searchByQuery(String query);
     
