@@ -78,6 +78,7 @@ public class ClienteController {
         }
         cliente.setId(null);
         clienteService.add(cliente);
+
         // return "redirect:/cliente/all";
     }
 

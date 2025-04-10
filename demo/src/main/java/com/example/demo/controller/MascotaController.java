@@ -125,15 +125,23 @@ public class MascotaController {
     }
 
 
-    @PutMapping("/update/{id}")
-@Operation(summary = "Actualizar una mascota")
-public ResponseEntity<Mascota> updateMascota(@PathVariable("id") Long id, @RequestBody Mascota mascota) {
+@PutMapping("/update/{id}")
+@Operation(summary = "Actualizar una mascota y su cliente asociado")
+public ResponseEntity<Mascota> updateMascota(@PathVariable("id") Long id, @RequestBody Mascota mascota, @RequestParam(value = "cedula", required = false) String cedulaCliente) {
+    // Buscar la mascota existente por ID
+    
     Mascota existingMascota = mascotaService.SearchById(id);
     if (existingMascota == null) {
-        return ResponseEntity.notFound().build();  // Si no se encuentra la mascota
+        return ResponseEntity.notFound().build(); // Si no se encuentra la mascota
     }
 
-    // Actualiza los atributos de la mascota con los nuevos datos
+    // Buscar el cliente por cédula
+    Cliente cliente = clienteService.searchByCedula(cedulaCliente);
+    if (cliente == null) {
+        return ResponseEntity.badRequest().body(null); // Si no se encuentra el cliente, retornar error
+    }
+
+    // Actualizar los atributos de la mascota con los nuevos datos
     existingMascota.setNombre(mascota.getNombre());
     existingMascota.setRaza(mascota.getRaza());
     existingMascota.setEdad(mascota.getEdad());
@@ -142,10 +150,13 @@ public ResponseEntity<Mascota> updateMascota(@PathVariable("id") Long id, @Reque
     existingMascota.setFoto(mascota.getFoto());
     existingMascota.setEstado(mascota.isEstado());
 
-    // Guarda la mascota actualizada
+    // Asociar la mascota con el nuevo cliente
+    existingMascota.setCliente(cliente);
+
+    // Guardar la mascota actualizada
     mascotaService.update(existingMascota);
 
-    return ResponseEntity.ok(existingMascota);  // Retorna la mascota actualizada
+    return ResponseEntity.ok(existingMascota); // Retorna la mascota actualizada
 }
 
 
