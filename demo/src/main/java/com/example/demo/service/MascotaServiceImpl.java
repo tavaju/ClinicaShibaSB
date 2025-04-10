@@ -46,7 +46,7 @@ public class MascotaServiceImpl  implements MascotaService {
         }
 
     @Override
-    public Collection<Mascota> findByClienteId(Long id) {
+    public List<Mascota> findByClienteId(Long id) {
         return repo.findByClienteId(id);
     }
 

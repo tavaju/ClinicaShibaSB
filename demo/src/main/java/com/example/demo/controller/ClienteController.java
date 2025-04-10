@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 
 import com.example.demo.model.Cliente;
+import com.example.demo.model.Mascota;
 
 // Controlador de Cliente 
 @RequestMapping("/cliente")
@@ -78,6 +79,7 @@ public class ClienteController {
         }
         cliente.setId(null);
         clienteService.add(cliente);
+
         // return "redirect:/cliente/all";
     }
 
@@ -138,9 +140,16 @@ public class ClienteController {
     // Metodo GET para mostrar las mascotas de un cliente elegido por su id
     @GetMapping("/mascotas/{id}")
     @Operation(summary = "Mostrar mascotas de un cliente por ID")
-    public String mostrarClienteMascotas(@PathVariable Long id, Model model) {
-        model.addAttribute("mascotas", mascotaService.findByClienteId(id));
-        return "mostrar_mascotas";
+    public List<Mascota> mostrarClienteMascotas(@PathVariable Long id, Model model) {
+        //model.addAttribute("mascotas", mascotaService.findByClienteId(id));
+        //return "mostrar_mascotas";
+        List<Mascota> mascotas = mascotaService.findByClienteId(id);
+        if (mascotas == null || mascotas.isEmpty()) {
+            //throw new NotFoundException("Cliente con ID " + id + " no tiene mascotas");
+        }
+        return mascotas;
+
+
     }
 
     @GetMapping("/findByCedula")
@@ -151,5 +160,22 @@ public class ClienteController {
             //throw new NotFoundException("Cliente con cédula " + cedula + " no encontrado.");
         }
         return ResponseEntity.ok(cliente); // Retorna la información del cliente en formato JSON
+    }
+
+
+    @GetMapping("/findByEmail")
+    @Operation(summary = "Buscar cliente por correo electrónico")
+    public ResponseEntity<Cliente> obtenerClientePorCorreo(
+            @RequestParam(value = "correo", required = false) String correo,
+            @RequestParam(value = "email", required = false) String email) {
+        String correoFinal = (correo != null) ? correo : email;
+        if (correoFinal == null || correoFinal.isEmpty()) {
+            return ResponseEntity.badRequest().body(null); // Parámetro requerido no presente
+        }
+        Cliente cliente = clienteService.searchByEmail(correoFinal);
+        if (cliente == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(cliente);
     }
 }
