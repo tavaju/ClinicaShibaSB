@@ -116,6 +116,28 @@ public class MascotaController {
         // return "redirect:/mascota/edit";
     }
 
+
+    @PutMapping("/deactivate/{id}")
+@Operation(summary = "Desactivar una mascota (marcar como inactiva)")
+public ResponseEntity<Mascota> deactivatePet(@PathVariable("id") Long id) {
+    // Buscar la mascota por su ID
+    Mascota existingMascota = mascotaService.SearchById(id);
+    
+    if (existingMascota == null) {
+        return ResponseEntity.notFound().build();  // Si no se encuentra la mascota, retornar 404
+    }
+
+    // Solo actualizamos el estado a false
+    existingMascota.setEstado(false);  // Marcamos la mascota como inactiva
+
+    // Guardamos la mascota con el nuevo estado
+    mascotaService.update(existingMascota);
+
+    return ResponseEntity.ok(existingMascota);  // Retornamos la mascota con estado actualizado
+}
+
+    
+
     // http://localhost:8090/mascota/update/1
     @GetMapping("/update/{id}")
     @Operation(summary = "Mostrar formulario para actualizar una mascota")
