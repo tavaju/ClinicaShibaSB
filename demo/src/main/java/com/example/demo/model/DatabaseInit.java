@@ -613,9 +613,7 @@ public class DatabaseInit implements ApplicationRunner {
                 // Crear tratamientos de ejemplo si la base de datos esta vacia
 
                 loadDrogasFromExcel();
-
-                // Create example treatments if the database is empty
-                //createExampleTreatments();
+                createExampleTreatments();
 
         }
 

@@ -64,8 +64,19 @@ public class Mascota {
     @ManyToOne
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "mascota", cascade = CascadeType.ALL, orphanRemoval = true)
+    // Relación uno a muchos con Tratamiento
+    @JsonIgnore
+    @OneToMany(mappedBy = "mascota", cascade = CascadeType.DETACH, orphanRemoval = false)
     private List<Tratamiento> tratamientos;
+
+
+    public List<Tratamiento> getTratamientos() {
+        return tratamientos;
+    }
+
+    public void setTratamientos(List<Tratamiento> tratamientos) {
+        this.tratamientos = tratamientos;
+    }
 
     public Cliente getCliente() {
         return cliente;
@@ -173,4 +184,5 @@ public class Mascota {
     public String getCedulaCliente() {
         return cliente != null ? cliente.getCedula() : null;
     }
+
 }

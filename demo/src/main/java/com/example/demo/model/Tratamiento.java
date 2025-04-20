@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -29,14 +30,13 @@ public class Tratamiento {
 
     // Relación uno a muchos con Droga
     @JsonIgnore
-    @OneToMany(mappedBy = "tratamiento", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "tratamiento", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<Droga> drogas;
 
     // Relación muchos a uno con Mascota
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    @JoinColumn(name = "id_mascota", nullable = false)
-    @NotNull(message = "El tratamiento debe estar asociado a una mascota")
+    @JoinColumn(name = "id_mascota", nullable = true)
     private Mascota mascota;
 
     // Relación muchos a uno con Veterinario

@@ -14,7 +14,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 
 import com.example.demo.model.Cliente;
+import com.example.demo.model.Droga;
 import com.example.demo.model.Mascota;
+import com.example.demo.model.Tratamiento;
 
 // Controlador de Cliente 
 @RequestMapping("/cliente")
@@ -87,8 +89,26 @@ public class ClienteController {
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Eliminar cliente por ID")
     public void eliminarCliente(@PathVariable("id") Long id) {
+        Cliente cliente = clienteService.searchById(id);
+        if (cliente == null) {
+            throw new NotFoundException(id);
+        }
+
+        // Set Tratamiento references in Mascota to null
+        List<Mascota> mascotas = cliente.getMascotas();
+        if (mascotas != null) {
+            for (Mascota mascota : mascotas) {
+                List<Tratamiento> tratamientos = mascota.getTratamientos();
+                if (tratamientos != null) {
+                    for (Tratamiento tratamiento : tratamientos) {
+                        tratamiento.setMascota(null); // Set FK to null
+                    }
+                }
+            }
+        }
+
+        // Delete the cliente (cascades to mascotas)
         clienteService.deleteById(id);
-        //return "redirect:/cliente/all";
     }
 
     // http://localhost:8090/cliente/update/1
