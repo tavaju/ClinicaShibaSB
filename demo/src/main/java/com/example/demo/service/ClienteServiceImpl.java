@@ -30,11 +30,6 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        repo.deleteById(id);
-    }
-
-    @Override
     public void update(Cliente cliente) {
         repo.save(cliente);
     }
@@ -57,5 +52,12 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public Cliente findByMascotaId(Long mascotaId) {
         return repo.findByMascotas_Id(mascotaId);
+    }
+    
+    @Override
+    public void deleteById(Long id) {
+        Cliente cliente = repo.findById(id).orElseThrow(() -> 
+            new IllegalArgumentException("Cliente con ID " + id + " no encontrado"));
+        repo.delete(cliente); // Cascading will handle associated entities
     }
 }

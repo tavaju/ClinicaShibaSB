@@ -13,6 +13,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
+
+import java.util.List;
 
 // POJO Mascota
 @Entity
@@ -59,6 +63,9 @@ public class Mascota {
     @JsonIgnore
     @ManyToOne
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "mascota", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tratamiento> tratamientos;
 
     public Cliente getCliente() {
         return cliente;
