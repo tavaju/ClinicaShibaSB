@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,6 @@ public class VeterinarioController {
     @GetMapping("/all")
     @Operation(summary = "Mostrar todos los veterinarios")
     public List<Veterinario> mostrarVeterinarios() {
-        //model.addAttribute("veterinarios", veterinarioService.searchAll());
-        //return "mostrar_todos_veterinarios";
         return veterinarioService.searchAll();
     }
 
@@ -41,8 +40,6 @@ public class VeterinarioController {
             return veterinario;
         } 
         throw new NotFoundException(id);
-        //return "mostrar_veterinario";
-
     }
 
     // http://localhost:8090/veterinario/add
@@ -61,21 +58,28 @@ public class VeterinarioController {
     public void agregarVeterinario( @RequestBody Veterinario veterinario, @RequestParam("confirmPassword") String confirmPassword) {
         // Verificar si la contraseña y la confirmación coinciden
         if (!veterinario.getContrasena().equals(confirmPassword)) {
-            //model.addAttribute("error", "Las contraseñas no coinciden");
-            //return "crear_veterinario";
             throw new IllegalArgumentException("Las contraseñas no coinciden");
         }
-        //return "redirect:/veterinario/all";
         veterinario.setId(null);
         veterinarioService.add(veterinario);
     }
 
-    // Metodo GET para eliminar un veterinario elegido
     @DeleteMapping("/delete/{id}")
-    @Operation(summary = "Eliminar veterinario por ID")
-    public void eliminarVeterinario(@PathVariable("id") Long id) {
-        veterinarioService.deleteById(id);
-        //return "redirect:/veterinario/all";
+    @Operation(summary = "Desactivar veterinario (marcar como inactivo)")
+    public ResponseEntity<Veterinario> deactivateVeterinario(@PathVariable("id") Long id) {
+        // Retrieve the existing Veterinario from the database
+        Veterinario veterinario = veterinarioService.searchById(id);
+        if (veterinario == null) {
+            return ResponseEntity.notFound().build(); // Return 404 if not found
+        }
+
+        // Set estado to false (deactivate)
+        veterinario.setEstado(false);
+
+        // Save the updated Veterinario
+        veterinarioService.update(veterinario);
+
+        return ResponseEntity.ok(veterinario); // Return the updated Veterinario
     }
 
     // http://localhost:8090/veterinario/update/1
@@ -107,7 +111,6 @@ public class VeterinarioController {
         Veterinario veterinarioExistente = veterinarioService.searchById(id);
         if (veterinarioExistente == null) {
             throw new NotFoundException(id);
-            //return "modificar_veterinario";
         }
 
         // Preserve the existing relationships
@@ -118,13 +121,9 @@ public class VeterinarioController {
         // Handle password change logic
         if (Boolean.TRUE.equals(changePassword)) {
             if (newPassword == null || newPassword.isEmpty()) {
-                //model.addAttribute("error", "La nueva contraseña no puede estar vacía");
-                //return "modificar_veterinario";
                 throw new IllegalArgumentException("La nueva contraseña no puede estar vacía");
             }
             if (!newPassword.equals(confirmPassword)) {
-                //model.addAttribute("error", "Las contraseñas no coinciden");
-                //return "modificar_veterinario";
                 throw new IllegalArgumentException("Las contraseñas no coinciden");
             }
             veterinario.setContrasena(newPassword);
@@ -137,6 +136,56 @@ public class VeterinarioController {
         veterinario.setNumAtenciones(numAtenciones);
 
         veterinarioService.update(veterinario);
-        //return "redirect:/veterinario/all";
+    }
+
+    @PutMapping("/update/{id}")
+    @Operation(summary = "Actualizar veterinario")
+    public void updateVeterinario(
+            @PathVariable("id") Long id,
+            @RequestBody Veterinario veterinario,
+            @RequestParam(value = "changePassword", required = false) Boolean changePassword,
+            @RequestParam(value = "newPassword", required = false) String newPassword,
+            @RequestParam(value = "confirmPassword", required = false) String confirmPassword) {
+
+        // Retrieve the existing Veterinario from the database
+        Veterinario veterinarioExistente = veterinarioService.searchById(id);
+        if (veterinarioExistente == null) {
+            //throw new NotFoundException("Veterinario con ID " + id + " no encontrado");
+        }
+
+        // Preserve existing relationships
+        veterinario.setMascotas(veterinarioExistente.getMascotas());
+        veterinario.setTratamientos(veterinarioExistente.getTratamientos());
+        veterinario.setAdministrador(veterinarioExistente.getAdministrador());
+
+        // Preserve cedula and nombre if not provided
+        veterinario.setCedula(veterinario.getCedula() != null && !veterinario.getCedula().isEmpty() 
+                              ? veterinario.getCedula() 
+                              : veterinarioExistente.getCedula());
+        veterinario.setNombre(veterinario.getNombre() != null && !veterinario.getNombre().isEmpty() 
+                              ? veterinario.getNombre() 
+                              : veterinarioExistente.getNombre());
+
+        // Handle password change logic
+        if (Boolean.TRUE.equals(changePassword)) {
+            if (newPassword == null || newPassword.isEmpty()) {
+                throw new IllegalArgumentException("La nueva contraseña no puede estar vacía");
+            }
+            if (!newPassword.equals(confirmPassword)) {
+                throw new IllegalArgumentException("Las contraseñas no coinciden");
+            }
+            veterinario.setContrasena(newPassword);
+        } else {
+            veterinario.setContrasena(veterinarioExistente.getContrasena());
+        }
+
+        // Update other fields
+        veterinario.setEspecialidad(veterinario.getEspecialidad() != null ? veterinario.getEspecialidad() : veterinarioExistente.getEspecialidad());
+        veterinario.setFoto(veterinario.getFoto() != null ? veterinario.getFoto() : veterinarioExistente.getFoto());
+        veterinario.setNumAtenciones(veterinario.getNumAtenciones() != 0 ? veterinario.getNumAtenciones() : veterinarioExistente.getNumAtenciones());
+        veterinario.setEstado(veterinario.isEstado()); // Update estado
+
+        // Save updated Veterinario
+        veterinarioService.update(veterinario);
     }
 }
