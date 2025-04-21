@@ -575,37 +575,37 @@ public class DatabaseInit implements ApplicationRunner {
                 if (veterinarios.isEmpty()) {
                         veterinarioRepository.save(new Veterinario("VET12345", "Dr. Juan Perez", "Cardiología",
                                         "https://images.unsplash.com/photo-1553550102-590bc483f15c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                        8, "password"));
+                                        8, "password", true));
                         veterinarioRepository.save(new Veterinario("VET23456", "Dra. Maria Lopez", "Dermatología",
                                         "https://images.unsplash.com/photo-1588950538967-ca7f8599c669?q=80&w=2126&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                        3, "password"));
+                                        3, "password", true));
                         veterinarioRepository.save(new Veterinario("VET34567", "Dr. Carlos Gomez", "Neurología",
                                         "https://images.unsplash.com/photo-1644675443401-ea4c14bad0e6?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                        5, "password"));
+                                        5, "password", true));
                         veterinarioRepository.save(new Veterinario("VET45678", "Dra. Ana Martinez", "Oftalmología",
                                         "https://images.unsplash.com/photo-1625154236234-ab1c8e908432?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                        1, "password"));
+                                        1, "password", true));
                         veterinarioRepository.save(new Veterinario("VET56789", "Dr. Luis Rodriguez", "Oncología",
                                         "https://images.unsplash.com/photo-1591954692515-d1d30376fa64?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                        7, "password"));
+                                        7, "password", true));
                         veterinarioRepository.save(new Veterinario("VET67890", "Dra. Laura Fernandez", "Ortopedia",
                                         "https://veterinary.rossu.edu/sites/g/files/krcnkv416/files/styles/atge_no_style_lg/public/2021-07/dei-initiatives-access-to-inclusive-veterinary-medicine_hero_1.jpg?itok=zMEMv7vJ",
-                                        0, "password"));
+                                        0, "password", true));
                         veterinarioRepository.save(new Veterinario("VET78901", "Dr. Jorge Sanchez", "Pediatría",
                                         "https://veterinary.stmatthews.edu/uploads/sites/8/2020/09/smu-1187228710.webp?w=776",
                                         9,
-                                        "password"));
+                                        "password", true));
                         veterinarioRepository.save(new Veterinario("VET89012", "Dra. Patricia Ramirez", "Radiología",
                                         "https://res.cloudinary.com/hnpb47ejt/image/upload/v1646258562/lead-gen/veterinary-technician",
                                         20,
-                                        "password"));
+                                        "password", true));
                         veterinarioRepository.save(new Veterinario("VET90123", "Dr. Andres Torres", "Rehabilitación",
                                         "https://cdn.phenompeople.com/CareerConnectResources/PEQPETUS/images/Vital_Care_04_0267NonNonCompete13-1675120214406.jpg",
-                                        4, "password"));
+                                        4, "password", true));
                         veterinarioRepository.save(new Veterinario("VET01234", "Dra. Sofia Morales", "Cirugía",
                                         "https://www.aaha.org/wp-content/uploads/2024/03/49350d8880e24a9bb91bfcb4df6c4598.jpg",
                                         8,
-                                        "password"));
+                                        "password", true));
 
                         veterinarios = veterinarioRepository.findAll();
                 }

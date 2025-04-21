@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -63,11 +64,22 @@ public class VeterinarioController {
         veterinarioService.add(veterinario);
     }
 
-    // Metodo GET para eliminar un veterinario elegido
     @DeleteMapping("/delete/{id}")
-    @Operation(summary = "Eliminar veterinario por ID")
-    public void eliminarVeterinario(@PathVariable("id") Long id) {
-        veterinarioService.deleteById(id);
+    @Operation(summary = "Desactivar veterinario (marcar como inactivo)")
+    public ResponseEntity<Veterinario> deactivateVeterinario(@PathVariable("id") Long id) {
+        // Retrieve the existing Veterinario from the database
+        Veterinario veterinario = veterinarioService.searchById(id);
+        if (veterinario == null) {
+            return ResponseEntity.notFound().build(); // Return 404 if not found
+        }
+
+        // Set estado to false (deactivate)
+        veterinario.setEstado(false);
+
+        // Save the updated Veterinario
+        veterinarioService.update(veterinario);
+
+        return ResponseEntity.ok(veterinario); // Return the updated Veterinario
     }
 
     // http://localhost:8090/veterinario/update/1
@@ -146,6 +158,13 @@ public class VeterinarioController {
         veterinario.setTratamientos(veterinarioExistente.getTratamientos());
         veterinario.setAdministrador(veterinarioExistente.getAdministrador());
 
+        // Preserve cedula and nombre if not provided
+        veterinario.setCedula(veterinario.getCedula() != null && !veterinario.getCedula().isEmpty() 
+                              ? veterinario.getCedula() 
+                              : veterinarioExistente.getCedula());
+        veterinario.setNombre(veterinario.getNombre() != null && !veterinario.getNombre().isEmpty() 
+                              ? veterinario.getNombre() 
+                              : veterinarioExistente.getNombre());
 
         // Handle password change logic
         if (Boolean.TRUE.equals(changePassword)) {
@@ -160,6 +179,13 @@ public class VeterinarioController {
             veterinario.setContrasena(veterinarioExistente.getContrasena());
         }
 
+        // Update other fields
+        veterinario.setEspecialidad(veterinario.getEspecialidad() != null ? veterinario.getEspecialidad() : veterinarioExistente.getEspecialidad());
+        veterinario.setFoto(veterinario.getFoto() != null ? veterinario.getFoto() : veterinarioExistente.getFoto());
+        veterinario.setNumAtenciones(veterinario.getNumAtenciones() != 0 ? veterinario.getNumAtenciones() : veterinarioExistente.getNumAtenciones());
+        veterinario.setEstado(veterinario.isEstado()); // Update estado
+
+        // Save updated Veterinario
         veterinarioService.update(veterinario);
     }
 }

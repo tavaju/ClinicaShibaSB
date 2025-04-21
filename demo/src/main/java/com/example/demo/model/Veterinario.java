@@ -57,6 +57,10 @@ public class Veterinario {
     @Size(min = 8, max = 50, message = "La contraseña debe tener entre 8 y 50 caracteres")
     private String contrasena;
 
+    // Atributo estado: obligatorio
+    @NotNull(message = "El estado del veterinario es obligatorio")
+    private boolean estado;
+
     // Relación muchos a uno con Administrador
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -75,6 +79,7 @@ public class Veterinario {
     private List<Tratamiento> tratamientos = new ArrayList<>();
 
     public Veterinario() {
+        this.estado = true; // Por defecto, los veterinarios se crean activos
     }
 
     public Veterinario(String cedula, String nombre, String especialidad, String foto, int numAtenciones,
@@ -85,6 +90,7 @@ public class Veterinario {
         this.foto = foto;
         this.numAtenciones = numAtenciones;
         this.contrasena = contrasena;
+        this.estado = true; // Por defecto, los veterinarios se crean activos
     }
 
     public Veterinario(Long id, String cedula, String nombre, String especialidad, String foto, int numAtenciones,
@@ -100,6 +106,18 @@ public class Veterinario {
         this.administrador = administrador;
         this.mascotas = mascotas;
         this.tratamientos = tratamientos;
+        this.estado = true; // Por defecto, los veterinarios se crean activos
+    }
+
+    public Veterinario(String cedula, String nombre, String especialidad, String foto, int numAtenciones,
+            String contrasena, boolean estado) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.especialidad = especialidad;
+        this.foto = foto;
+        this.numAtenciones = numAtenciones;
+        this.contrasena = contrasena;
+        this.estado = estado;
     }
 
     public Long getId() {
@@ -156,6 +174,18 @@ public class Veterinario {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    public String getEstadoTexto() {
+        return estado ? "Activo" : "Inactivo";
     }
 
     public Administrador getAdministrador() {
