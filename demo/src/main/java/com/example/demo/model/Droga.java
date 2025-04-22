@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotBlank;
@@ -47,10 +48,9 @@ public class Droga {
     @PositiveOrZero(message = "Las unidades vendidas deben ser un número positivo o cero")
     private int unidadesVendidas;
 
-    // Relación muchos a uno con Tratamiento
-    @ManyToOne(fetch = FetchType.LAZY)
+    // Relación uno a uno
+    @OneToOne(mappedBy = "droga")
     @JsonIgnore
-    @JoinColumn(name = "id_tratamiento", nullable = true)
     private Tratamiento tratamiento;
 
     public Droga() {

@@ -670,13 +670,15 @@ public class DatabaseInit implements ApplicationRunner {
                                                 droga.setTratamiento(tratamiento);
                                                 drogaRepository.save(droga);
                                                 drogasAsignadas.add(droga);
+                                                tratamiento.setDroga(droga);
+                                        tratamientoRepository.save(tratamiento);
+                                                
                                         }
 
                                         veterinario.setNumAtenciones(veterinario.getNumAtenciones() + 1);
                                         veterinarioRepository.save(veterinario);
 
-                                        tratamiento.setDrogas(drogasAsignadas);
-                                        tratamientoRepository.save(tratamiento);
+                                        
                                 }
                         } else {
                                 System.out.println("Insufficient data to create treatments.");

@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -28,10 +29,11 @@ public class Tratamiento {
     @NotNull(message = "La fecha del tratamiento es obligatoria")
     private Date fecha;
 
-    // Relación uno a muchos con Droga
-    @JsonIgnore
-    @OneToMany(mappedBy = "tratamiento", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    private List<Droga> drogas;
+    // Relación uno a uno con Droga
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_droga", referencedColumnName = "id")
+    private Droga droga;
+
 
     // Relación muchos a uno con Mascota
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,17 +51,17 @@ public class Tratamiento {
     public Tratamiento() {
     }
 
-    public Tratamiento(Date fecha, List<Droga> drogas, Mascota mascota, Veterinario veterinario) {
+    public Tratamiento(Date fecha, Droga droga, Mascota mascota, Veterinario veterinario) {
         this.fecha = fecha;
-        this.drogas = drogas;
+        this.droga = droga;
         this.mascota = mascota;
         this.veterinario = veterinario;
     }
 
-    public Tratamiento(Long id, Date fecha, List<Droga> drogas, Mascota mascota, Veterinario veterinario) {
+    public Tratamiento(Long id, Date fecha, Droga droga, Mascota mascota, Veterinario veterinario) {
         this.id = id;
         this.fecha = fecha;
-        this.drogas = drogas;
+        this.droga = droga;
         this.mascota = mascota;
         this.veterinario = veterinario;
     }
@@ -80,12 +82,12 @@ public class Tratamiento {
         this.fecha = fecha;
     }
 
-    public List<Droga> getDrogas() {
-        return drogas;
+    public Droga getDroga() {
+        return droga;
     }
 
-    public void setDrogas(List<Droga> drogas) {
-        this.drogas = drogas;
+    public void setDroga(Droga droga) {
+        this.droga = droga;
     }
 
     public Mascota getMascota() {

@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Cliente;
+import com.example.demo.model.Droga;
 import com.example.demo.model.Mascota;
 import com.example.demo.service.ClienteService;
+import com.example.demo.service.DrogaService;
 import com.example.demo.service.MascotaService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +43,9 @@ public class MascotaController {
     @Autowired
     ClienteService clienteService;
 
+    @Autowired
+    DrogaService DrogaService;
+
     // http://localhost:8090/mascota/all
     // Lista todas las mascotas sin poder editarlas
     @GetMapping("/all")
@@ -49,6 +54,15 @@ public class MascotaController {
         // model.addAttribute("mascotas", mascotaService.SearchAll());
         // return "mostrar_todas_mascotas";
         return mascotaService.SearchAll();
+
+    }
+
+    @GetMapping("/tratamiento")
+    @Operation(summary = "Mostrar todas las mascotas")
+    public List<Droga> mostrarDrogas(Model model) {
+        // model.addAttribute("mascotas", mascotaService.SearchAll());
+        // return "mostrar_todas_mascotas";
+        return DrogaService.SearchAll();
 
     }
 
