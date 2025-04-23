@@ -9,9 +9,11 @@ import com.example.demo.model.Tratamiento;
 
 // Repositorio de Tratamiento
 @Repository
-public interface TratamientoRepository  extends JpaRepository<Tratamiento, Long> {
+public interface TratamientoRepository extends JpaRepository<Tratamiento, Long> {
     // Métodos personalizados para buscar un tratamiento por cualquier atributo
     public Tratamiento findByFecha(Date fecha);
+
     void deleteById(Long id);
-    
+
+    Tratamiento save(Tratamiento tratamiento);
 }

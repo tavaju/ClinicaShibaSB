@@ -56,7 +56,8 @@ public class Droga {
     public Droga() {
     }
 
-    public Droga(String nombre, float precioCompra, float precioVenta, int unidadesDisponibles, int unidadesVendidas, Tratamiento tratamiento) {
+    public Droga(String nombre, float precioCompra, float precioVenta, int unidadesDisponibles, int unidadesVendidas,
+            Tratamiento tratamiento) {
         this.nombre = nombre;
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
@@ -65,7 +66,8 @@ public class Droga {
         this.tratamiento = tratamiento;
     }
 
-    public Droga(Long id, String nombre,float precioCompra,float precioVenta, int unidadesDisponibles, int unidadesVendidas,Tratamiento tratamiento) {
+    public Droga(Long id, String nombre, float precioCompra, float precioVenta, int unidadesDisponibles,
+            int unidadesVendidas, Tratamiento tratamiento) {
         this.id = id;
         this.nombre = nombre;
         this.precioCompra = precioCompra;
@@ -131,6 +133,12 @@ public class Droga {
         this.tratamiento = tratamiento;
     }
 
-
-    
+    public void decrementarUnidadesDisponibles() {
+        if (this.unidadesDisponibles > 0) {
+            this.unidadesDisponibles--;
+            this.unidadesVendidas++;
+        } else {
+            throw new IllegalStateException("No hay unidades disponibles para esta droga.");
+        }
+    }
 }

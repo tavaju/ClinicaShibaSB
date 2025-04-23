@@ -14,10 +14,12 @@ public class DrogaServiceImpl implements DrogaService {
     @Autowired
     DrogaRepository repo;
 
+
     @Override
-    public List<Droga> SearchAll() {
-        
-        return repo.findAll(); // Cambia esto por la lógica real de búsqueda
+    public List<Droga> buscarDrogasDisponibles() {
+        return repo.findAll().stream()
+                .filter(droga -> droga.getUnidadesDisponibles() > 0)
+                .toList();
     }
-    
+
 }
