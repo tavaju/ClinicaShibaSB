@@ -22,6 +22,10 @@ public interface MascotaRepository extends JpaRepository<Mascota, Long> {
            "CAST(m.peso AS string) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "CAST(m.edad AS string) LIKE LOWER(CONCAT('%', :query, '%'))")
     List<Mascota> searchByQuery(@Param("query") String query);
+    
+    // Método para buscar mascotas por ID del veterinario
+    @Query("SELECT DISTINCT m FROM Mascota m JOIN m.tratamientos t WHERE t.veterinario.id = :veterinarioId")
+    List<Mascota> findByVeterinarioId(@Param("veterinarioId") Long veterinarioId);
 }
 
 

@@ -15,7 +15,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;
@@ -48,10 +47,6 @@ public class Veterinario {
     @Size(max = 1000, message = "La URL de la foto no puede tener más de 1000 caracteres")
     private String foto;
 
-    // Atributo numAtenciones: obligatorio, número positivo o cero
-    @PositiveOrZero(message = "El número de atenciones debe ser un número positivo o cero")
-    private int numAtenciones;
-
     // Atributo contrasena: obligatorio, mínimo 8 caracteres, máximo 50 caracteres
     @NotBlank(message = "La contraseña es obligatoria")
     @Size(min = 8, max = 50, message = "La contraseña debe tener entre 8 y 50 caracteres")
@@ -82,26 +77,22 @@ public class Veterinario {
         this.estado = true; // Por defecto, los veterinarios se crean activos
     }
 
-    public Veterinario(String cedula, String nombre, String especialidad, String foto, int numAtenciones,
-            String contrasena) {
+    public Veterinario(String cedula, String nombre, String especialidad, String foto, String contrasena) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.especialidad = especialidad;
         this.foto = foto;
-        this.numAtenciones = numAtenciones;
         this.contrasena = contrasena;
         this.estado = true; // Por defecto, los veterinarios se crean activos
     }
 
-    public Veterinario(Long id, String cedula, String nombre, String especialidad, String foto, int numAtenciones,
-            String contrasena,
+    public Veterinario(Long id, String cedula, String nombre, String especialidad, String foto, String contrasena,
             Administrador administrador, List<Mascota> mascotas, List<Tratamiento> tratamientos) {
         this.id = id;
         this.cedula = cedula;
         this.nombre = nombre;
         this.especialidad = especialidad;
         this.foto = foto;
-        this.numAtenciones = numAtenciones;
         this.contrasena = contrasena;
         this.administrador = administrador;
         this.mascotas = mascotas;
@@ -109,13 +100,11 @@ public class Veterinario {
         this.estado = true; // Por defecto, los veterinarios se crean activos
     }
 
-    public Veterinario(String cedula, String nombre, String especialidad, String foto, int numAtenciones,
-            String contrasena, boolean estado) {
+    public Veterinario(String cedula, String nombre, String especialidad, String foto, String contrasena, boolean estado) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.especialidad = especialidad;
         this.foto = foto;
-        this.numAtenciones = numAtenciones;
         this.contrasena = contrasena;
         this.estado = estado;
     }
@@ -160,12 +149,9 @@ public class Veterinario {
         this.foto = foto;
     }
 
+    // Método para obtener el número de atenciones (tratamientos) dinámicamente
     public int getNumAtenciones() {
-        return numAtenciones;
-    }
-
-    public void setNumAtenciones(int numAtenciones) {
-        this.numAtenciones = numAtenciones;
+        return tratamientos != null ? tratamientos.size() : 0;
     }
 
     public String getContrasena() {
