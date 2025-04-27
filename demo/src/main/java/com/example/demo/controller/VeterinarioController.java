@@ -188,4 +188,15 @@ public class VeterinarioController {
         // Save updated Veterinario
         veterinarioService.update(veterinario);
     }
+
+    //find by cedula
+    @GetMapping("/find/cedula/{cedula}")
+    @Operation(summary = "Buscar veterinario por cédula")
+    public Veterinario findVeterinarioByCedula(@PathVariable("cedula") String cedula) {
+        Veterinario veterinario = veterinarioService.searchByCedula(cedula);
+        if (veterinario != null) {
+            return veterinario;
+        } 
+        throw new NotFoundException(cedula);
+    }
 }
