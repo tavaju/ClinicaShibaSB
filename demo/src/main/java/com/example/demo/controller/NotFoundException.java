@@ -16,5 +16,9 @@ public class NotFoundException extends RuntimeException {
     public void setId(Long id) {
         this.id = id;
     }
+    //not fund exception with string message
+    public NotFoundException(String message) {
+        super(message);
+    }
 }
 

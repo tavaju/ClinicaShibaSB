@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +12,7 @@ import com.example.demo.service.VeterinarioService;
 import io.swagger.v3.oas.annotations.Operation;
 
 import com.example.demo.model.Veterinario;
+import com.example.demo.model.Mascota;
 
 // Controlador de Veterinario
 @RequestMapping("/veterinario")
@@ -104,8 +104,7 @@ public class VeterinarioController {
             @RequestParam(value = "newPassword", required = false) String newPassword,
             @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
             @RequestParam(value = "especialidad", required = false) String especialidad,
-            @RequestParam(value = "foto", required = false) String foto,
-            @RequestParam(value = "numAtenciones", required = false, defaultValue = "0") int numAtenciones) {
+            @RequestParam(value = "foto", required = false) String foto) {
 
         // Retrieve the existing Veterinario from the database
         Veterinario veterinarioExistente = veterinarioService.searchById(id);
@@ -133,7 +132,6 @@ public class VeterinarioController {
 
         veterinario.setEspecialidad(especialidad);
         veterinario.setFoto(foto);
-        veterinario.setNumAtenciones(numAtenciones);
 
         veterinarioService.update(veterinario);
     }
@@ -150,7 +148,7 @@ public class VeterinarioController {
         // Retrieve the existing Veterinario from the database
         Veterinario veterinarioExistente = veterinarioService.searchById(id);
         if (veterinarioExistente == null) {
-            //throw new NotFoundException("Veterinario con ID " + id + " no encontrado");
+            throw new NotFoundException("Veterinario con ID " + id + " no encontrado");
         }
 
         // Preserve existing relationships
@@ -182,10 +180,28 @@ public class VeterinarioController {
         // Update other fields
         veterinario.setEspecialidad(veterinario.getEspecialidad() != null ? veterinario.getEspecialidad() : veterinarioExistente.getEspecialidad());
         veterinario.setFoto(veterinario.getFoto() != null ? veterinario.getFoto() : veterinarioExistente.getFoto());
-        veterinario.setNumAtenciones(veterinario.getNumAtenciones() != 0 ? veterinario.getNumAtenciones() : veterinarioExistente.getNumAtenciones());
         veterinario.setEstado(veterinario.isEstado()); // Update estado
 
         // Save updated Veterinario
         veterinarioService.update(veterinario);
+    }
+
+    //find by cedula
+    @GetMapping("/find/cedula/{cedula}")
+    @Operation(summary = "Buscar veterinario por cédula")
+    public Veterinario findVeterinarioByCedula(@PathVariable("cedula") String cedula) {
+        Veterinario veterinario = veterinarioService.searchByCedula(cedula);
+        if (veterinario != null) {
+            return veterinario;
+        } 
+        throw new NotFoundException(cedula);
+    }
+    
+    // Endpoint para obtener todas las mascotas tratadas por un veterinario
+    @GetMapping("/findByVeterinarioId")
+    @Operation(summary = "Buscar mascotas tratadas por un veterinario")
+    public ResponseEntity<List<Mascota>> getMascotasByVeterinarioId(@RequestParam("veterinarioId") Long veterinarioId) {
+        List<Mascota> mascotas = veterinarioService.findMascotasByVeterinarioId(veterinarioId);
+        return ResponseEntity.ok(mascotas);
     }
 }
