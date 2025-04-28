@@ -15,4 +15,7 @@ public interface VeterinarioRepository extends JpaRepository<Veterinario, Long> 
 
     // Find all active veterinarios
     List<Veterinario> findByEstado(boolean estado);
+    
+    // Find veterinarios by administrador id
+    List<Veterinario> findByAdministradorId(Long administradorId);
 }
