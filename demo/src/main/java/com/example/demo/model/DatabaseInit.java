@@ -4,6 +4,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Controller;
 
+import com.example.demo.repository.AdministradorRepository;
 import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.MascotaRepository;
 import com.example.demo.repository.VeterinarioRepository;
@@ -33,6 +34,9 @@ public class DatabaseInit implements ApplicationRunner {
 
         @Autowired
         VeterinarioRepository veterinarioRepository;
+        
+        @Autowired
+        AdministradorRepository administradorRepository;
 
         @Autowired
         TratamientoRepository tratamientoRepository;
@@ -568,6 +572,23 @@ public class DatabaseInit implements ApplicationRunner {
                         Mascota mascota = mascotas.remove(0);
                         mascota.setCliente(cliente);
                         mascotaRepository.save(mascota);
+                }
+
+                // Crear administradores de ejemplo si la base de datos está vacía
+                List<Administrador> administradores = administradorRepository.findAll();
+                if (administradores.isEmpty()) {
+                        // Crear dos administradores de ejemplo
+                        Administrador admin1 = new Administrador("ADMIN001", "Carlos Jiménez", "password");
+                        Administrador admin2 = new Administrador("ADMIN002", "Laura González", "password");
+                        
+                        // Guardar los administradores en la base de datos
+                        administradorRepository.save(admin1);
+                        administradorRepository.save(admin2);
+                        
+                        System.out.println("Administradores de ejemplo creados con éxito.");
+                        
+                        // Obtener la lista actualizada de administradores
+                        administradores = administradorRepository.findAll();
                 }
 
                 // Crear veterinarios de ejemplo si la base de datos esta vacia
