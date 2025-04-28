@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.example.demo.model.Mascota;
 
+import java.util.Date;
 import java.util.List;
 
 // Repositorio de Mascota
@@ -26,6 +27,14 @@ public interface MascotaRepository extends JpaRepository<Mascota, Long> {
     // Método para buscar mascotas por ID del veterinario
     @Query("SELECT DISTINCT m FROM Mascota m JOIN m.tratamientos t WHERE t.veterinario.id = :veterinarioId")
     List<Mascota> findByVeterinarioId(@Param("veterinarioId") Long veterinarioId);
+    
+    // Contar mascotas activas (en tratamiento en los últimos 30 días)
+    @Query("SELECT COUNT(DISTINCT m) FROM Mascota m JOIN m.tratamientos t WHERE t.fecha >= :fechaInicio AND m.estado = true")
+    Long countMascotasActivas(@Param("fechaInicio") Date fechaInicio);
+    
+    // Contar todas las mascotas
+    @Query("SELECT COUNT(m) FROM Mascota m")
+    Long countMascotasTotales();
 }
 
 
