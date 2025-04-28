@@ -4,6 +4,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Controller;
 
+import com.example.demo.repository.AdministradorRepository;
 import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.MascotaRepository;
 import com.example.demo.repository.VeterinarioRepository;
@@ -33,6 +34,9 @@ public class DatabaseInit implements ApplicationRunner {
 
         @Autowired
         VeterinarioRepository veterinarioRepository;
+        
+        @Autowired
+        AdministradorRepository administradorRepository;
 
         @Autowired
         TratamientoRepository tratamientoRepository;
@@ -570,42 +574,93 @@ public class DatabaseInit implements ApplicationRunner {
                         mascotaRepository.save(mascota);
                 }
 
+                // Crear administradores de ejemplo si la base de datos está vacía
+                List<Administrador> administradores = administradorRepository.findAll();
+                if (administradores.isEmpty()) {
+                        // Crear dos administradores de ejemplo
+                        Administrador admin1 = new Administrador("ADMIN001", "Carlos Jiménez", "password");
+                        Administrador admin2 = new Administrador("ADMIN002", "Laura González", "password");
+                        
+                        // Guardar los administradores en la base de datos
+                        administradorRepository.save(admin1);
+                        administradorRepository.save(admin2);
+                        
+                        System.out.println("Administradores de ejemplo creados con éxito.");
+                        
+                        // Obtener la lista actualizada de administradores
+                        administradores = administradorRepository.findAll();
+                }
+
                 // Crear veterinarios de ejemplo si la base de datos esta vacia
                 List<Veterinario> veterinarios = veterinarioRepository.findAll();
                 if (veterinarios.isEmpty()) {
-                        veterinarioRepository.save(new Veterinario("VET12345", "Dr. Juan Perez", "Cardiología",
+                        // Obtener los administradores para asignarlos a los veterinarios
+                        Administrador admin1 = administradores.get(0); // Carlos Jiménez
+                        Administrador admin2 = administradores.get(1); // Laura González
+                        
+                        // Crear veterinarios y asignarlos al administrador 1
+                        Veterinario vet1 = new Veterinario("VET12345", "Dr. Juan Perez", "Cardiología",
                                         "https://images.unsplash.com/photo-1553550102-590bc483f15c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                         "password", true));
-                        veterinarioRepository.save(new Veterinario("VET23456", "Dra. Maria Lopez", "Dermatología",
+                                         "password", true);
+                        vet1.setAdministrador(admin1);
+                        veterinarioRepository.save(vet1);
+                        
+                        Veterinario vet2 = new Veterinario("VET23456", "Dra. Maria Lopez", "Dermatología",
                                         "https://images.unsplash.com/photo-1588950538967-ca7f8599c669?q=80&w=2126&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                         "password", true));
-                        veterinarioRepository.save(new Veterinario("VET34567", "Dr. Carlos Gomez", "Neurología",
+                                         "password", true);
+                        vet2.setAdministrador(admin1);
+                        veterinarioRepository.save(vet2);
+                        
+                        Veterinario vet3 = new Veterinario("VET34567", "Dr. Carlos Gomez", "Neurología",
                                         "https://images.unsplash.com/photo-1644675443401-ea4c14bad0e6?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                         "password", true));
-                        veterinarioRepository.save(new Veterinario("VET45678", "Dra. Ana Martinez", "Oftalmología",
+                                         "password", true);
+                        vet3.setAdministrador(admin1);
+                        veterinarioRepository.save(vet3);
+                        
+                        Veterinario vet4 = new Veterinario("VET45678", "Dra. Ana Martinez", "Oftalmología",
                                         "https://images.unsplash.com/photo-1625154236234-ab1c8e908432?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                         "password", true));
-                        veterinarioRepository.save(new Veterinario("VET56789", "Dr. Luis Rodriguez", "Oncología",
+                                         "password", true);
+                        vet4.setAdministrador(admin1);
+                        veterinarioRepository.save(vet4);
+                        
+                        Veterinario vet5 = new Veterinario("VET56789", "Dr. Luis Rodriguez", "Oncología",
                                         "https://images.unsplash.com/photo-1591954692515-d1d30376fa64?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                         "password", true));
-                        veterinarioRepository.save(new Veterinario("VET67890", "Dra. Laura Fernandez", "Ortopedia",
+                                         "password", true);
+                        vet5.setAdministrador(admin1);
+                        veterinarioRepository.save(vet5);
+                        
+                        // Crear veterinarios y asignarlos al administrador 2
+                        Veterinario vet6 = new Veterinario("VET67890", "Dra. Laura Fernandez", "Ortopedia",
                                         "https://veterinary.rossu.edu/sites/g/files/krcnkv416/files/styles/atge_no_style_lg/public/2021-07/dei-initiatives-access-to-inclusive-veterinary-medicine_hero_1.jpg?itok=zMEMv7vJ",
-                                         "password", true));
-                        veterinarioRepository.save(new Veterinario("VET78901", "Dr. Jorge Sanchez", "Pediatría",
+                                         "password", true);
+                        vet6.setAdministrador(admin2);
+                        veterinarioRepository.save(vet6);
+                        
+                        Veterinario vet7 = new Veterinario("VET78901", "Dr. Jorge Sanchez", "Pediatría",
                                         "https://veterinary.stmatthews.edu/uploads/sites/8/2020/09/smu-1187228710.webp?w=776",
-                                        
-                                        "password", true));
-                        veterinarioRepository.save(new Veterinario("VET89012", "Dra. Patricia Ramirez", "Radiología",
+                                        "password", true);
+                        vet7.setAdministrador(admin2);
+                        veterinarioRepository.save(vet7);
+                        
+                        Veterinario vet8 = new Veterinario("VET89012", "Dra. Patricia Ramirez", "Radiología",
                                         "https://res.cloudinary.com/hnpb47ejt/image/upload/v1646258562/lead-gen/veterinary-technician",
-                                        
-                                        "password", true));
-                        veterinarioRepository.save(new Veterinario("VET90123", "Dr. Andres Torres", "Rehabilitación",
+                                        "password", true);
+                        vet8.setAdministrador(admin2);
+                        veterinarioRepository.save(vet8);
+                        
+                        Veterinario vet9 = new Veterinario("VET90123", "Dr. Andres Torres", "Rehabilitación",
                                         "https://cdn.phenompeople.com/CareerConnectResources/PEQPETUS/images/Vital_Care_04_0267NonNonCompete13-1675120214406.jpg",
-                                         "password", true));
-                        veterinarioRepository.save(new Veterinario("VET01234", "Dra. Sofia Morales", "Cirugía",
+                                         "password", true);
+                        vet9.setAdministrador(admin2);
+                        veterinarioRepository.save(vet9);
+                        
+                        Veterinario vet10 = new Veterinario("VET01234", "Dra. Sofia Morales", "Cirugía",
                                         "https://www.aaha.org/wp-content/uploads/2024/03/49350d8880e24a9bb91bfcb4df6c4598.jpg",
-                                        
-                                        "password", true));
+                                        "password", true);
+                        vet10.setAdministrador(admin2);
+                        veterinarioRepository.save(vet10);
+                        
+                        System.out.println("Veterinarios asignados a administradores con éxito.");
 
                         veterinarios = veterinarioRepository.findAll();
                 }
