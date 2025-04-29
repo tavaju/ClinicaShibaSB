@@ -55,6 +55,9 @@ public class MascotaServiceImpl  implements MascotaService {
         return repo.searchByQuery(query);
     }
 
-
+    @Override
+    public boolean hasTratamientos(Long mascotaId) {
+        return repo.hasTratamientos(mascotaId);
+    }
     
 }

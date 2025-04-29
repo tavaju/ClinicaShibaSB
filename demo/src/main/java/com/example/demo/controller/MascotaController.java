@@ -219,4 +219,11 @@ public class MascotaController {
         return ResponseEntity.ok(tratamiento);
     }
 
+    @GetMapping("/hasTratamiento/{mascotaId}")
+    @Operation(summary = "Verificar si una mascota ya tiene un tratamiento")
+    public ResponseEntity<Boolean> verificarSiTieneTratamiento(@PathVariable("mascotaId") Long mascotaId) {
+        boolean tieneTratamiento = mascotaService.hasTratamientos(mascotaId);
+        return ResponseEntity.ok(tieneTratamiento);
+    }
+
 }
