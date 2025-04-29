@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.HistorialMedicoDTO;
 import com.example.demo.model.Cliente;
 import com.example.demo.model.Droga;
 import com.example.demo.model.Mascota;
@@ -227,6 +228,19 @@ public class MascotaController {
     public ResponseEntity<Boolean> verificarSiTieneTratamiento(@PathVariable("mascotaId") Long mascotaId) {
         boolean tieneTratamiento = mascotaService.hasTratamientos(mascotaId);
         return ResponseEntity.ok(tieneTratamiento);
+    }
+
+    @GetMapping("/historial-medico/{mascotaId}")
+    @Operation(summary = "Obtener el historial médico completo de una mascota")
+    public ResponseEntity<List<HistorialMedicoDTO>> getHistorialMedico(@PathVariable("mascotaId") Long mascotaId) {
+        try {
+            List<HistorialMedicoDTO> historial = tratamientoService.getHistorialMedico(mascotaId);
+            return ResponseEntity.ok(historial);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }
