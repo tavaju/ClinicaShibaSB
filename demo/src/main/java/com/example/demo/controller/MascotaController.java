@@ -249,4 +249,14 @@ public class MascotaController {
         }
     }
 
+    @GetMapping("/estado/{mascotaId}")
+    @Operation(summary = "Obtener el estado de una mascota")
+    public ResponseEntity<Boolean> obtenerEstadoMascota(@PathVariable("mascotaId") Long mascotaId) {
+        Mascota mascota = mascotaService.SearchById(mascotaId);
+        if (mascota == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(mascota.isEstado());
+    }
+
 }
