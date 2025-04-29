@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -211,15 +213,19 @@ public class MascotaController {
 
     @PostMapping("/darTratamiento/{mascotaId}")
     @Operation(summary = "Dar tratamiento a una mascota")
-    public ResponseEntity<Tratamiento> darTratamiento(
+    public ResponseEntity<Map<String, String>> darTratamiento(
             @PathVariable("mascotaId") Long mascotaId,
             @RequestParam("veterinarioId") Long veterinarioId,
             @RequestParam("drogaId") Long drogaId) {
         try {
             Tratamiento tratamiento = tratamientoService.crearTratamiento(mascotaId, veterinarioId, drogaId);
-            return ResponseEntity.ok(tratamiento);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Tratamiento creado exitosamente.");
+            return ResponseEntity.ok(response);
         } catch (IllegalArgumentException | IllegalStateException e) {
-            return ResponseEntity.badRequest().body(null); // Return 400 Bad Request with error message
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
         }
     }
 

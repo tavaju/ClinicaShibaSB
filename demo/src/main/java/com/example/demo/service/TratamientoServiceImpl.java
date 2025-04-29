@@ -33,25 +33,23 @@ public class TratamientoServiceImpl implements TratamientoService {
 
     @Override
     public Tratamiento crearTratamiento(Long mascotaId, Long veterinarioId, Long drogaId) {
-        // Fetch Mascota
         Mascota mascota = mascotaRepository.findById(mascotaId)
                 .orElseThrow(() -> new IllegalArgumentException("Mascota no encontrada."));
 
-        // Fetch Veterinario
         Veterinario veterinario = veterinarioRepository.findById(veterinarioId)
                 .orElseThrow(() -> new IllegalArgumentException("Veterinario no encontrado."));
+
+        if (!veterinario.isEstado()) {
+            throw new IllegalStateException("El veterinario está inactivo y no puede suministrar tratamientos.");
+        }
 
         // Fetch Droga
         Droga droga = drogaRepository.findById(drogaId)
                 .orElseThrow(() -> new IllegalArgumentException("Droga no encontrada."));
 
-        // Check if Droga has available units
         if (droga.getUnidadesDisponibles() <= 0) {
             throw new IllegalStateException("No hay unidades disponibles para esta droga.");
-        }
-
-        // Decrement available units and increment sold units
-        droga.decrementarUnidadesDisponibles();
+        }        droga.decrementarUnidadesDisponibles();
         drogaRepository.save(droga);
 
         // Create and save Tratamiento
