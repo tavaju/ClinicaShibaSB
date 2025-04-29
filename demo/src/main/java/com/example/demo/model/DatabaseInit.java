@@ -34,7 +34,7 @@ public class DatabaseInit implements ApplicationRunner {
 
         @Autowired
         VeterinarioRepository veterinarioRepository;
-        
+
         @Autowired
         AdministradorRepository administradorRepository;
 
@@ -123,7 +123,8 @@ public class DatabaseInit implements ApplicationRunner {
                                         .save(new Cliente("122222222", "Noah Wilson", "vgrtvfs@example.com",
                                                         "2222222222", "password"));
                         clienteRepository
-                                        .save(new Cliente("233333333", "Sophia Davis", "jyhgt@example.com", "3333333333",
+                                        .save(new Cliente("233333333", "Sophia Davis", "jyhgt@example.com",
+                                                        "3333333333",
                                                         "password"));
                         clienteRepository
                                         .save(new Cliente("244444444", "William Taylor", "wrbrtfb@example.com",
@@ -170,7 +171,8 @@ public class DatabaseInit implements ApplicationRunner {
                                         .save(new Cliente("270707070", "Isabella Baker", "3opkmgw@example.com",
                                                         "7070707070", "password"));
                         clienteRepository
-                                        .save(new Cliente("280808080", "Liam Hill", "o90jfgke@example.com", "8080808080",
+                                        .save(new Cliente("280808080", "Liam Hill", "o90jfgke@example.com",
+                                                        "8080808080",
                                                         "password"));
                         clienteRepository
                                         .save(new Cliente("290909090", "Ava Wilson", "34jmfe3w@example.com",
@@ -580,13 +582,13 @@ public class DatabaseInit implements ApplicationRunner {
                         // Crear dos administradores de ejemplo
                         Administrador admin1 = new Administrador("ADMIN001", "Carlos Jiménez", "password");
                         Administrador admin2 = new Administrador("ADMIN002", "Laura González", "password");
-                        
+
                         // Guardar los administradores en la base de datos
                         administradorRepository.save(admin1);
                         administradorRepository.save(admin2);
-                        
+
                         System.out.println("Administradores de ejemplo creados con éxito.");
-                        
+
                         // Obtener la lista actualizada de administradores
                         administradores = administradorRepository.findAll();
                 }
@@ -597,69 +599,69 @@ public class DatabaseInit implements ApplicationRunner {
                         // Obtener los administradores para asignarlos a los veterinarios
                         Administrador admin1 = administradores.get(0); // Carlos Jiménez
                         Administrador admin2 = administradores.get(1); // Laura González
-                        
+
                         // Crear veterinarios y asignarlos al administrador 1
                         Veterinario vet1 = new Veterinario("VET12345", "Dr. Juan Perez", "Cardiología",
                                         "https://images.unsplash.com/photo-1553550102-590bc483f15c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                         "password", true);
+                                        "password", true);
                         vet1.setAdministrador(admin1);
                         veterinarioRepository.save(vet1);
-                        
+
                         Veterinario vet2 = new Veterinario("VET23456", "Dra. Maria Lopez", "Dermatología",
                                         "https://images.unsplash.com/photo-1588950538967-ca7f8599c669?q=80&w=2126&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                         "password", true);
+                                        "password", true);
                         vet2.setAdministrador(admin1);
                         veterinarioRepository.save(vet2);
-                        
+
                         Veterinario vet3 = new Veterinario("VET34567", "Dr. Carlos Gomez", "Neurología",
                                         "https://images.unsplash.com/photo-1644675443401-ea4c14bad0e6?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                         "password", true);
+                                        "password", true);
                         vet3.setAdministrador(admin1);
                         veterinarioRepository.save(vet3);
-                        
+
                         Veterinario vet4 = new Veterinario("VET45678", "Dra. Ana Martinez", "Oftalmología",
                                         "https://images.unsplash.com/photo-1625154236234-ab1c8e908432?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                         "password", true);
+                                        "password", true);
                         vet4.setAdministrador(admin1);
                         veterinarioRepository.save(vet4);
-                        
+
                         Veterinario vet5 = new Veterinario("VET56789", "Dr. Luis Rodriguez", "Oncología",
                                         "https://images.unsplash.com/photo-1591954692515-d1d30376fa64?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                                         "password", true);
+                                        "password", true);
                         vet5.setAdministrador(admin1);
                         veterinarioRepository.save(vet5);
-                        
+
                         // Crear veterinarios y asignarlos al administrador 2
                         Veterinario vet6 = new Veterinario("VET67890", "Dra. Laura Fernandez", "Ortopedia",
                                         "https://veterinary.rossu.edu/sites/g/files/krcnkv416/files/styles/atge_no_style_lg/public/2021-07/dei-initiatives-access-to-inclusive-veterinary-medicine_hero_1.jpg?itok=zMEMv7vJ",
-                                         "password", true);
+                                        "password", true);
                         vet6.setAdministrador(admin2);
                         veterinarioRepository.save(vet6);
-                        
+
                         Veterinario vet7 = new Veterinario("VET78901", "Dr. Jorge Sanchez", "Pediatría",
                                         "https://veterinary.stmatthews.edu/uploads/sites/8/2020/09/smu-1187228710.webp?w=776",
                                         "password", true);
                         vet7.setAdministrador(admin2);
                         veterinarioRepository.save(vet7);
-                        
+
                         Veterinario vet8 = new Veterinario("VET89012", "Dra. Patricia Ramirez", "Radiología",
                                         "https://res.cloudinary.com/hnpb47ejt/image/upload/v1646258562/lead-gen/veterinary-technician",
                                         "password", true);
                         vet8.setAdministrador(admin2);
                         veterinarioRepository.save(vet8);
-                        
+
                         Veterinario vet9 = new Veterinario("VET90123", "Dr. Andres Torres", "Rehabilitación",
                                         "https://cdn.phenompeople.com/CareerConnectResources/PEQPETUS/images/Vital_Care_04_0267NonNonCompete13-1675120214406.jpg",
-                                         "password", true);
+                                        "password", true);
                         vet9.setAdministrador(admin2);
                         veterinarioRepository.save(vet9);
-                        
+
                         Veterinario vet10 = new Veterinario("VET01234", "Dra. Sofia Morales", "Cirugía",
                                         "https://www.aaha.org/wp-content/uploads/2024/03/49350d8880e24a9bb91bfcb4df6c4598.jpg",
                                         "password", true);
                         vet10.setAdministrador(admin2);
                         veterinarioRepository.save(vet10);
-                        
+
                         System.out.println("Veterinarios asignados a administradores con éxito.");
 
                         veterinarios = veterinarioRepository.findAll();
@@ -699,33 +701,26 @@ public class DatabaseInit implements ApplicationRunner {
                                 Calendar calendar = Calendar.getInstance();
 
                                 for (int i = 0; i < 20; i++) {
-                                        // random Mascota y Veterinario
                                         Mascota mascota = mascotasDisponibles
                                                         .get(random.nextInt(mascotasDisponibles.size()));
                                         Veterinario veterinario = veterinarios.get(random.nextInt(veterinarios.size()));
+                                        Droga droga = drogasDisponibles.get(random.nextInt(drogasDisponibles.size()));
 
-                                        // generar fecha aleatoria dentro de los últimos 6 meses
-                                        calendar.setTime(new Date());
-                                        calendar.add(Calendar.MONTH, -random.nextInt(6));
-                                        calendar.add(Calendar.DAY_OF_MONTH, -random.nextInt(30));
-                                        Date fechaTratamiento = calendar.getTime();
+                                        if (droga.getUnidadesDisponibles() > 0) {
+                                                calendar.setTime(new Date());
+                                                calendar.add(Calendar.MONTH, -random.nextInt(6));
+                                                calendar.add(Calendar.DAY_OF_MONTH, -random.nextInt(30));
+                                                Date fechaTratamiento = calendar.getTime();
 
-                                        // Crear tratamiento
-                                        Tratamiento tratamiento = new Tratamiento();
-                                        tratamiento.setFecha(fechaTratamiento);
-                                        tratamiento.setMascota(mascota);
-                                        tratamiento.setVeterinario(veterinario);
-                                        tratamientoRepository.save(tratamiento);
-
-                                        // Asignar 5 drogas aleatorias
-                                        List<Droga> drogasAsignadas = new ArrayList<>();
-                                        for (int j = 0; j < 5; j++) {
-                                                Droga droga = drogasDisponibles
-                                                                .get(random.nextInt(drogasDisponibles.size()));
-                                                droga.setTratamiento(tratamiento);
+                                                droga.decrementarUnidadesDisponibles();
                                                 drogaRepository.save(droga);
-                                                drogasAsignadas.add(droga);
+
+                                                Tratamiento tratamiento = new Tratamiento();
+                                                tratamiento.setFecha(fechaTratamiento);
+                                                tratamiento.setMascota(mascota);
+                                                tratamiento.setVeterinario(veterinario);
                                                 tratamiento.setDroga(droga);
+
                                                 tratamientoRepository.save(tratamiento);
                                         }
                                 }

@@ -2,11 +2,12 @@ package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotBlank;
@@ -14,6 +15,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Droga {
@@ -49,32 +52,32 @@ public class Droga {
     private int unidadesVendidas;
 
     // Relación uno a uno
-    @OneToOne(mappedBy = "droga")
+    @OneToMany(mappedBy = "droga", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private Tratamiento tratamiento;
+    private List<Tratamiento> tratamientos = new ArrayList<>();
 
     public Droga() {
     }
 
     public Droga(String nombre, float precioCompra, float precioVenta, int unidadesDisponibles, int unidadesVendidas,
-            Tratamiento tratamiento) {
+            List<Tratamiento> tratamientos) {
         this.nombre = nombre;
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
         this.unidadesDisponibles = unidadesDisponibles;
         this.unidadesVendidas = unidadesVendidas;
-        this.tratamiento = tratamiento;
+        this.tratamientos = tratamientos;
     }
 
     public Droga(Long id, String nombre, float precioCompra, float precioVenta, int unidadesDisponibles,
-            int unidadesVendidas, Tratamiento tratamiento) {
+            int unidadesVendidas, List<Tratamiento> tratamientos) {
         this.id = id;
         this.nombre = nombre;
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
         this.unidadesDisponibles = unidadesDisponibles;
         this.unidadesVendidas = unidadesVendidas;
-        this.tratamiento = tratamiento;
+        this.tratamientos = tratamientos;
     }
 
     public Long getId() {
@@ -125,12 +128,12 @@ public class Droga {
         this.unidadesVendidas = unidadesVendidas;
     }
 
-    public Tratamiento getTratamiento() {
-        return tratamiento;
+    public List<Tratamiento> getTratamientos() {
+        return tratamientos;
     }
 
-    public void setTratamiento(Tratamiento tratamiento) {
-        this.tratamiento = tratamiento;
+    public void setTratamiento(List<Tratamiento> tratamientos) {
+        this.tratamientos = tratamientos;
     }
 
     public void decrementarUnidadesDisponibles() {

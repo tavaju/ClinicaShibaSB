@@ -62,7 +62,6 @@ public class MascotaController {
 
     }
 
-
     // http://localhost:8090/mascota/edit
     // Lista todas las mascotas con la posibilidad de editarlas
     @GetMapping("/edit")
@@ -215,8 +214,12 @@ public class MascotaController {
             @PathVariable("mascotaId") Long mascotaId,
             @RequestParam("veterinarioId") Long veterinarioId,
             @RequestParam("drogaId") Long drogaId) {
-        Tratamiento tratamiento = tratamientoService.crearTratamiento(mascotaId, veterinarioId, drogaId);
-        return ResponseEntity.ok(tratamiento);
+        try {
+            Tratamiento tratamiento = tratamientoService.crearTratamiento(mascotaId, veterinarioId, drogaId);
+            return ResponseEntity.ok(tratamiento);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return ResponseEntity.badRequest().body(null); // Return 400 Bad Request with error message
+        }
     }
 
     @GetMapping("/hasTratamiento/{mascotaId}")
