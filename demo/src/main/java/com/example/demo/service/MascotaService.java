@@ -22,4 +22,7 @@ public interface MascotaService {
     // Método para buscar mascotas por cualquier atributo
     public List<Mascota> searchByQuery(String query);
     
+    // Verificar si una mascota tiene tratamientos
+    public boolean hasTratamientos(Long mascotaId);
+    
 }

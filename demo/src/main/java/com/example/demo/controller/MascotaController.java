@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.HistorialMedicoDTO;
 import com.example.demo.model.Cliente;
 import com.example.demo.model.Droga;
 import com.example.demo.model.Mascota;
@@ -61,7 +64,6 @@ public class MascotaController {
         return mascotaService.SearchAll();
 
     }
-
 
     // http://localhost:8090/mascota/edit
     // Lista todas las mascotas con la posibilidad de editarlas
@@ -211,12 +213,50 @@ public class MascotaController {
 
     @PostMapping("/darTratamiento/{mascotaId}")
     @Operation(summary = "Dar tratamiento a una mascota")
-    public ResponseEntity<Tratamiento> darTratamiento(
+    public ResponseEntity<Map<String, String>> darTratamiento(
             @PathVariable("mascotaId") Long mascotaId,
             @RequestParam("veterinarioId") Long veterinarioId,
             @RequestParam("drogaId") Long drogaId) {
-        Tratamiento tratamiento = tratamientoService.crearTratamiento(mascotaId, veterinarioId, drogaId);
-        return ResponseEntity.ok(tratamiento);
+        try {
+            Tratamiento tratamiento = tratamientoService.crearTratamiento(mascotaId, veterinarioId, drogaId);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Tratamiento creado exitosamente.");
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @GetMapping("/hasTratamiento/{mascotaId}")
+    @Operation(summary = "Verificar si una mascota ya tiene un tratamiento")
+    public ResponseEntity<Boolean> verificarSiTieneTratamiento(@PathVariable("mascotaId") Long mascotaId) {
+        boolean tieneTratamiento = mascotaService.hasTratamientos(mascotaId);
+        return ResponseEntity.ok(tieneTratamiento);
+    }
+
+    @GetMapping("/historial-medico/{mascotaId}")
+    @Operation(summary = "Obtener el historial médico completo de una mascota")
+    public ResponseEntity<List<HistorialMedicoDTO>> getHistorialMedico(@PathVariable("mascotaId") Long mascotaId) {
+        try {
+            List<HistorialMedicoDTO> historial = tratamientoService.getHistorialMedico(mascotaId);
+            return ResponseEntity.ok(historial);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/estado/{mascotaId}")
+    @Operation(summary = "Obtener el estado de una mascota")
+    public ResponseEntity<Boolean> obtenerEstadoMascota(@PathVariable("mascotaId") Long mascotaId) {
+        Mascota mascota = mascotaService.SearchById(mascotaId);
+        if (mascota == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(mascota.isEstado());
     }
 
 }
