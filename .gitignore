@@ -1,0 +1,16 @@
+# ClinicaShiba .gitignore
+
+# Archivos de base de datos
+*.mv.db
+*.trace.db
+mydatabase.mv.db
+mydatabase.trace.db
+
+# Archivos de configuración IDE
+.idea/
+.vscode/
+
+# Archivos de compilación y paquetes
+**/target/
+**/build/
+**/out/ 
