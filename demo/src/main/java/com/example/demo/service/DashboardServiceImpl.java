@@ -51,7 +51,7 @@ public class DashboardServiceImpl implements DashboardService {
         Long mascotasTotales = mascotaRepository.countMascotasTotales();
         dashboardDTO.setMascotasTotales(mascotasTotales);
         
-        Long mascotasActivas = mascotaRepository.countMascotasActivas(fechaInicio);
+        Long mascotasActivas = mascotaRepository.countMascotasActivas();
         dashboardDTO.setMascotasActivas(mascotasActivas != null ? mascotasActivas : 0L);
         
         // Contar veterinarios activos e inactivos

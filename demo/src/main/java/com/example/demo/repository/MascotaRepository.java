@@ -29,8 +29,8 @@ public interface MascotaRepository extends JpaRepository<Mascota, Long> {
     List<Mascota> findByVeterinarioId(@Param("veterinarioId") Long veterinarioId);
     
     // Contar mascotas activas (en tratamiento en los últimos 30 días)
-    @Query("SELECT COUNT(DISTINCT m) FROM Mascota m JOIN m.tratamientos t WHERE t.fecha >= :fechaInicio AND m.estado = true")
-    Long countMascotasActivas(@Param("fechaInicio") Date fechaInicio);
+    @Query("SELECT COUNT(DISTINCT m) FROM Mascota m WHERE m.estado = true")
+    Long countMascotasActivas();
     
     // Contar todas las mascotas
     @Query("SELECT COUNT(m) FROM Mascota m")
