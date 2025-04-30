@@ -37,11 +37,6 @@ public class TratamientoServiceImpl implements TratamientoService {
         Mascota mascota = mascotaRepository.findById(mascotaId)
                 .orElseThrow(() -> new IllegalArgumentException("Mascota no encontrada."));
 
-        // Check if Mascota is active
-        if (!mascota.isEstado()) {
-            throw new IllegalStateException("La mascota está inactiva y no puede recibir tratamientos.");
-        }
-
         // Fetch Veterinario
         Veterinario veterinario = veterinarioRepository.findById(veterinarioId)
                 .orElseThrow(() -> new IllegalArgumentException("Veterinario no encontrado."));
@@ -49,6 +44,11 @@ public class TratamientoServiceImpl implements TratamientoService {
         // Check if Veterinario is active
         if (!veterinario.isEstado()) {
             throw new IllegalStateException("El veterinario está inactivo y no puede asignar tratamientos.");
+        }
+
+        // Check if Veterinario is active
+        if (!veterinario.isEstado()) {
+            throw new IllegalStateException("El veterinario está inactivo y no puede suministrar tratamientos.");
         }
 
         // Fetch Droga
