@@ -45,6 +45,11 @@ public class TratamientoServiceImpl implements TratamientoService {
         // Fetch Veterinario
         Veterinario veterinario = veterinarioRepository.findById(veterinarioId)
                 .orElseThrow(() -> new IllegalArgumentException("Veterinario no encontrado."));
+                
+        // Check if Veterinario is active
+        if (!veterinario.isEstado()) {
+            throw new IllegalStateException("El veterinario está inactivo y no puede asignar tratamientos.");
+        }
 
         // Fetch Droga
         Droga droga = drogaRepository.findById(drogaId)

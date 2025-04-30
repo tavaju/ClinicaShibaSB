@@ -204,4 +204,15 @@ public class VeterinarioController {
         List<Mascota> mascotas = veterinarioService.findMascotasByVeterinarioId(veterinarioId);
         return ResponseEntity.ok(mascotas);
     }
+    
+    // Endpoint para verificar si un veterinario está activo
+    @GetMapping("/estado/{veterinarioId}")
+    @Operation(summary = "Verificar si un veterinario está activo")
+    public ResponseEntity<Boolean> obtenerEstadoVeterinario(@PathVariable("veterinarioId") Long veterinarioId) {
+        Veterinario veterinario = veterinarioService.searchById(veterinarioId);
+        if (veterinario == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(veterinario.isEstado());
+    }
 }
