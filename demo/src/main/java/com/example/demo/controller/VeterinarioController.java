@@ -8,11 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.service.VeterinarioService;
+import com.example.demo.service.AdministradorService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
 import com.example.demo.model.Veterinario;
 import com.example.demo.model.Mascota;
+import com.example.demo.model.Administrador;
 
 // Controlador de Veterinario
 @RequestMapping("/veterinario")
@@ -23,6 +25,9 @@ public class VeterinarioController {
     // Inyeccion de dependencias de VeterinarioService
     @Autowired
     VeterinarioService veterinarioService;
+    
+    @Autowired
+    AdministradorService administradorService;
 
     // http://localhost:8090/veterinario/all
     @GetMapping("/all")
@@ -52,16 +57,45 @@ public class VeterinarioController {
         return "crear_veterinario";
     }
 
+    // http://localhost:8090/veterinario/check-cedula/{cedula}
+    @GetMapping("/check-cedula/{cedula}")
+    @Operation(summary = "Verificar si ya existe un veterinario con la cédula especificada")
+    public ResponseEntity<Boolean> existsVeterinarioByCedula(@PathVariable("cedula") String cedula) {
+        Veterinario veterinario = veterinarioService.searchByCedula(cedula);
+        return ResponseEntity.ok(veterinario != null);
+    }
+
     // Metodo POST para agregar un veterinario
     @PostMapping("/add")
     @Operation(summary = "Agregar un nuevo veterinario")
-    public void agregarVeterinario( @RequestBody Veterinario veterinario, @RequestParam("confirmPassword") String confirmPassword) {
+    public ResponseEntity<?> agregarVeterinario(
+            @RequestBody Veterinario veterinario, 
+            @RequestParam("confirmPassword") String confirmPassword,
+            @RequestParam("administradorId") Long administradorId) {
+        
+        // Verificar si ya existe un veterinario con la misma cédula
+        Veterinario veterinarioExistente = veterinarioService.searchByCedula(veterinario.getCedula());
+        if (veterinarioExistente != null) {
+            return ResponseEntity.badRequest().body("Ya existe un veterinario con la cédula " + veterinario.getCedula());
+        }
+        
         // Verificar si la contraseña y la confirmación coinciden
         if (!veterinario.getContrasena().equals(confirmPassword)) {
             throw new IllegalArgumentException("Las contraseñas no coinciden");
         }
+        
+        // Buscar el administrador por ID
+        Administrador administrador = administradorService.searchById(administradorId);
+        if (administrador == null) {
+            return ResponseEntity.badRequest().body("Administrador con ID " + administradorId + " no encontrado");
+        }
+        
+        // Asociar el veterinario con el administrador
         veterinario.setId(null);
+        veterinario.setAdministrador(administrador);
         veterinarioService.add(veterinario);
+        
+        return ResponseEntity.ok("Veterinario creado exitosamente");
     }
 
     @DeleteMapping("/delete/{id}")

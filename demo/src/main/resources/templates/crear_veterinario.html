@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="/css/create_form.css" />
     <!-- Lucide Icons; iconos de decoración -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      .error-message {
+        color: #ff3333;
+        font-size: 0.9rem;
+        margin-top: 5px;
+        display: none;
+      }
+      .input-error {
+        border: 1px solid #ff3333 !important;
+      }
+    </style>
   </head>
   <body>
     <!-- Encabezado de la página -->
@@ -33,7 +44,9 @@
         class="form-container"
         th:object="${veterinario}"
         th:action="@{/veterinario/agregar}"
-        method="post">
+        method="post"
+        id="veterinarioForm"
+        onsubmit="return validateForm()">
         <article class="form-grid">
           <div class="form-group">
             <label for="cedula">Cédula</label>
@@ -43,8 +56,10 @@
                 th:field="*{cedula}"
                 type="text"
                 id="cedula"
-                placeholder="Ingresa la cédula" />
+                placeholder="Ingresa la cédula" 
+                onblur="validateCedula()"/>
             </div>
+            <div class="error-message" id="cedula-error">Esta cédula ya está registrada para otro veterinario.</div>
           </div>
 
           <div class="form-group">
@@ -136,6 +151,53 @@
 
     <script>
       lucide.createIcons();
+      
+      let cedulaIsValid = true;
+
+      async function validateCedula() {
+        const cedulaInput = document.getElementById('cedula');
+        const cedulaError = document.getElementById('cedula-error');
+        const cedula = cedulaInput.value.trim();
+        
+        if (!cedula) return; // No validar si está vacío
+        
+        try {
+          const response = await fetch(`/veterinario/check-cedula/${cedula}`);
+          const exists = await response.json();
+          
+          if (exists) {
+            cedulaInput.classList.add('input-error');
+            cedulaError.style.display = 'block';
+            cedulaIsValid = false;
+          } else {
+            cedulaInput.classList.remove('input-error');
+            cedulaError.style.display = 'none';
+            cedulaIsValid = true;
+          }
+        } catch (error) {
+          console.error('Error al verificar la cédula:', error);
+        }
+      }
+
+      function validateForm() {
+        // Verificar cédula antes de enviar el formulario
+        if (!cedulaIsValid) {
+          document.getElementById('cedula-error').style.display = 'block';
+          document.getElementById('cedula').classList.add('input-error');
+          return false;
+        }
+        
+        // Validar que las contraseñas coincidan
+        const contrasena = document.getElementById('contrasena').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (contrasena !== confirmPassword) {
+          alert('Las contraseñas no coinciden');
+          return false;
+        }
+        
+        return true;
+      }
     </script>
   </body>
 </html>
