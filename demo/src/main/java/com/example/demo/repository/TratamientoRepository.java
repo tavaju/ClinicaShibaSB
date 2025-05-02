@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -62,4 +63,23 @@ public interface TratamientoRepository extends JpaRepository<Tratamiento, Long> 
            "WHERE m.id = :mascotaId " +
            "ORDER BY t.fecha DESC")
     List<HistorialMedicoDTO> findHistorialMedicoByMascotaId(@Param("mascotaId") Long mascotaId);
+
+    // CONSULTAS PARA PRUEBAS
+
+    // Traer tratamientos por nombre de veterinario
+    @Query("SELECT t FROM Tratamiento t WHERE t.veterinario.nombre = :nombreVeterinario")
+    List<Tratamiento> findByVeterinarioNombre(@Param("nombreVeterinario") String nombreVeterinario);
+
+    // Contar tratamientos por nombre de veterinario
+    @Query("SELECT COUNT(t) FROM Tratamiento t WHERE t.droga.nombre = :nombreDroga")
+    Long countByDrogaNombre(@Param("nombreDroga") String nombreDroga);
+
+    // Traer tratamientos por fecha
+    @Query("SELECT t FROM Tratamiento t WHERE t.fecha BETWEEN :startDate AND :endDate")
+    List<Tratamiento> findByFechaBetween(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+    // Traer tratamientos por nombre de mascota
+    @Query("SELECT t FROM Tratamiento t WHERE t.mascota.nombre = :nombreMascota")
+    List<Tratamiento> findByMascotaNombre(@Param("nombreMascota") String nombreMascota);
+
 }
