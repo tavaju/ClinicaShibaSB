@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 
 import com.example.demo.repository.AdministradorRepository;
@@ -12,12 +13,17 @@ import com.example.demo.service.ExcelService;
 import com.example.demo.repository.TratamientoRepository;
 import com.example.demo.repository.DrogaRepository;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.apache.poi.ss.usermodel.*;
 
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Random;
 import java.util.Date;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -670,18 +676,23 @@ public class DatabaseInit implements ApplicationRunner {
                 // Crear tratamientos de ejemplo si la base de datos esta vacia
 
                 loadDrogasFromExcel();
+
                 createExampleTreatments();
 
         }
 
+        
+
         private void loadDrogasFromExcel() {
                 try {
-                        String excelFilePath = "demo/src/main/resources/excel/MEDICAMENTOS_VETERINARIA.xlsx";
+                        ClassPathResource resource = new ClassPathResource("excel/MEDICAMENTOS_VETERINARIA.xlsx");
+                        InputStream inputStream = resource.getInputStream();
+                        List<Droga> drogas = excelService.readDrogasFromExcel(inputStream);
 
-                        List<Droga> drogas = excelService.readDrogasFromExcel(excelFilePath);
                         for (Droga droga : drogas) {
-                                droga.setTratamiento(null); // Asegurar que no haya un tratamiento asociado
+                                droga.setTratamiento(null); // Por si acaso
                         }
+
                         drogaRepository.saveAll(drogas);
                         System.out.println("Drogas loaded successfully from Excel.");
                 } catch (Exception e) {

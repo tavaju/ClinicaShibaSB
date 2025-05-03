@@ -5,20 +5,17 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ExcelService {
 
-    public List<Droga> readDrogasFromExcel(String filePath) throws Exception {
+    public List<Droga> readDrogasFromExcel(InputStream inputStream) throws Exception {
         List<Droga> drogas = new ArrayList<>();
 
-        try (FileInputStream fis = new FileInputStream(new File(filePath));
-                Workbook workbook = new XSSFWorkbook(fis)) {
-
+        try (Workbook workbook = new XSSFWorkbook(inputStream)) {
             Sheet sheet = workbook.getSheetAt(0); // Read the first sheet
             int rowCount = sheet.getPhysicalNumberOfRows();
 
@@ -44,28 +41,17 @@ public class ExcelService {
     private String getCellValueAsString(Cell cell) {
         if (cell == null)
             return "";
-        switch (cell.getCellType()) {
-            case STRING:
-                return cell.getStringCellValue().trim();
-            case NUMERIC:
-                if (DateUtil.isCellDateFormatted(cell)) {
-                    return cell.getDateCellValue().toString();
-                } else {
-                    // Remove ".0" if the number is an integer
-                    double numericValue = cell.getNumericCellValue();
-                    if (numericValue == Math.floor(numericValue)) {
-                        return String.valueOf((long) numericValue); // Convert to long if it's an integer
-                    } else {
-                        return String.valueOf(numericValue); // Keep as double if it's a decimal
-                    }
-                }
-            case BOOLEAN:
-                return String.valueOf(cell.getBooleanCellValue());
-            case FORMULA:
-                return cell.getCellFormula();
-            default:
-                return "";
-        }
+        return switch (cell.getCellType()) {
+            case STRING -> cell.getStringCellValue().trim();
+            case NUMERIC -> DateUtil.isCellDateFormatted(cell)
+                    ? cell.getDateCellValue().toString()
+                    : String.valueOf((cell.getNumericCellValue() == Math.floor(cell.getNumericCellValue()))
+                            ? (long) cell.getNumericCellValue()
+                            : cell.getNumericCellValue());
+            case BOOLEAN -> String.valueOf(cell.getBooleanCellValue());
+            case FORMULA -> cell.getCellFormula();
+            default -> "";
+        };
     }
 
     private float parseFloat(String value) {
@@ -78,9 +64,21 @@ public class ExcelService {
 
     private int parseInt(String value) {
         try {
+            // Primero intenta como entero directo
             return Integer.parseInt(value.replace(",", "").trim());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid integer value: " + value);
+            // Si falla, intenta como float y conviértelo a entero si termina en ".0"
+            try {
+                float f = Float.parseFloat(value.replace(",", "").trim());
+                if (f == Math.floor(f)) {
+                    return (int) f;
+                } else {
+                    throw new IllegalArgumentException("Expected integer but found decimal: " + value);
+                }
+            } catch (NumberFormatException ex) {
+                throw new IllegalArgumentException("Invalid integer value: " + value);
+            }
         }
     }
+
 }
