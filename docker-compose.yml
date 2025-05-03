@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  clinicashiba-db:
+    image: postgres:15
+    container_name: clinicashiba-db
+    restart: always
+    environment:
+      POSTGRES_DB: shibaserver
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    networks:
+      - clinicanet
+
+  clinicashiba-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: clinicashiba-backend
+    depends_on:
+      - clinicashiba-db
+    ports:
+      - "8090:8080"
+    networks:
+      - clinicanet
+    volumes:
+      - ./application.properties:/app/application.properties
+
+networks:
+  clinicanet:
+    driver: bridge
