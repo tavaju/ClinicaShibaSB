@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.example.demo.dto.HistorialMedicoDTO;
+import com.example.demo.model.Cliente;
 import com.example.demo.model.Droga;
 import com.example.demo.model.Mascota;
 import com.example.demo.model.Tratamiento;
@@ -46,43 +46,33 @@ public class TratamientoServiceTestMock {
     @InjectMocks
     private TratamientoServiceImpl tratamientoService;
 
-    private Mascota mascota;
-    private Veterinario veterinarioActivo;
-    private Veterinario veterinarioInactivo;
-    private Droga drogaConStock;
-    private Droga drogaSinStock;
-
-    @BeforeEach
-    public void init() {
-        // Inicializar objetos para pruebas
-        mascota = new Mascota("Firulais", "Labrador", 5, 20.0f, "Healthy", null, true);
-        mascota.setId(1L);
-
-        veterinarioActivo = new Veterinario("123456", "Dr. Activo", "General", null, "password123", true);
-        veterinarioActivo.setId(1L);
-
-        veterinarioInactivo = new Veterinario("654321", "Dr. Inactivo", "Cirugía", null, "password456", false);
-        veterinarioInactivo.setId(2L);
-
-        drogaConStock = new Droga("Paracetamol", 10.0f, 15.0f, 10, 0, null);
-        drogaConStock.setId(1L);
-
-        drogaSinStock = new Droga("Ibuprofeno", 8.0f, 12.0f, 0, 5, null);
-        drogaSinStock.setId(2L);
-    }
-
     // Test 1: Crear tratamiento exitosamente
     @Test
     public void TratamientoService_crearTratamiento_Tratamiento() {
         // Arrange
+        // Crear objetos necesarios para la prueba
+        Mascota mascota = new Mascota("Firulais", "Labrador", 5, 20.0f, "Healthy", null, true);
+        mascota.setId(1L);
+
+        Cliente cliente = new Cliente("123456", "Cliente Test", "cliente@test.com", "1234567890", "password123");
+        cliente.setId(1L);
+        mascota.setCliente(cliente);
+
+        Veterinario veterinario = new Veterinario("123456", "Dr. Activo", "General", null, "password123", true);
+        veterinario.setId(1L);
+
+        Droga droga = new Droga("Paracetamol", 10.0f, 15.0f, 10, 0, null);
+        droga.setId(1L);
+
+        // Configurar comportamiento de los mocks
         when(mascotaRepository.findById(1L)).thenReturn(Optional.of(mascota));
-        when(veterinarioRepository.findById(1L)).thenReturn(Optional.of(veterinarioActivo));
-        when(drogaRepository.findById(1L)).thenReturn(Optional.of(drogaConStock));
+        when(veterinarioRepository.findById(1L)).thenReturn(Optional.of(veterinario));
+        when(drogaRepository.findById(1L)).thenReturn(Optional.of(droga));
         
-        Tratamiento tratamientoEsperado = new Tratamiento(new Date(), drogaConStock, mascota, veterinarioActivo);
+        Tratamiento tratamientoEsperado = new Tratamiento(new Date(), droga, mascota, veterinario);
         tratamientoEsperado.setId(1L);
         when(tratamientoRepository.save(any(Tratamiento.class))).thenReturn(tratamientoEsperado);
-        when(drogaRepository.save(any(Droga.class))).thenReturn(drogaConStock);
+        when(drogaRepository.save(any(Droga.class))).thenReturn(droga);
 
         // Act
         Tratamiento resultado = tratamientoService.crearTratamiento(1L, 1L, 1L);
@@ -102,6 +92,9 @@ public class TratamientoServiceTestMock {
         Long mascotaId = 1L;
         Long mascotaInexistenteId = 999L;
         
+        Mascota mascota = new Mascota("Firulais", "Labrador", 5, 20.0f, "Healthy", null, true);
+        mascota.setId(mascotaId);
+        
         when(mascotaRepository.findById(mascotaId)).thenReturn(Optional.of(mascota));
         when(mascotaRepository.findById(mascotaInexistenteId)).thenReturn(Optional.empty());
 
@@ -120,6 +113,12 @@ public class TratamientoServiceTestMock {
     @Test
     public void TratamientoService_verificarEstadoVeterinario_Veterinario() {
         // Arrange
+        Veterinario veterinarioActivo = new Veterinario("123456", "Dr. Activo", "General", null, "password123", true);
+        veterinarioActivo.setId(1L);
+        
+        Veterinario veterinarioInactivo = new Veterinario("654321", "Dr. Inactivo", "Cirugía", null, "password456", false);
+        veterinarioInactivo.setId(2L);
+        
         when(veterinarioRepository.findById(1L)).thenReturn(Optional.of(veterinarioActivo));
         when(veterinarioRepository.findById(2L)).thenReturn(Optional.of(veterinarioInactivo));
 
@@ -141,6 +140,12 @@ public class TratamientoServiceTestMock {
     @Test
     public void TratamientoService_verificarStockDrogas_Droga() {
         // Arrange
+        Droga drogaConStock = new Droga("Paracetamol", 10.0f, 15.0f, 10, 0, null);
+        drogaConStock.setId(1L);
+        
+        Droga drogaSinStock = new Droga("Ibuprofeno", 8.0f, 12.0f, 0, 5, null);
+        drogaSinStock.setId(2L);
+        
         when(drogaRepository.findById(1L)).thenReturn(Optional.of(drogaConStock));
         when(drogaRepository.findById(2L)).thenReturn(Optional.of(drogaSinStock));
 
