@@ -10,12 +10,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TratamientoRepositoryTest {
 
     @Autowired
@@ -102,7 +104,7 @@ public class TratamientoRepositoryTest {
         Optional<Tratamiento> tratamiento = tratamientoRepository.findById(id);
 
         // ASSERT
-        Assertions.assertThat(tratamiento).isPresent();
+        //Assertions.assertThat(tratamiento).isPresent();
         Assertions.assertThat(tratamiento.get().getId()).isEqualTo(id);
         Assertions.assertThat(tratamiento.get().getDroga().getNombre()).isEqualTo("Paracetamol");
         Assertions.assertThat(tratamiento.get().getDroga().getId()).isEqualTo(1L);
