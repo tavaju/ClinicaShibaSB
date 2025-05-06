@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 import com.example.demo.repository.AdministradorRepository;
@@ -18,12 +19,12 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Random;
 import java.util.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 // Clase para inicializar la base de datos
 @Controller
 @Transactional
+@Profile("default")
 public class DatabaseInit implements ApplicationRunner {
 
         @Autowired
