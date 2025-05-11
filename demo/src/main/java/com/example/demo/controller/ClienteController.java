@@ -70,19 +70,26 @@ public class ClienteController {
     // Metodo POST para agregar un cliente
     @PostMapping("/add")
     @Operation(summary = "Agregar cliente")
-    public void agregarCliente(@RequestBody Cliente cliente, @RequestParam("confirmPassword") String confirmPassword) {
+    public ResponseEntity<?> agregarCliente(@RequestBody Cliente cliente, @RequestParam("confirmPassword") String confirmPassword) {
 
+        // Verificar que los campos obligatorios no sean nulos ni vacíos
+        if (cliente.getNombre() == null || cliente.getNombre().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("El nombre del cliente es obligatorio");
+        }
+
+        if (cliente.getCedula() == null || cliente.getCedula().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("La cédula del cliente es obligatoria");
+        }
+        
         // Verificar si la contraseña y la confirmación coinciden
         if (!cliente.getContrasena().equals(confirmPassword)) {
-            // model.addAttribute("error", "Las contraseñas no coinciden");
-            // Si las contraseñas no coinciden, redirigir al formulario de creación
-            // return "crear_cliente";
-            throw new IllegalArgumentException("Las contraseñas no coinciden");
+            return ResponseEntity.badRequest().body("Las contraseñas no coinciden");
         }
+        
         cliente.setId(null);
-        clienteService.add(cliente);
+        Cliente clienteGuardado = clienteService.add(cliente);
 
-        // return "redirect:/cliente/all";
+        return ResponseEntity.ok(clienteGuardado);
     }
 
     // Metodo GET para eliminar un cliente elegido
@@ -139,6 +146,11 @@ public class ClienteController {
             //throw new NotFoundException("Cliente con ID " + id + " no encontrado");
         }
         else{
+        // Asegurar que el nombre no se pierda durante la actualización
+        if (cliente.getNombre() == null || cliente.getNombre().trim().isEmpty()) {
+            cliente.setNombre(clienteExistente.getNombre());
+        }
+
         cliente.setMascotas(clienteExistente.getMascotas());
 
         if (Boolean.TRUE.equals(changePassword)) {
