@@ -677,11 +677,18 @@ public class DatabaseInit implements ApplicationRunner {
 
         private void loadDrogasFromExcel() {
                 try {
-                        String excelFilePath = "demo/src/main/resources/excel/MEDICAMENTOS_VETERINARIA.xlsx";
-
-                        List<Droga> drogas = excelService.readDrogasFromExcel(excelFilePath);
+                        // Usa el classpath para encontrar el archivo
+                        String excelFilePath = "excel/MEDICAMENTOS_VETERINARIA.xlsx";
+                        ClassLoader classLoader = getClass().getClassLoader();
+                        java.net.URL resource = classLoader.getResource(excelFilePath);
+                        if (resource == null) {
+                                System.err.println("No se encontró el archivo de medicamentos en el classpath: " + excelFilePath);
+                                return;
+                        }
+                        String path = resource.getPath();
+                        List<Droga> drogas = excelService.readDrogasFromExcel(path);
                         for (Droga droga : drogas) {
-                                droga.setTratamiento(null); // Asegurar que no haya un tratamiento asociado
+                                droga.setTratamiento(null);
                         }
                         drogaRepository.saveAll(drogas);
                         System.out.println("Drogas loaded successfully from Excel.");
