@@ -69,8 +69,10 @@ public class AdminVetTreatmentE2ETest {
             Assertions.assertThat(afterMetrics.aivlosinCount)
                     .isEqualTo(beforeMetrics.aivlosinCount + 1);
         }
-        Assertions.assertThat(afterMetrics.gananciasTotales)
-                .isGreaterThan(beforeMetrics.gananciasTotales);
+        float expectedVentas = beforeMetrics.ventasTotales + 164900f;
+        Assertions.assertThat(afterMetrics.ventasTotales)
+                .as("Las ventas después del tratamiento deben ser exactamente las ventas anteriores + $115430")
+                .isCloseTo(expectedVentas, Assertions.within(0.01f));
     }
 
     // --- Utilidades y helpers ---
@@ -115,39 +117,37 @@ public class AdminVetTreatmentE2ETest {
 
         // Buscar la tarjeta de ganancias de forma robusta
         List<WebElement> metricCards = driver.findElements(By.cssSelector(".metric-card"));
-        String gananciasText = null;
+        String ventasText = null;
         for (WebElement card : metricCards) {
             List<WebElement> headers = card.findElements(By.tagName("h3"));
-            if (!headers.isEmpty() && headers.get(0).getText().trim().equalsIgnoreCase("Ganancias")) {
+            if (!headers.isEmpty() && headers.get(0).getText().trim().equalsIgnoreCase("Ventas Totales")) {
                 WebElement valueDiv = card.findElement(By.cssSelector(".metric-value"));
-                gananciasText = valueDiv.getText();
+                ventasText = valueDiv.getText();
                 break;
             }
         }
-        if (gananciasText == null) {
-            throw new NoSuchElementException("No se encontró la tarjeta de 'Ganancias' en el dashboard.");
+        if (ventasText == null) {
+            throw new NoSuchElementException("No se encontró la tarjeta de 'Ventas Totales' en el dashboard.");
         }
-        // Limpiar el texto de ganancias para obtener solo el número
-        gananciasText = gananciasText.replaceAll("[^\\d.,]", "").trim();
+        // Limpiar el texto de ventas para obtener solo el número
+        ventasText = ventasText.replaceAll("[^\\d.,]", "").trim();
 
-        // Si el formato es "840,870.00" (coma miles, punto decimal), elimina todas las
-        // comas
-        if (gananciasText.matches(".*\\d,\\d{3}\\.\\d{2}$")) {
-            gananciasText = gananciasText.replace(",", "");
+        // Si el formato es "840,870.00" (coma miles, punto decimal), elimina todas las comas
+        if (ventasText.matches(".*\\d,\\d{3}\\.\\d{2}$")) {
+            ventasText = ventasText.replace(",", "");
         }
-        // Si el formato es "840.870,00" (punto miles, coma decimal), elimina puntos y
-        // cambia coma por punto
-        else if (gananciasText.matches(".*\\d\\.\\d{3},\\d{2}$")) {
-            gananciasText = gananciasText.replace(".", "").replace(",", ".");
+        // Si el formato es "840.870,00" (punto miles, coma decimal), elimina puntos y cambia coma por punto
+        else if (ventasText.matches(".*\\d\\.\\d{3},\\d{2}$")) {
+            ventasText = ventasText.replace(".", "").replace(",", ".");
         }
         // Si solo hay coma decimal, reemplaza por punto
-        else if (gananciasText.contains(",") && !gananciasText.contains(".")) {
-            gananciasText = gananciasText.replace(",", ".");
+        else if (ventasText.contains(",") && !ventasText.contains(".")) {
+            ventasText = ventasText.replace(",", ".");
         }
 
-        float gananciasTotales = Float.parseFloat(gananciasText);
+        float ventasTotales = Float.parseFloat(ventasText);
 
-        return new DashboardMetrics(aivlosinCount, gananciasTotales);
+        return new DashboardMetrics(aivlosinCount, ventasTotales);
     }
 
     // --- NUEVO: método para aceptar cualquier alerta modal ---
@@ -375,11 +375,11 @@ public class AdminVetTreatmentE2ETest {
     // --- DTO para métricas del dashboard ---
     private static class DashboardMetrics {
         int aivlosinCount;
-        float gananciasTotales;
+        float ventasTotales;
 
-        DashboardMetrics(int aivlosinCount, float gananciasTotales) {
+        DashboardMetrics(int aivlosinCount, float ventasTotales) {
             this.aivlosinCount = aivlosinCount;
-            this.gananciasTotales = gananciasTotales;
+            this.ventasTotales = ventasTotales;
         }
     }
 }

@@ -499,8 +499,19 @@ public class VeterinarianWorkflowTest {
                         // Si hay al menos una fila (que no sea la de "no hay mascotas")
                         if (!petRows.get(0).getText().contains("No tienes mascotas registradas")) {
                             System.out.println("Se encontraron " + petRows.size() + " mascotas para el cliente");
+                            
+                            // Verificar que la primera mascota sea "MascotaNew"
+                            WebElement firstPetRow = petRows.get(0);
+                            WebElement firstPetNameLink = firstPetRow.findElement(By.cssSelector(".pet-link"));
+                            String actualPetName = firstPetNameLink.getText();
+                            
+                            Assertions.assertThat(actualPetName)
+                                .as("Verificando que la primera mascota en la tabla sea 'MascotaNew'")
+                                .isEqualTo("MascotaNew");
+                            System.out.println("Se verificó correctamente el nombre de la primera mascota: " + actualPetName);
                         } else {
                             System.out.println("El cliente no tiene mascotas registradas");
+                            Assertions.fail("No se encontraron mascotas para el cliente cuando debería haber al menos una");
                         }
                     }
                 } catch (Exception e) {
@@ -519,6 +530,7 @@ public class VeterinarianWorkflowTest {
         System.out.println("Test de ingreso al portal del cliente completado con éxito");
     }
 
+    
     @AfterEach
     public void tearDown() {
         try {
