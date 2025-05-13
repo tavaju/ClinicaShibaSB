@@ -14,7 +14,7 @@ public interface ClienteService {
 
     public void update(Cliente cliente);
 
-    public void add(Cliente cliente);
+    public Cliente add(Cliente cliente);
 
     public Cliente searchByEmail(String email);
 
