@@ -6,8 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 
 import com.example.demo.service.AdministradorService;
 
@@ -17,6 +22,7 @@ import com.example.demo.model.Administrador;
 import com.example.demo.model.Veterinario;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.CustomUserDetailService;
+import com.example.demo.security.JWTGenerator;
 
 // Controlador de Administrador
 @RequestMapping("/administrador")
@@ -31,9 +37,14 @@ public class AdministradorController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     @Autowired
     CustomUserDetailService customUserDetailService;
+
+    @Autowired
+    JWTGenerator jwtGenerator;
 
     // http://localhost:8090/administrador/all
     @GetMapping("/all")
@@ -140,9 +151,10 @@ public class AdministradorController {
     }
     
     // Login endpoint
+    // http://localhost:8090/administrador/login
     @PostMapping("/login")
     @Operation(summary = "Login de administrador")
-    public ResponseEntity<?> loginAdministrador(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
+    public ResponseEntity loginAdministrador(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
         Administrador administrador = administradorService.searchByCedula(cedula);
         
         if (administrador == null) {
@@ -152,8 +164,17 @@ public class AdministradorController {
         if (!administrador.getContrasena().equals(contrasena)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
         }
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(administrador.getCedula(), administrador.getContrasena()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         
-        return ResponseEntity.ok(administrador);
+        String token = jwtGenerator.generateToken(authentication);
+        return new ResponseEntity<String>(token, HttpStatus.OK);
+
+
+        
     }
     
     // Exception handler for not found resources

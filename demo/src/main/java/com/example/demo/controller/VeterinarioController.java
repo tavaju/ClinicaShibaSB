@@ -113,19 +113,16 @@ public class VeterinarioController {
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Desactivar veterinario (marcar como inactivo)")
     public ResponseEntity<Veterinario> deactivateVeterinario(@PathVariable("id") Long id) {
-        // Retrieve the existing Veterinario from the database
         Veterinario veterinario = veterinarioService.searchById(id);
         if (veterinario == null) {
-            return ResponseEntity.notFound().build(); // Return 404 if not found
+            return ResponseEntity.notFound().build();
         }
 
-        // Set estado to false (deactivate)
         veterinario.setEstado(false);
 
-        // Save the updated Veterinario
         veterinarioService.update(veterinario);
 
-        return ResponseEntity.ok(veterinario); // Return the updated Veterinario
+        return ResponseEntity.ok(veterinario); 
     }
 
     // http://localhost:8090/veterinario/update/1
@@ -152,18 +149,14 @@ public class VeterinarioController {
             @RequestParam(value = "especialidad", required = false) String especialidad,
             @RequestParam(value = "foto", required = false) String foto) {
 
-        // Retrieve the existing Veterinario from the database
         Veterinario veterinarioExistente = veterinarioService.searchById(id);
         if (veterinarioExistente == null) {
             throw new NotFoundException(id);
         }
-
-        // Preserve the existing relationships
         veterinario.setMascotas(veterinarioExistente.getMascotas());
         veterinario.setTratamientos(veterinarioExistente.getTratamientos());
         veterinario.setAdministrador(veterinarioExistente.getAdministrador());
 
-        // Handle password change logic
         if (Boolean.TRUE.equals(changePassword)) {
             if (newPassword == null || newPassword.isEmpty()) {
                 throw new IllegalArgumentException("La nueva contraseña no puede estar vacía");
@@ -191,18 +184,15 @@ public class VeterinarioController {
             @RequestParam(value = "newPassword", required = false) String newPassword,
             @RequestParam(value = "confirmPassword", required = false) String confirmPassword) {
 
-        // Retrieve the existing Veterinario from the database
         Veterinario veterinarioExistente = veterinarioService.searchById(id);
         if (veterinarioExistente == null) {
             throw new NotFoundException("Veterinario con ID " + id + " no encontrado");
         }
 
-        // Preserve existing relationships
         veterinario.setMascotas(veterinarioExistente.getMascotas());
         veterinario.setTratamientos(veterinarioExistente.getTratamientos());
         veterinario.setAdministrador(veterinarioExistente.getAdministrador());
 
-        // Preserve cedula and nombre if not provided
         veterinario.setCedula(veterinario.getCedula() != null && !veterinario.getCedula().isEmpty()
                 ? veterinario.getCedula()
                 : veterinarioExistente.getCedula());
@@ -210,7 +200,6 @@ public class VeterinarioController {
                 ? veterinario.getNombre()
                 : veterinarioExistente.getNombre());
 
-        // Handle password change logic
         if (Boolean.TRUE.equals(changePassword)) {
             if (newPassword == null || newPassword.isEmpty()) {
                 throw new IllegalArgumentException("La nueva contraseña no puede estar vacía");
@@ -223,13 +212,10 @@ public class VeterinarioController {
             veterinario.setContrasena(veterinarioExistente.getContrasena());
         }
 
-        // Update other fields
         veterinario.setEspecialidad(veterinario.getEspecialidad() != null ? veterinario.getEspecialidad()
                 : veterinarioExistente.getEspecialidad());
         veterinario.setFoto(veterinario.getFoto() != null ? veterinario.getFoto() : veterinarioExistente.getFoto());
         veterinario.setEstado(veterinario.isEstado()); // Update estado
-
-        // Save updated Veterinario
         veterinarioService.update(veterinario);
     }
 
