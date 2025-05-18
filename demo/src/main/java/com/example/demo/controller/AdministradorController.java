@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,8 @@ import io.swagger.v3.oas.annotations.Operation;
 
 import com.example.demo.model.Administrador;
 import com.example.demo.model.Veterinario;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.CustomUserDetailService;
 
 // Controlador de Administrador
 @RequestMapping("/administrador")
@@ -24,6 +27,13 @@ public class AdministradorController {
     // Inyeccion de dependencias de AdministradorService
     @Autowired
     AdministradorService administradorService;
+
+    @Autowired
+    UserRepository userRepository;
+
+
+    @Autowired
+    CustomUserDetailService customUserDetailService;
 
     // http://localhost:8090/administrador/all
     @GetMapping("/all")

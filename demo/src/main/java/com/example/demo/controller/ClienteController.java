@@ -199,8 +199,7 @@ public class ClienteController {
         Cliente cliente = clienteService.searchByCedula(cedula);
         ClienteDTO clienteDTO = ClienteMapper.INSTANCE.convert(cliente);
         if (cliente == null) {
-            // throw new NotFoundException("Cliente con cédula " + cedula + " no
-            // encontrado.");
+            throw new NotFoundException("Cliente con cédula " + cedula + " no encontrado.");
         }
         return ResponseEntity.ok(clienteDTO); // Retorna la información del cliente en formato JSON
     }

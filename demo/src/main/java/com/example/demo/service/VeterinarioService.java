@@ -10,7 +10,7 @@ public interface VeterinarioService {
     public List<Veterinario> searchAll();
     public void deleteById(Long id);
     public void update(Veterinario veterinario);
-    public void add(Veterinario veterinario);
+    public Veterinario add(Veterinario veterinario);
     public Veterinario searchByNombre(String nombre);
     public List<Mascota> findMascotasByVeterinarioId(Long veterinarioId);
 }

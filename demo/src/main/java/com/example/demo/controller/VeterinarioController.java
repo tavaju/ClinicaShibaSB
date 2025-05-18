@@ -3,7 +3,9 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +15,12 @@ import com.example.demo.service.AdministradorService;
 import io.swagger.v3.oas.annotations.Operation;
 
 import com.example.demo.model.Veterinario;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.CustomUserDetailService;
 import com.example.demo.model.Mascota;
+import com.example.demo.model.UserEntity;
+import com.example.demo.dto.VeterinarioDTO;
+import com.example.demo.dto.VeterinarioMapper;
 import com.example.demo.model.Administrador;
 
 // Controlador de Veterinario
@@ -25,9 +32,15 @@ public class VeterinarioController {
     // Inyeccion de dependencias de VeterinarioService
     @Autowired
     VeterinarioService veterinarioService;
-    
+
     @Autowired
     AdministradorService administradorService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    CustomUserDetailService customUserDetailService;
 
     // http://localhost:8090/veterinario/all
     @GetMapping("/all")
@@ -43,7 +56,7 @@ public class VeterinarioController {
         Veterinario veterinario = veterinarioService.searchById(id);
         if (veterinario != null) {
             return veterinario;
-        } 
+        }
         throw new NotFoundException(id);
     }
 
@@ -67,35 +80,34 @@ public class VeterinarioController {
 
     // Metodo POST para agregar un veterinario
     @PostMapping("/add")
-    @Operation(summary = "Agregar un nuevo veterinario")
-    public ResponseEntity<?> agregarVeterinario(
-            @RequestBody Veterinario veterinario, 
+    @Operation(summary = "Agregar veterinario")
+    public ResponseEntity<Veterinario> agregarVeterinario(
+            @RequestBody Veterinario veterinario,
             @RequestParam("confirmPassword") String confirmPassword,
             @RequestParam("administradorId") Long administradorId) {
-        
-        // Verificar si ya existe un veterinario con la misma cédula
-        Veterinario veterinarioExistente = veterinarioService.searchByCedula(veterinario.getCedula());
-        if (veterinarioExistente != null) {
-            return ResponseEntity.badRequest().body("Ya existe un veterinario con la cédula " + veterinario.getCedula());
+
+        if (userRepository.existsByUsername(veterinario.getCedula())) {
+            return new ResponseEntity<>(veterinario, HttpStatus.BAD_REQUEST);
         }
-        
-        // Verificar si la contraseña y la confirmación coinciden
         if (!veterinario.getContrasena().equals(confirmPassword)) {
             throw new IllegalArgumentException("Las contraseñas no coinciden");
         }
-        
-        // Buscar el administrador por ID
+
         Administrador administrador = administradorService.searchById(administradorId);
         if (administrador == null) {
-            return ResponseEntity.badRequest().body("Administrador con ID " + administradorId + " no encontrado");
+            return new ResponseEntity<>(veterinario, HttpStatus.BAD_REQUEST);
         }
-        
-        // Asociar el veterinario con el administrador
-        veterinario.setId(null);
+
+        // Crear UserEntity para veterinario
+        UserEntity userEntity = customUserDetailService.saveUserVet(veterinario);
+        veterinario.setUser(userEntity);
         veterinario.setAdministrador(administrador);
-        veterinarioService.add(veterinario);
-        
-        return ResponseEntity.ok("Veterinario creado exitosamente");
+
+        Veterinario newVeterinario = veterinarioService.add(veterinario);
+        if (newVeterinario == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(newVeterinario, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -191,12 +203,12 @@ public class VeterinarioController {
         veterinario.setAdministrador(veterinarioExistente.getAdministrador());
 
         // Preserve cedula and nombre if not provided
-        veterinario.setCedula(veterinario.getCedula() != null && !veterinario.getCedula().isEmpty() 
-                              ? veterinario.getCedula() 
-                              : veterinarioExistente.getCedula());
-        veterinario.setNombre(veterinario.getNombre() != null && !veterinario.getNombre().isEmpty() 
-                              ? veterinario.getNombre() 
-                              : veterinarioExistente.getNombre());
+        veterinario.setCedula(veterinario.getCedula() != null && !veterinario.getCedula().isEmpty()
+                ? veterinario.getCedula()
+                : veterinarioExistente.getCedula());
+        veterinario.setNombre(veterinario.getNombre() != null && !veterinario.getNombre().isEmpty()
+                ? veterinario.getNombre()
+                : veterinarioExistente.getNombre());
 
         // Handle password change logic
         if (Boolean.TRUE.equals(changePassword)) {
@@ -212,7 +224,8 @@ public class VeterinarioController {
         }
 
         // Update other fields
-        veterinario.setEspecialidad(veterinario.getEspecialidad() != null ? veterinario.getEspecialidad() : veterinarioExistente.getEspecialidad());
+        veterinario.setEspecialidad(veterinario.getEspecialidad() != null ? veterinario.getEspecialidad()
+                : veterinarioExistente.getEspecialidad());
         veterinario.setFoto(veterinario.getFoto() != null ? veterinario.getFoto() : veterinarioExistente.getFoto());
         veterinario.setEstado(veterinario.isEstado()); // Update estado
 
@@ -220,17 +233,29 @@ public class VeterinarioController {
         veterinarioService.update(veterinario);
     }
 
-    //find by cedula
+    // find by cedula
     @GetMapping("/find/cedula/{cedula}")
     @Operation(summary = "Buscar veterinario por cédula")
-    public Veterinario findVeterinarioByCedula(@PathVariable("cedula") String cedula) {
+    public ResponseEntity<VeterinarioDTO> obtenerVeterinarioPorCedula(@RequestParam("cedula") String cedula) {
         Veterinario veterinario = veterinarioService.searchByCedula(cedula);
-        if (veterinario != null) {
-            return veterinario;
-        } 
-        throw new NotFoundException(cedula);
+        if (veterinario == null) {
+            throw new NotFoundException("Veterinario con cédula " + cedula + " no encontrado.");
+        }
+        VeterinarioDTO veterinarioDTO = VeterinarioMapper.INSTANCE.convert(veterinario);
+        return ResponseEntity.ok(veterinarioDTO);
     }
-    
+
+    @GetMapping("/findByNombre")
+    @Operation(summary = "Buscar veterinario por nombre")
+    public ResponseEntity<VeterinarioDTO> obtenerVeterinarioPorNombre(@RequestParam("nombre") String nombre) {
+        Veterinario veterinario = veterinarioService.searchByNombre(nombre);
+        if (veterinario == null) {
+            return ResponseEntity.notFound().build();
+        }
+        VeterinarioDTO veterinarioDTO = VeterinarioMapper.INSTANCE.convert(veterinario);
+        return ResponseEntity.ok(veterinarioDTO);
+    }
+
     // Endpoint para obtener todas las mascotas tratadas por un veterinario
     @GetMapping("/findByVeterinarioId")
     @Operation(summary = "Buscar mascotas tratadas por un veterinario")
@@ -238,7 +263,7 @@ public class VeterinarioController {
         List<Mascota> mascotas = veterinarioService.findMascotasByVeterinarioId(veterinarioId);
         return ResponseEntity.ok(mascotas);
     }
-    
+
     // Endpoint para verificar si un veterinario está activo
     @GetMapping("/estado/{veterinarioId}")
     @Operation(summary = "Verificar si un veterinario está activo")
