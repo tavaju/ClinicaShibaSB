@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 import com.example.demo.service.VeterinarioService;
 import com.example.demo.service.AdministradorService;
@@ -17,6 +20,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import com.example.demo.model.Veterinario;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.CustomUserDetailService;
+import com.example.demo.security.JWTGenerator;
 import com.example.demo.model.Mascota;
 import com.example.demo.model.UserEntity;
 import com.example.demo.dto.VeterinarioDTO;
@@ -41,6 +45,12 @@ public class VeterinarioController {
 
     @Autowired
     CustomUserDetailService customUserDetailService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    JWTGenerator jwtGenerator;
 
     // http://localhost:8090/veterinario/all
     @GetMapping("/all")
@@ -259,5 +269,27 @@ public class VeterinarioController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(veterinario.isEstado());
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "Login de veterinario")
+    public ResponseEntity<?> loginVeterinario(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
+        Veterinario veterinario = veterinarioService.searchByCedula(cedula);
+
+        if (veterinario == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cédula de veterinario no encontrada");
+        }
+
+        if (!veterinario.getContrasena().equals(contrasena)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
+        }
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(veterinario.getCedula(), veterinario.getContrasena()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = jwtGenerator.generateToken(authentication);
+        return new ResponseEntity<String>(token, HttpStatus.OK);
     }
 }
