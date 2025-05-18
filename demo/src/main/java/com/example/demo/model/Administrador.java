@@ -9,13 +9,29 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import jakarta.persistence.CascadeType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 // POJO Administrador
 @Entity
+@Data
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Administrador {
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    private UserEntity user;
+
+
     @Id
     @GeneratedValue
     private Long id;
@@ -33,6 +49,7 @@ public class Administrador {
     // Atributo contrasena: obligatorio, mínimo 8 caracteres, máximo 50 caracteres
     @NotBlank(message = "La contraseña es obligatoria")
     @Size(min = 8, max = 50, message = "La contraseña debe tener entre 8 y 50 caracteres")
+
     private String contrasena;
 
     // Relación uno a muchos con Veterinario
@@ -40,8 +57,6 @@ public class Administrador {
     @OneToMany(mappedBy = "administrador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Veterinario> veterinarios = new ArrayList<>();
 
-    public Administrador() {
-    }
 
     public Administrador(String cedula, String nombre, String contrasena) {
         this.cedula = cedula;
@@ -49,6 +64,7 @@ public class Administrador {
         this.contrasena = contrasena;
     }
 
+    /* 
     public Administrador(Long id, String cedula, String nombre, String contrasena, List<Veterinario> veterinarios) {
         this.id = id;
         this.cedula = cedula;
@@ -57,43 +73,6 @@ public class Administrador {
         this.veterinarios = veterinarios;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public List<Veterinario> getVeterinarios() {
-        return veterinarios;
-    }
-
-    public void setVeterinarios(List<Veterinario> veterinarios) {
-        this.veterinarios = veterinarios;
-    }
+    */
+   
 }

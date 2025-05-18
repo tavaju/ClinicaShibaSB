@@ -13,6 +13,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.OneToMany;
 
@@ -20,6 +22,8 @@ import java.util.List;
 
 // POJO Mascota
 @Entity
+@Data
+@NoArgsConstructor
 public class Mascota {
     // Atributo id: clave primaria autogenerada
     @Id
@@ -57,7 +61,7 @@ public class Mascota {
 
     // Atributo estado: obligatorio
     @NotNull(message = "El estado de la mascota es obligatorio")
-    private boolean estado;
+    private boolean estado = true; // Por defecto, las mascotas se crean activas
 
     // Relación muchos a uno con Cliente
     @JsonIgnore
@@ -70,25 +74,6 @@ public class Mascota {
     private List<Tratamiento> tratamientos;
 
 
-    public List<Tratamiento> getTratamientos() {
-        return tratamientos;
-    }
-
-    public void setTratamientos(List<Tratamiento> tratamientos) {
-        this.tratamientos = tratamientos;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Mascota() {
-        this.estado = true; // Por defecto, las mascotas se crean activas
-    }
 
     public Mascota(String nombre, String raza, int edad, float peso, String enfermedad, String foto,
             boolean estado) {
@@ -113,69 +98,7 @@ public class Mascota {
         this.estado = estado;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getRaza() {
-        return raza;
-    }
-
-    public void setRaza(String raza) {
-        this.raza = raza;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-
-    public float getPeso() {
-        return peso;
-    }
-
-    public void setPeso(float peso) {
-        this.peso = peso;
-    }
-
-    public String getEnfermedad() {
-        return enfermedad;
-    }
-
-    public void setEnfermedad(String enfermedad) {
-        this.enfermedad = enfermedad;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
-    public boolean isEstado() { // Cambiado de getEstado a isEstado (convención para booleanos)
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
+   
 
     public String getEstadoTexto() { // Método auxiliar para mostrar el estado como texto
         return estado ? "Activo" : "Inactivo";

@@ -11,12 +11,19 @@ import com.example.demo.service.ClienteService;
 import com.example.demo.service.MascotaService;
 
 import io.swagger.v3.oas.annotations.Operation;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.example.demo.dto.ClienteDTO;
+import com.example.demo.dto.ClienteMapper;
 import com.example.demo.model.Cliente;
 import com.example.demo.model.Droga;
 import com.example.demo.model.Mascota;
 import com.example.demo.model.Tratamiento;
+import com.example.demo.model.UserEntity;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.CustomUserDetailService;
 
 // Controlador de Cliente 
 @RequestMapping("/cliente")
@@ -30,6 +37,12 @@ public class ClienteController {
 
     @Autowired
     MascotaService mascotaService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    CustomUserDetailService customUserDetailService;
 
     // http://localhost:8090/cliente/all
     @GetMapping("/all")
@@ -70,26 +83,23 @@ public class ClienteController {
     // Metodo POST para agregar un cliente
     @PostMapping("/add")
     @Operation(summary = "Agregar cliente")
-    public ResponseEntity<?> agregarCliente(@RequestBody Cliente cliente, @RequestParam("confirmPassword") String confirmPassword) {
+    public ResponseEntity<Cliente> agregarCliente(@RequestBody Cliente cliente,
+            @RequestParam("confirmPassword") String confirmPassword) {
 
-        // Verificar que los campos obligatorios no sean nulos ni vacíos
-        if (cliente.getNombre() == null || cliente.getNombre().trim().isEmpty()) {
-            return ResponseEntity.badRequest().body("El nombre del cliente es obligatorio");
-        }
+        ClienteDTO clienteDTO = ClienteMapper.INSTANCE.convert(cliente);
 
-        if (cliente.getCedula() == null || cliente.getCedula().trim().isEmpty()) {
-            return ResponseEntity.badRequest().body("La cédula del cliente es obligatoria");
+        if(userRepository.existsByUsername(cliente.getCorreo())) {
+            return new ResponseEntity<Cliente>(cliente, HttpStatus.BAD_REQUEST);
         }
         
-        // Verificar si la contraseña y la confirmación coinciden
-        if (!cliente.getContrasena().equals(confirmPassword)) {
-            return ResponseEntity.badRequest().body("Las contraseñas no coinciden");
-        }
         
-        cliente.setId(null);
-        Cliente clienteGuardado = clienteService.add(cliente);
-
-        return ResponseEntity.ok(clienteGuardado);
+        UserEntity userEntity = customUserDetailService.saveCliente(cliente);
+        cliente.setUser(userEntity);
+        Cliente newCliente = clienteService.add(cliente);
+        if(newCliente == null){
+            return new ResponseEntity<Cliente>(newCliente, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Cliente>(newCliente, HttpStatus.CREATED);
     }
 
     // Metodo GET para eliminar un cliente elegido
@@ -143,29 +153,28 @@ public class ClienteController {
         // Verificar si el cliente existe
         Cliente clienteExistente = clienteService.searchById(id);
         if (clienteExistente == null) {
-            //throw new NotFoundException("Cliente con ID " + id + " no encontrado");
-        }
-        else{
-        // Asegurar que el nombre no se pierda durante la actualización
-        if (cliente.getNombre() == null || cliente.getNombre().trim().isEmpty()) {
-            cliente.setNombre(clienteExistente.getNombre());
-        }
-
-        cliente.setMascotas(clienteExistente.getMascotas());
-
-        if (Boolean.TRUE.equals(changePassword)) {
-            if (newPassword == null || newPassword.isEmpty()) {
-                throw new IllegalArgumentException("La nueva contraseña no puede estar vacía");
-            }
-            if (!newPassword.equals(confirmPassword)) {
-                throw new IllegalArgumentException("Las contraseñas no coinciden");
-            }
-            cliente.setContrasena(newPassword);
+            // throw new NotFoundException("Cliente con ID " + id + " no encontrado");
         } else {
-            cliente.setContrasena(clienteExistente.getContrasena());
-        }
+            // Asegurar que el nombre no se pierda durante la actualización
+            if (cliente.getNombre() == null || cliente.getNombre().trim().isEmpty()) {
+                cliente.setNombre(clienteExistente.getNombre());
+            }
 
-        clienteService.update(cliente);
+            cliente.setMascotas(clienteExistente.getMascotas());
+
+            if (Boolean.TRUE.equals(changePassword)) {
+                if (newPassword == null || newPassword.isEmpty()) {
+                    throw new IllegalArgumentException("La nueva contraseña no puede estar vacía");
+                }
+                if (!newPassword.equals(confirmPassword)) {
+                    throw new IllegalArgumentException("Las contraseñas no coinciden");
+                }
+                cliente.setContrasena(newPassword);
+            } else {
+                cliente.setContrasena(clienteExistente.getContrasena());
+            }
+
+            clienteService.update(cliente);
         }
     }
 
@@ -173,31 +182,32 @@ public class ClienteController {
     @GetMapping("/mascotas/{id}")
     @Operation(summary = "Mostrar mascotas de un cliente por ID")
     public List<Mascota> mostrarClienteMascotas(@PathVariable Long id, Model model) {
-        //model.addAttribute("mascotas", mascotaService.findByClienteId(id));
-        //return "mostrar_mascotas";
+        // model.addAttribute("mascotas", mascotaService.findByClienteId(id));
+        // return "mostrar_mascotas";
         List<Mascota> mascotas = mascotaService.findByClienteId(id);
         if (mascotas == null || mascotas.isEmpty()) {
-            //throw new NotFoundException("Cliente con ID " + id + " no tiene mascotas");
+            // throw new NotFoundException("Cliente con ID " + id + " no tiene mascotas");
         }
         return mascotas;
-
 
     }
 
     @GetMapping("/findByCedula")
     @Operation(summary = "Buscar cliente por cédula")
-    public ResponseEntity<Cliente> obtenerClientePorCedula(@RequestParam("cedula") String cedula) {
-        Cliente cliente = clienteService.searchByCedula(cedula);
-        if (cliente == null) {
-            //throw new NotFoundException("Cliente con cédula " + cedula + " no encontrado.");
-        }
-        return ResponseEntity.ok(cliente); // Retorna la información del cliente en formato JSON
-    }
+    public ResponseEntity<ClienteDTO> obtenerClientePorCedula(@RequestParam("cedula") String cedula) {
 
+        Cliente cliente = clienteService.searchByCedula(cedula);
+        ClienteDTO clienteDTO = ClienteMapper.INSTANCE.convert(cliente);
+        if (cliente == null) {
+            // throw new NotFoundException("Cliente con cédula " + cedula + " no
+            // encontrado.");
+        }
+        return ResponseEntity.ok(clienteDTO); // Retorna la información del cliente en formato JSON
+    }
 
     @GetMapping("/findByEmail")
     @Operation(summary = "Buscar cliente por correo electrónico")
-    public ResponseEntity<Cliente> obtenerClientePorCorreo(
+    public ResponseEntity<ClienteDTO> obtenerClientePorCorreo(
             @RequestParam(value = "correo", required = false) String correo,
             @RequestParam(value = "email", required = false) String email) {
         String correoFinal = (correo != null) ? correo : email;
@@ -205,9 +215,10 @@ public class ClienteController {
             return ResponseEntity.badRequest().body(null); // Parámetro requerido no presente
         }
         Cliente cliente = clienteService.searchByEmail(correoFinal);
+        ClienteDTO clienteDTO = ClienteMapper.INSTANCE.convert(cliente);
         if (cliente == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(cliente);
+        return ResponseEntity.ok(clienteDTO);
     }
 }
