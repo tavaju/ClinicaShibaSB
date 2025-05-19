@@ -154,27 +154,26 @@ public class AdministradorController {
     // http://localhost:8090/administrador/login
     @PostMapping("/login")
     @Operation(summary = "Login de administrador")
-    public ResponseEntity loginAdministrador(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
+    public ResponseEntity<String> loginAdministrador(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
         Administrador administrador = administradorService.searchByCedula(cedula);
-        
+
+        // Verificar si el usuario existe
         if (administrador == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cedula de administrador no encontrada");
         }
-        
+
+        // Verificar si la contraseña es correcta
         if (!administrador.getContrasena().equals(contrasena)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
         }
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(administrador.getCedula(), administrador.getContrasena()));
+            new UsernamePasswordAuthenticationToken(administrador.getCedula(), administrador.getContrasena()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        
+
         String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<String>(token, HttpStatus.OK);
-
-
-        
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
     
     // Exception handler for not found resources
