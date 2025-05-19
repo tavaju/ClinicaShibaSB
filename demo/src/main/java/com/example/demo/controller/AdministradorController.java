@@ -18,6 +18,10 @@ import com.example.demo.service.AdministradorService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
+import com.example.demo.dto.AdministradorDTO;
+import com.example.demo.dto.AdministradorMapper;
+import com.example.demo.dto.VeterinarioDTO;
+import com.example.demo.dto.VeterinarioMapper;
 import com.example.demo.model.Administrador;
 import com.example.demo.model.Veterinario;
 import com.example.demo.repository.UserRepository;
@@ -134,13 +138,17 @@ public class AdministradorController {
     //find by cedula
     @GetMapping("/find/cedula/{cedula}")
     @Operation(summary = "Buscar administrador por cédula")
-    public Administrador findAdministradorByCedula(@PathVariable("cedula") String cedula) {
+    public ResponseEntity<AdministradorDTO> findAdministradorByCedula(@PathVariable("cedula") String cedula) {
         Administrador administrador = administradorService.searchByCedula(cedula);
-        if (administrador != null) {
-            return administrador;
+
+        if (administrador == null) {
+            throw new NotFoundException("Admin con cédula " + cedula + " no encontrado.");
         } 
-        throw new NotFoundException(cedula);
+
+        AdministradorDTO administradorDTO = AdministradorMapper.INSTANCE.convert(administrador);
+        return ResponseEntity.ok(administradorDTO);
     }
+
     
     // Endpoint para obtener todos los veterinarios asignados a un administrador
     @GetMapping("/findByAdministradorId")

@@ -232,11 +232,13 @@ public class VeterinarioController {
     // find by cedula
     @GetMapping("/find/cedula/{cedula}")
     @Operation(summary = "Buscar veterinario por cédula")
-    public ResponseEntity<VeterinarioDTO> obtenerVeterinarioPorCedula(@RequestParam("cedula") String cedula) {
+    public ResponseEntity<VeterinarioDTO> findVeterinarioByCedula(@PathVariable("cedula") String cedula) {
         Veterinario veterinario = veterinarioService.searchByCedula(cedula);
+
         if (veterinario == null) {
             throw new NotFoundException("Veterinario con cédula " + cedula + " no encontrado.");
         }
+
         VeterinarioDTO veterinarioDTO = VeterinarioMapper.INSTANCE.convert(veterinario);
         return ResponseEntity.ok(veterinarioDTO);
     }
@@ -273,23 +275,25 @@ public class VeterinarioController {
 
     @PostMapping("/login")
     @Operation(summary = "Login de veterinario")
-    public ResponseEntity<?> loginVeterinario(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
+    public ResponseEntity<String> loginVeterinario(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
         Veterinario veterinario = veterinarioService.searchByCedula(cedula);
 
+        // Verificar si el usuario existe
         if (veterinario == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cédula de veterinario no encontrada");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cedula de veterinario no encontrada");
         }
 
+        // Verificar si la contraseña es correcta
         if (!veterinario.getContrasena().equals(contrasena)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
         }
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(veterinario.getCedula(), veterinario.getContrasena()));
+            new UsernamePasswordAuthenticationToken(veterinario.getCedula(), veterinario.getContrasena()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<String>(token, HttpStatus.OK);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }
