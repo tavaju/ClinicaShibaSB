@@ -31,18 +31,35 @@ public class SecurityConfig {
          */
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                /* H2 */
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> requests
                         /* H2 */
                         .requestMatchers("/h2/**").permitAll()
-                        .requestMatchers("/student/login").permitAll()
-                        .requestMatchers("/student/find/**").hasAuthority("TEACHER")
-                        .requestMatchers("/student/details").hasAuthority("STUDENT")
-                        .requestMatchers("/teacher/details").hasAuthority("TEACHER")
+
+                        /*login */
+                        .requestMatchers("/login", "/administrador/login", "/veterinario/login").permitAll()
+
+                        /* Mascota: solo veterinario y admin pueden modificar (PUT/POST/DELETE) */
+                        .requestMatchers("/mascota/add", "/mascota/update/**", "/mascota/delete/**", "/mascota/deactivate/**").hasAnyAuthority("ADMIN", "VET")
+                        .requestMatchers("/mascota/**").permitAll()
+
+                        /* Cliente: solo veterinario y admin pueden modificar (PUT/POST/DELETE) */
+                        .requestMatchers("/cliente/add", "/cliente/update/**", "/cliente/delete/**").hasAnyAuthority("ADMIN", "VET")
+                        .requestMatchers("/cliente/**").permitAll()
+
+                        /* Veterinario: solo admin puede modificar (PUT/POST/DELETE) */
+                        .requestMatchers("/veterinario/add", "/veterinario/update/**", "/veterinario/delete/**", "/veterinario/deactivate/**").hasAuthority("ADMIN")
+                        .requestMatchers("/veterinario/**").permitAll()
+
+
+                        .requestMatchers("cliente/details").hasAuthority("CLIENTE")
+                        .requestMatchers("administrador/details").hasAuthority("ADMIN")
+                        .requestMatchers("veterinario/details").hasAuthority("VET")
+
                         .anyRequest().permitAll()
-                ).exceptionHandling( exception -> exception.authenticationEntryPoint(jwtAuthEntryPoint));
+                )
+                .exceptionHandling( exception -> exception.authenticationEntryPoint(jwtAuthEntryPoint));
 
                http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

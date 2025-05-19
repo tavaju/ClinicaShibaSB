@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.example.demo.dto.ClienteDTO;
 import com.example.demo.dto.ClienteMapper;
@@ -220,4 +221,19 @@ public class ClienteController {
         }
         return ResponseEntity.ok(clienteDTO);
     }
+
+    @GetMapping("/details")
+    @Operation(summary = "Obtener detalles del cliente autenticado")
+    public ResponseEntity<ClienteDTO> buscarCliente() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Cliente cliente = clienteService.searchByEmail(email);
+
+        if (cliente == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        ClienteDTO clienteDTO = ClienteMapper.INSTANCE.convert(cliente);
+        return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
+    }
+    
 }

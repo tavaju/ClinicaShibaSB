@@ -23,9 +23,12 @@ import com.example.demo.security.CustomUserDetailService;
 import com.example.demo.security.JWTGenerator;
 import com.example.demo.model.Mascota;
 import com.example.demo.model.UserEntity;
+import com.example.demo.dto.ClienteDTO;
+import com.example.demo.dto.ClienteMapper;
 import com.example.demo.dto.VeterinarioDTO;
 import com.example.demo.dto.VeterinarioMapper;
 import com.example.demo.model.Administrador;
+import com.example.demo.model.Cliente;
 
 // Controlador de Veterinario
 @RequestMapping("/veterinario")
@@ -296,4 +299,23 @@ public class VeterinarioController {
         String token = jwtGenerator.generateToken(authentication);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
+
+
+
+            // http://localhost:8090/veterinario/details
+        @GetMapping("/details")
+        public ResponseEntity<VeterinarioDTO> buscarVeterinario() {
+    
+            Veterinario veterinario = veterinarioService.searchByCedula(
+                SecurityContextHolder.getContext().getAuthentication().getName()
+            );
+    
+            VeterinarioDTO veterinarioDTO = VeterinarioMapper.INSTANCE.convert(veterinario);
+    
+            if (veterinario == null) {
+                return new ResponseEntity<VeterinarioDTO>(veterinarioDTO, HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<VeterinarioDTO>(veterinarioDTO, HttpStatus.OK);
+        }
+
 }

@@ -20,9 +20,12 @@ import io.swagger.v3.oas.annotations.Operation;
 
 import com.example.demo.dto.AdministradorDTO;
 import com.example.demo.dto.AdministradorMapper;
+import com.example.demo.dto.ClienteDTO;
+import com.example.demo.dto.ClienteMapper;
 import com.example.demo.dto.VeterinarioDTO;
 import com.example.demo.dto.VeterinarioMapper;
 import com.example.demo.model.Administrador;
+import com.example.demo.model.Cliente;
 import com.example.demo.model.Veterinario;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.CustomUserDetailService;
@@ -197,4 +200,21 @@ public class AdministradorController {
             super("No se pudo encontrar el administrador con cedula: " + cedula);
         }
     }
+
+
+            // http://localhost:8090/cliente/details
+        @GetMapping("/details")
+        public ResponseEntity<AdministradorDTO> buscarAdmin() {
+    
+            Administrador administrador = administradorService.searchByCedula(
+                SecurityContextHolder.getContext().getAuthentication().getName()
+            );
+    
+            AdministradorDTO administradorDTO = AdministradorMapper.INSTANCE.convert(administrador);
+    
+            if (administrador == null) {
+                return new ResponseEntity<AdministradorDTO>(administradorDTO, HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<AdministradorDTO>(administradorDTO, HttpStatus.OK);
+        }
 }
