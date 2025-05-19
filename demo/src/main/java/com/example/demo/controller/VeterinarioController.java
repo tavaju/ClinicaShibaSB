@@ -3,9 +3,14 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 import com.example.demo.service.VeterinarioService;
 import com.example.demo.service.AdministradorService;
@@ -13,8 +18,17 @@ import com.example.demo.service.AdministradorService;
 import io.swagger.v3.oas.annotations.Operation;
 
 import com.example.demo.model.Veterinario;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.CustomUserDetailService;
+import com.example.demo.security.JWTGenerator;
 import com.example.demo.model.Mascota;
+import com.example.demo.model.UserEntity;
+import com.example.demo.dto.ClienteDTO;
+import com.example.demo.dto.ClienteMapper;
+import com.example.demo.dto.VeterinarioDTO;
+import com.example.demo.dto.VeterinarioMapper;
 import com.example.demo.model.Administrador;
+import com.example.demo.model.Cliente;
 
 // Controlador de Veterinario
 @RequestMapping("/veterinario")
@@ -25,9 +39,21 @@ public class VeterinarioController {
     // Inyeccion de dependencias de VeterinarioService
     @Autowired
     VeterinarioService veterinarioService;
-    
+
     @Autowired
     AdministradorService administradorService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    CustomUserDetailService customUserDetailService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    JWTGenerator jwtGenerator;
 
     // http://localhost:8090/veterinario/all
     @GetMapping("/all")
@@ -43,7 +69,7 @@ public class VeterinarioController {
         Veterinario veterinario = veterinarioService.searchById(id);
         if (veterinario != null) {
             return veterinario;
-        } 
+        }
         throw new NotFoundException(id);
     }
 
@@ -67,53 +93,49 @@ public class VeterinarioController {
 
     // Metodo POST para agregar un veterinario
     @PostMapping("/add")
-    @Operation(summary = "Agregar un nuevo veterinario")
-    public ResponseEntity<?> agregarVeterinario(
-            @RequestBody Veterinario veterinario, 
+    @Operation(summary = "Agregar veterinario")
+    public ResponseEntity<Veterinario> agregarVeterinario(
+            @RequestBody Veterinario veterinario,
             @RequestParam("confirmPassword") String confirmPassword,
             @RequestParam("administradorId") Long administradorId) {
-        
-        // Verificar si ya existe un veterinario con la misma cédula
-        Veterinario veterinarioExistente = veterinarioService.searchByCedula(veterinario.getCedula());
-        if (veterinarioExistente != null) {
-            return ResponseEntity.badRequest().body("Ya existe un veterinario con la cédula " + veterinario.getCedula());
+
+        if (userRepository.existsByUsername(veterinario.getCedula())) {
+            return new ResponseEntity<>(veterinario, HttpStatus.BAD_REQUEST);
         }
-        
-        // Verificar si la contraseña y la confirmación coinciden
         if (!veterinario.getContrasena().equals(confirmPassword)) {
             throw new IllegalArgumentException("Las contraseñas no coinciden");
         }
-        
-        // Buscar el administrador por ID
+
         Administrador administrador = administradorService.searchById(administradorId);
         if (administrador == null) {
-            return ResponseEntity.badRequest().body("Administrador con ID " + administradorId + " no encontrado");
+            return new ResponseEntity<>(veterinario, HttpStatus.BAD_REQUEST);
         }
-        
-        // Asociar el veterinario con el administrador
-        veterinario.setId(null);
+
+        // Crear UserEntity para veterinario
+        UserEntity userEntity = customUserDetailService.saveUserVet(veterinario);
+        veterinario.setUser(userEntity);
         veterinario.setAdministrador(administrador);
-        veterinarioService.add(veterinario);
-        
-        return ResponseEntity.ok("Veterinario creado exitosamente");
+
+        Veterinario newVeterinario = veterinarioService.add(veterinario);
+        if (newVeterinario == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(newVeterinario, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Desactivar veterinario (marcar como inactivo)")
     public ResponseEntity<Veterinario> deactivateVeterinario(@PathVariable("id") Long id) {
-        // Retrieve the existing Veterinario from the database
         Veterinario veterinario = veterinarioService.searchById(id);
         if (veterinario == null) {
-            return ResponseEntity.notFound().build(); // Return 404 if not found
+            return ResponseEntity.notFound().build();
         }
 
-        // Set estado to false (deactivate)
         veterinario.setEstado(false);
 
-        // Save the updated Veterinario
         veterinarioService.update(veterinario);
 
-        return ResponseEntity.ok(veterinario); // Return the updated Veterinario
+        return ResponseEntity.ok(veterinario); 
     }
 
     // http://localhost:8090/veterinario/update/1
@@ -140,18 +162,14 @@ public class VeterinarioController {
             @RequestParam(value = "especialidad", required = false) String especialidad,
             @RequestParam(value = "foto", required = false) String foto) {
 
-        // Retrieve the existing Veterinario from the database
         Veterinario veterinarioExistente = veterinarioService.searchById(id);
         if (veterinarioExistente == null) {
             throw new NotFoundException(id);
         }
-
-        // Preserve the existing relationships
         veterinario.setMascotas(veterinarioExistente.getMascotas());
         veterinario.setTratamientos(veterinarioExistente.getTratamientos());
         veterinario.setAdministrador(veterinarioExistente.getAdministrador());
 
-        // Handle password change logic
         if (Boolean.TRUE.equals(changePassword)) {
             if (newPassword == null || newPassword.isEmpty()) {
                 throw new IllegalArgumentException("La nueva contraseña no puede estar vacía");
@@ -179,26 +197,22 @@ public class VeterinarioController {
             @RequestParam(value = "newPassword", required = false) String newPassword,
             @RequestParam(value = "confirmPassword", required = false) String confirmPassword) {
 
-        // Retrieve the existing Veterinario from the database
         Veterinario veterinarioExistente = veterinarioService.searchById(id);
         if (veterinarioExistente == null) {
             throw new NotFoundException("Veterinario con ID " + id + " no encontrado");
         }
 
-        // Preserve existing relationships
         veterinario.setMascotas(veterinarioExistente.getMascotas());
         veterinario.setTratamientos(veterinarioExistente.getTratamientos());
         veterinario.setAdministrador(veterinarioExistente.getAdministrador());
 
-        // Preserve cedula and nombre if not provided
-        veterinario.setCedula(veterinario.getCedula() != null && !veterinario.getCedula().isEmpty() 
-                              ? veterinario.getCedula() 
-                              : veterinarioExistente.getCedula());
-        veterinario.setNombre(veterinario.getNombre() != null && !veterinario.getNombre().isEmpty() 
-                              ? veterinario.getNombre() 
-                              : veterinarioExistente.getNombre());
+        veterinario.setCedula(veterinario.getCedula() != null && !veterinario.getCedula().isEmpty()
+                ? veterinario.getCedula()
+                : veterinarioExistente.getCedula());
+        veterinario.setNombre(veterinario.getNombre() != null && !veterinario.getNombre().isEmpty()
+                ? veterinario.getNombre()
+                : veterinarioExistente.getNombre());
 
-        // Handle password change logic
         if (Boolean.TRUE.equals(changePassword)) {
             if (newPassword == null || newPassword.isEmpty()) {
                 throw new IllegalArgumentException("La nueva contraseña no puede estar vacía");
@@ -211,26 +225,38 @@ public class VeterinarioController {
             veterinario.setContrasena(veterinarioExistente.getContrasena());
         }
 
-        // Update other fields
-        veterinario.setEspecialidad(veterinario.getEspecialidad() != null ? veterinario.getEspecialidad() : veterinarioExistente.getEspecialidad());
+        veterinario.setEspecialidad(veterinario.getEspecialidad() != null ? veterinario.getEspecialidad()
+                : veterinarioExistente.getEspecialidad());
         veterinario.setFoto(veterinario.getFoto() != null ? veterinario.getFoto() : veterinarioExistente.getFoto());
         veterinario.setEstado(veterinario.isEstado()); // Update estado
-
-        // Save updated Veterinario
         veterinarioService.update(veterinario);
     }
 
-    //find by cedula
+    // find by cedula
     @GetMapping("/find/cedula/{cedula}")
     @Operation(summary = "Buscar veterinario por cédula")
-    public Veterinario findVeterinarioByCedula(@PathVariable("cedula") String cedula) {
+    public ResponseEntity<VeterinarioDTO> findVeterinarioByCedula(@PathVariable("cedula") String cedula) {
         Veterinario veterinario = veterinarioService.searchByCedula(cedula);
-        if (veterinario != null) {
-            return veterinario;
-        } 
-        throw new NotFoundException(cedula);
+
+        if (veterinario == null) {
+            throw new NotFoundException("Veterinario con cédula " + cedula + " no encontrado.");
+        }
+
+        VeterinarioDTO veterinarioDTO = VeterinarioMapper.INSTANCE.convert(veterinario);
+        return ResponseEntity.ok(veterinarioDTO);
     }
-    
+
+    @GetMapping("/findByNombre")
+    @Operation(summary = "Buscar veterinario por nombre")
+    public ResponseEntity<VeterinarioDTO> obtenerVeterinarioPorNombre(@RequestParam("nombre") String nombre) {
+        Veterinario veterinario = veterinarioService.searchByNombre(nombre);
+        if (veterinario == null) {
+            return ResponseEntity.notFound().build();
+        }
+        VeterinarioDTO veterinarioDTO = VeterinarioMapper.INSTANCE.convert(veterinario);
+        return ResponseEntity.ok(veterinarioDTO);
+    }
+
     // Endpoint para obtener todas las mascotas tratadas por un veterinario
     @GetMapping("/findByVeterinarioId")
     @Operation(summary = "Buscar mascotas tratadas por un veterinario")
@@ -238,7 +264,7 @@ public class VeterinarioController {
         List<Mascota> mascotas = veterinarioService.findMascotasByVeterinarioId(veterinarioId);
         return ResponseEntity.ok(mascotas);
     }
-    
+
     // Endpoint para verificar si un veterinario está activo
     @GetMapping("/estado/{veterinarioId}")
     @Operation(summary = "Verificar si un veterinario está activo")
@@ -249,4 +275,47 @@ public class VeterinarioController {
         }
         return ResponseEntity.ok(veterinario.isEstado());
     }
+
+    @PostMapping("/login")
+    @Operation(summary = "Login de veterinario")
+    public ResponseEntity<String> loginVeterinario(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
+        Veterinario veterinario = veterinarioService.searchByCedula(cedula);
+
+        // Verificar si el usuario existe
+        if (veterinario == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cedula de veterinario no encontrada");
+        }
+
+        // Verificar si la contraseña es correcta
+        if (!veterinario.getContrasena().equals(contrasena)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
+        }
+
+        Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(veterinario.getCedula(), veterinario.getContrasena()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = jwtGenerator.generateToken(authentication);
+        return new ResponseEntity<>(token, HttpStatus.OK);
+    }
+
+
+
+            // http://localhost:8090/veterinario/details
+        @GetMapping("/details")
+        public ResponseEntity<VeterinarioDTO> buscarVeterinario() {
+    
+            Veterinario veterinario = veterinarioService.searchByCedula(
+                SecurityContextHolder.getContext().getAuthentication().getName()
+            );
+    
+            VeterinarioDTO veterinarioDTO = VeterinarioMapper.INSTANCE.convert(veterinario);
+    
+            if (veterinario == null) {
+                return new ResponseEntity<VeterinarioDTO>(veterinarioDTO, HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<VeterinarioDTO>(veterinarioDTO, HttpStatus.OK);
+        }
+
 }
