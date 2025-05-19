@@ -23,6 +23,7 @@ import com.example.demo.security.CustomUserDetailService;
 import com.example.demo.security.JWTGenerator;
 import com.example.demo.model.Mascota;
 import com.example.demo.model.UserEntity;
+import com.example.demo.dto.AdminLoginRequestDTO;
 import com.example.demo.dto.ClienteDTO;
 import com.example.demo.dto.ClienteMapper;
 import com.example.demo.dto.VeterinarioDTO;
@@ -274,11 +275,22 @@ public class VeterinarioController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(veterinario.isEstado());
-    }
-
-    @PostMapping("/login")
+    }    @PostMapping("/login")
     @Operation(summary = "Login de veterinario")
-    public ResponseEntity<String> loginVeterinario(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
+    public ResponseEntity<String> loginVeterinario(
+            @RequestParam(value = "cedula", required = false) String cedulaParam,
+            @RequestParam(value = "contrasena", required = false) String contrasenaParam,
+            @RequestBody(required = false) AdminLoginRequestDTO loginRequest) {
+            
+        // Extract credentials from either request params or body
+        String cedula = cedulaParam;
+        String contrasena = contrasenaParam;
+        
+        // If body contains login request data
+        if (loginRequest != null) {
+            cedula = loginRequest.getCedula();
+            contrasena = loginRequest.getContrasena();
+        }
         Veterinario veterinario = veterinarioService.searchByCedula(cedula);
 
         // Verificar si el usuario existe

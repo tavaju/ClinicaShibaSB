@@ -35,10 +35,8 @@ public class SecurityConfig {
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> requests
                         /* H2 */
-                        .requestMatchers("/h2/**").permitAll()
-
-                        /*login */
-                        .requestMatchers("/login", "/administrador/login", "/veterinario/login").permitAll()
+                        .requestMatchers("/h2/**").permitAll()                        /*login */
+                        .requestMatchers("/login", "/administrador/login", "/veterinario/login", "/auth/login").permitAll()
 
                         /* Mascota: solo veterinario y admin pueden modificar (PUT/POST/DELETE) */
                         .requestMatchers("/mascota/add", "/mascota/update/**", "/mascota/delete/**", "/mascota/deactivate/**").hasAnyAuthority("ADMIN", "VET")

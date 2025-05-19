@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,14 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 
+import com.example.demo.dto.LoginRequestDTO;
 import com.example.demo.model.Cliente;
 import com.example.demo.security.JWTGenerator;
 import com.example.demo.service.ClienteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @Controller
 public class LoginController {
@@ -42,20 +45,47 @@ public class LoginController {
     @GetMapping("/specialties")
     public String specialties() {
         return "specialties";
-    }
-
-    // Mapea la URL /login a la vista login_user.html
+    }    // Mapea la URL /login a la vista login_user.html
     @GetMapping("/login")
     public String login() {
         return "login_user";
     }
-
+    
     // Metodo POST para procesar el login
-    // http://localhost:8090/login
-    @PostMapping("/login")
-    public ResponseEntity processLogin(@RequestParam("email") String email,
-            @RequestParam("password") String password,
+    // http://localhost:8090/login    @PostMapping("/login")
+    @Operation(
+        summary = "Iniciar sesión de cliente (método legacy)",
+        description = "Autentica a un cliente utilizando credenciales enviadas en parámetros o en el cuerpo de la solicitud",
+        tags = {"Autenticación"}
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "Autenticación exitosa - Devuelve un token JWT"
+    )
+    @ApiResponse(
+        responseCode = "401",
+        description = "Credenciales inválidas"
+    )
+    public ResponseEntity<?> processLogin(
+            @RequestParam(value = "email", required = false) 
+            @Parameter(description = "Email del cliente (método antiguo)") 
+            String emailParam,
+            
+            @RequestParam(value = "password", required = false) 
+            @Parameter(description = "Contraseña del cliente (método antiguo)") 
+            String passwordParam,
+            
+            @RequestBody(required = false) LoginRequestDTO bodyObj,
             Model model) {
+          // Extract email and password from body if present
+        String email = emailParam;
+        String password = passwordParam;
+        
+        // If body contains login request data
+        if (bodyObj != null) {
+            email = bodyObj.getEmail();
+            password = bodyObj.getPassword();
+        }
         Cliente cliente = clienteService.searchByEmail(email);
 
         // Verificar si el usuario existe

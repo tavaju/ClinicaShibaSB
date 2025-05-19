@@ -18,6 +18,7 @@ import com.example.demo.service.AdministradorService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
+import com.example.demo.dto.AdminLoginRequestDTO;
 import com.example.demo.dto.AdministradorDTO;
 import com.example.demo.dto.AdministradorMapper;
 import com.example.demo.dto.ClienteDTO;
@@ -165,7 +166,20 @@ public class AdministradorController {
     // http://localhost:8090/administrador/login
     @PostMapping("/login")
     @Operation(summary = "Login de administrador")
-    public ResponseEntity<String> loginAdministrador(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
+    public ResponseEntity<String> loginAdministrador(
+            @RequestParam(value = "cedula", required = false) String cedulaParam, 
+            @RequestParam(value = "contrasena", required = false) String contrasenaParam,
+            @RequestBody(required = false) AdminLoginRequestDTO loginRequest) {
+        
+        // Extract credentials from either request params or body
+        String cedula = cedulaParam;
+        String contrasena = contrasenaParam;
+        
+        // If body contains login request data
+        if (loginRequest != null) {
+            cedula = loginRequest.getCedula();
+            contrasena = loginRequest.getContrasena();
+        }
         Administrador administrador = administradorService.searchByCedula(cedula);
 
         // Verificar si el usuario existe
