@@ -233,9 +233,7 @@ public class ClienteController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }        ClienteDTO clienteDTO = ClienteMapper.INSTANCE.convert(cliente);
         return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
-    }
-    
-    /**
+    }    /**
      * Endpoint para cerrar sesión de cliente
      * @return Mensaje de éxito
      */

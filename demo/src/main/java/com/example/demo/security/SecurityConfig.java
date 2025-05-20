@@ -33,21 +33,19 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(requests -> requests                        /* H2 */
-                        .requestMatchers("/h2/**").permitAll()                        
+                .authorizeHttpRequests(requests -> requests                        /* H2 */                        .requestMatchers("/h2/**").permitAll()                        
                         /* login/logout */
                         .requestMatchers("/login", "/logout", "/administrador/login", "/administrador/logout", 
                                         "/veterinario/login", "/veterinario/logout", 
-                                        "/auth/login", "/auth/logout", 
+                                        "/auth/login", "/auth/logout", "/auth/validate",
                                         "/cliente/logout").permitAll()
 
                         /* Mascota: solo veterinario y admin pueden modificar (PUT/POST/DELETE) */
                         .requestMatchers("/mascota/add", "/mascota/update/**", "/mascota/delete/**", "/mascota/deactivate/**").hasAnyAuthority("ADMIN", "VET")
-                        .requestMatchers("/mascota/**").permitAll()
-
-                        /* Cliente: solo veterinario y admin pueden modificar (PUT/POST/DELETE) */
+                        .requestMatchers("/mascota/**").permitAll()                        /* Cliente: solo veterinario y admin pueden modificar (PUT/POST/DELETE) */
                         .requestMatchers("/cliente/add", "/cliente/update/**", "/cliente/delete/**").hasAnyAuthority("ADMIN", "VET")
                         .requestMatchers("/cliente/**").permitAll()
+                        .requestMatchers("/cliente-view/**").permitAll()
 
                         /* Veterinario: solo admin puede modificar (PUT/POST/DELETE) */
                         .requestMatchers("/veterinario/add", "/veterinario/update/**", "/veterinario/delete/**", "/veterinario/deactivate/**").hasAuthority("ADMIN")

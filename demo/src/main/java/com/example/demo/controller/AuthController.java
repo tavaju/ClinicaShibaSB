@@ -17,6 +17,9 @@ import com.example.demo.dto.LoginRequestDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -75,8 +78,7 @@ public class AuthController {
 
         String token = jwtGenerator.generateToken(authentication);
         return new ResponseEntity<>(token, HttpStatus.OK);
-    }
-      /**
+    }    /**
      * Endpoint to handle logout for any authenticated user
      * Since JWT is stateless, this simply clears the security context
      * The frontend should remove the token from local storage
@@ -98,5 +100,44 @@ public class AuthController {
         
         ApiResponseDTO response = new ApiResponseDTO("Sesión cerrada exitosamente", true);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * Endpoint to validate a JWT token and return the user role
+     * @param authHeader The Authorization header containing the JWT token
+     * @return The user role
+     */
+    @GetMapping("/validate")
+    @Operation(
+        summary = "Validar token y obtener rol",
+        description = "Valida un token JWT y devuelve el rol del usuario",
+        tags = {"Autenticación"}
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+        responseCode = "200",
+        description = "Token válido - Devuelve el rol del usuario"
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+        responseCode = "401",
+        description = "Token inválido o expirado"
+    )
+    public ResponseEntity<?> validateToken(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token no proporcionado o formato inválido");
+        }
+
+        String token = authHeader.substring(7);
+        if (!jwtGenerator.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido o expirado");
+        }
+
+        String role = jwtGenerator.getRoleFromJwt(token);
+        String username = jwtGenerator.getUserFromJwt(token);
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("username", username);
+        response.put("role", role);
+        
+        return ResponseEntity.ok(response);
     }
 }
