@@ -4,7 +4,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
-
 import com.example.demo.repository.AdministradorRepository;
 import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.MascotaRepository;
@@ -12,6 +11,7 @@ import com.example.demo.repository.VeterinarioRepository;
 import com.example.demo.service.ExcelService;
 import com.example.demo.repository.TratamientoRepository;
 import com.example.demo.repository.DrogaRepository;
+import com.example.demo.repository.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Date;
 import java.util.Calendar;
+import java.math.BigDecimal;
 
 // Clase para inicializar la base de datos
 @Controller
@@ -44,6 +45,9 @@ public class DatabaseInit implements ApplicationRunner {
 
         @Autowired
         DrogaRepository drogaRepository;
+        
+        @Autowired
+        ProductRepository productRepository;
 
         @Autowired
         ExcelService excelService;
@@ -320,8 +324,9 @@ public class DatabaseInit implements ApplicationRunner {
                 mascotaRepository.save(
                                 new Mascota("Lucky", "Poodle", 18, 90, "Sobrepeso",
                                                 imageUrls[random.nextInt(imageUrls.length)], true));
-                mascotaRepository.save(new Mascota("Milo", "Golden Retriever", 19, 95, "Sobrepeso",
-                                imageUrls[random.nextInt(imageUrls.length)], true));
+                mascotaRepository
+                                .save(new Mascota("Milo", "Golden Retriever", 19, 95, "Sobrepeso",
+                                                imageUrls[random.nextInt(imageUrls.length)], true));
                 mascotaRepository.save(new Mascota("Buddy", "Chihuahua", 20, 100, "Sobrepeso",
                                 imageUrls[random.nextInt(imageUrls.length)], true));
                 mascotaRepository.save(new Mascota("Scooby", "Pitbull", 21, 105, "Sobrepeso",
@@ -672,7 +677,7 @@ public class DatabaseInit implements ApplicationRunner {
 
                 loadDrogasFromExcel();
                 createExampleTreatments();
-
+                initializeProducts();
         }
 
         private void loadDrogasFromExcel() {
@@ -735,6 +740,233 @@ public class DatabaseInit implements ApplicationRunner {
                         } else {
                                 System.out.println("Insufficient data to create treatments.");
                         }
+                }
+        }
+        
+        private void initializeProducts() {
+                List<Product> products = productRepository.findAll();
+                if (products.isEmpty()) {
+                        // Product 1
+                        productRepository.save(new Product(
+                                "1", 
+                                "Royal Canin Adult Medium", 
+                                "Alimento premium para perros adultos de razas medianas", 
+                                new BigDecimal("54.99"), 
+                                "Alimentos", 
+                                "/assets/images/products/food-royal-canin.jpg", 
+                                4.5, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 2
+                        productRepository.save(new Product(
+                                "2", 
+                                "Hills Science Diet", 
+                                "Alimento balanceado para perros con problemas digestivos", 
+                                new BigDecimal("49.99"), 
+                                "Alimentos", 
+                                "/assets/images/products/food-hills.jpg", 
+                                4.8, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 3
+                        productRepository.save(new Product(
+                                "3", 
+                                "Cepillo Furminator", 
+                                "Cepillo deslanador profesional para perros de pelo medio", 
+                                new BigDecimal("29.99"), 
+                                "Accesorios", 
+                                "/assets/images/products/brush-furminator.jpg", 
+                                4.7, 
+                                Product.InventoryStatus.LOWSTOCK));
+                        
+                        // Product 4
+                        productRepository.save(new Product(
+                                "4", 
+                                "Collar antiparasitario", 
+                                "Collar para prevención de pulgas y garrapatas", 
+                                new BigDecimal("19.99"), 
+                                "Salud", 
+                                "/assets/images/products/collar-antiparasites.jpg", 
+                                4.2, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 5
+                        productRepository.save(new Product(
+                                "5", 
+                                "Champú hipoalergénico", 
+                                "Champú suave para perros con piel sensible", 
+                                new BigDecimal("12.99"), 
+                                "Higiene", 
+                                "/assets/images/products/shampoo-hypoallergenic.jpg", 
+                                4.0, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 6
+                        productRepository.save(new Product(
+                                "6", 
+                                "Vacuna Múltiple Canina", 
+                                "Vacuna para prevención de enfermedades comunes", 
+                                new BigDecimal("35.99"), 
+                                "Salud", 
+                                "/assets/images/products/vaccine-multiple.jpg", 
+                                5.0, 
+                                Product.InventoryStatus.OUTOFSTOCK));
+                        
+                        // Product 7
+                        productRepository.save(new Product(
+                                "7", 
+                                "Snacks dentales", 
+                                "Golosinas para mejorar la salud dental", 
+                                new BigDecimal("8.99"), 
+                                "Alimentos", 
+                                "/assets/images/products/snack-dental.jpg", 
+                                4.1, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 8
+                        productRepository.save(new Product(
+                                "8", 
+                                "Cama ortopédica", 
+                                "Cama con espuma viscoelástica para perros mayores", 
+                                new BigDecimal("79.99"), 
+                                "Accesorios", 
+                                "/assets/images/products/bed-orthopedic.jpg", 
+                                4.9, 
+                                Product.InventoryStatus.LOWSTOCK));
+                        
+                        // Product 9
+                        productRepository.save(new Product(
+                                "9", 
+                                "Correa retráctil", 
+                                "Correa con sistema de extensión y bloqueo automático", 
+                                new BigDecimal("24.99"), 
+                                "Accesorios", 
+                                "/assets/images/products/retractable-leash.jpg", 
+                                4.3, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 10
+                        productRepository.save(new Product(
+                                "10", 
+                                "Juguete Kong", 
+                                "Juguete resistente para masticadores fuertes", 
+                                new BigDecimal("15.99"), 
+                                "Juguetes", 
+                                "/assets/images/products/kong-toy.jpg", 
+                                4.7, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 11
+                        productRepository.save(new Product(
+                                "11", 
+                                "Transportadora de viaje", 
+                                "Transportadora para mascotas aprobada para viajes aéreos", 
+                                new BigDecimal("89.99"), 
+                                "Accesorios", 
+                                "/assets/images/products/pet-carrier.jpg", 
+                                4.6, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 12
+                        productRepository.save(new Product(
+                                "12", 
+                                "Microchip de identificación", 
+                                "Microchip subcutáneo para identificación permanente", 
+                                new BigDecimal("45.99"), 
+                                "Servicios", 
+                                "/assets/images/products/microchip.jpg", 
+                                5.0, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 13
+                        productRepository.save(new Product(
+                                "13", 
+                                "Dispensador automático de comida", 
+                                "Dispensador programable para alimentación controlada", 
+                                new BigDecimal("119.99"), 
+                                "Equipamiento", 
+                                "/assets/images/products/food-dispenser.jpg", 
+                                4.5, 
+                                Product.InventoryStatus.LOWSTOCK));
+                        
+                        // Product 14
+                        productRepository.save(new Product(
+                                "14", 
+                                "Vitaminas y suplementos", 
+                                "Complemento vitamínico para perros mayores", 
+                                new BigDecimal("29.99"), 
+                                "Salud", 
+                                "/assets/images/products/vitamins.jpg", 
+                                4.4, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 15
+                        productRepository.save(new Product(
+                                "15", 
+                                "Peine antipulgas", 
+                                "Peine de dientes finos para detección y eliminación de pulgas", 
+                                new BigDecimal("9.99"), 
+                                "Higiene", 
+                                "/assets/images/products/flea-comb.jpg", 
+                                4.2, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 16
+                        productRepository.save(new Product(
+                                "16", 
+                                "Protector de asiento para coche", 
+                                "Cubierta impermeable para proteger el asiento del coche", 
+                                new BigDecimal("34.99"), 
+                                "Accesorios", 
+                                "/assets/images/products/car-seat-cover.jpg", 
+                                4.7, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 17
+                        productRepository.save(new Product(
+                                "17", 
+                                "Cortauñas profesional", 
+                                "Cortauñas de acero inoxidable para un corte preciso", 
+                                new BigDecimal("18.99"), 
+                                "Higiene", 
+                                "/assets/images/products/nail-clipper.jpg", 
+                                4.3, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 18
+                        productRepository.save(new Product(
+                                "18", 
+                                "Traje post-operatorio", 
+                                "Traje protector para después de cirugías", 
+                                new BigDecimal("32.99"), 
+                                "Salud", 
+                                "/assets/images/products/post-surgery-suit.jpg", 
+                                4.8, 
+                                Product.InventoryStatus.LOWSTOCK));
+                        
+                        // Product 19
+                        productRepository.save(new Product(
+                                "19", 
+                                "Kit dental canino", 
+                                "Kit completo para la higiene dental de tu mascota", 
+                                new BigDecimal("24.99"), 
+                                "Higiene", 
+                                "/assets/images/products/dental-kit.jpg", 
+                                4.5, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        // Product 20
+                        productRepository.save(new Product(
+                                "20", 
+                                "Arnés antitirón", 
+                                "Arnés especial para evitar tirones durante el paseo", 
+                                new BigDecimal("29.99"), 
+                                "Accesorios", 
+                                "/assets/images/products/no-pull-harness.jpg", 
+                                4.9, 
+                                Product.InventoryStatus.INSTOCK));
+                        
+                        System.out.println("Productos de ejemplo cargados con éxito.");
                 }
         }
 }
