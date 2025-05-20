@@ -23,10 +23,12 @@ import com.example.demo.security.CustomUserDetailService;
 import com.example.demo.security.JWTGenerator;
 import com.example.demo.model.Mascota;
 import com.example.demo.model.UserEntity;
+import com.example.demo.dto.AdminLoginRequestDTO;
 import com.example.demo.dto.ClienteDTO;
 import com.example.demo.dto.ClienteMapper;
 import com.example.demo.dto.VeterinarioDTO;
 import com.example.demo.dto.VeterinarioMapper;
+import com.example.demo.dto.ApiResponseDTO;
 import com.example.demo.model.Administrador;
 import com.example.demo.model.Cliente;
 
@@ -274,11 +276,22 @@ public class VeterinarioController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(veterinario.isEstado());
-    }
-
-    @PostMapping("/login")
+    }    @PostMapping("/login")
     @Operation(summary = "Login de veterinario")
-    public ResponseEntity<String> loginVeterinario(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
+    public ResponseEntity<String> loginVeterinario(
+            @RequestParam(value = "cedula", required = false) String cedulaParam,
+            @RequestParam(value = "contrasena", required = false) String contrasenaParam,
+            @RequestBody(required = false) AdminLoginRequestDTO loginRequest) {
+            
+        // Extract credentials from either request params or body
+        String cedula = cedulaParam;
+        String contrasena = contrasenaParam;
+        
+        // If body contains login request data
+        if (loginRequest != null) {
+            cedula = loginRequest.getCedula();
+            contrasena = loginRequest.getContrasena();
+        }
         Veterinario veterinario = veterinarioService.searchByCedula(cedula);
 
         // Verificar si el usuario existe
@@ -310,12 +323,21 @@ public class VeterinarioController {
                 SecurityContextHolder.getContext().getAuthentication().getName()
             );
     
-            VeterinarioDTO veterinarioDTO = VeterinarioMapper.INSTANCE.convert(veterinario);
-    
-            if (veterinario == null) {
+            VeterinarioDTO veterinarioDTO = VeterinarioMapper.INSTANCE.convert(veterinario);            if (veterinario == null) {
                 return new ResponseEntity<VeterinarioDTO>(veterinarioDTO, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<VeterinarioDTO>(veterinarioDTO, HttpStatus.OK);
         }
 
+        /**
+         * Endpoint para cerrar sesión de veterinario
+         * @return Mensaje de éxito
+         */
+        @PostMapping("/logout")
+        @Operation(summary = "Cerrar sesión de veterinario")
+        public ResponseEntity<ApiResponseDTO> logoutVeterinario() {
+            // Limpiar el contexto de seguridad
+            SecurityContextHolder.clearContext();
+            return new ResponseEntity<>(new ApiResponseDTO("Sesión de veterinario cerrada exitosamente", true), HttpStatus.OK);
+        }
 }

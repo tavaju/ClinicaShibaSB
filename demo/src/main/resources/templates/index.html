@@ -42,14 +42,15 @@
             <img
               src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/shopping-cart.svg"
               alt="Cart" />
-          </div>
-          <div class="profile-container">
+          </div>          <div class="profile-container">
             <img
               src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100"
               alt="Profile"
               class="profile-pic" />
             <div class="profile-dropdown">
-              <a href="/login" class="login-btn">Iniciar sesión</a>
+              <a href="#" id="loginBtn" class="login-btn">Iniciar sesión</a>
+              <a href="#" id="dashboardBtn" class="dashboard-btn" style="display: none;">Dashboard</a>
+              <a href="#" id="logoutBtn" style="display: none;">Cerrar sesión</a>
             </div>
           </div>
         </article>
@@ -72,11 +73,9 @@
             Tu compañero de vida recibirá el mejor cuidado en manos<br />
             de profesionales expertos y apasionados por la<br />
             salud animal.
-          </p>
-
-          <div class="hero-buttons scroll-reveal">
+          </p>          <div class="hero-buttons scroll-reveal">
             <a href="#cta" class="btn primary">Contáctanos</a>
-            <a href="/login" class="btn secondary">Ingresa al portal</a>
+            <a href="#" class="btn secondary dashboard-btn">Mi Dashboard</a>
           </div>
         </article>
 
@@ -512,9 +511,8 @@
           <p>© 2025, Clínica Shiba</p>
         </div>
       </div>
-    </footer>
-
-    <script src="/js/script.js"></script>
+    </footer>    <script src="/js/script.js"></script>
     <script src="/js/announcements.js"></script>
+    <script src="/js/auth.js"></script>
   </body>
 </html>

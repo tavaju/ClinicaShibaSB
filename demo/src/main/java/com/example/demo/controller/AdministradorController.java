@@ -18,8 +18,10 @@ import com.example.demo.service.AdministradorService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
+import com.example.demo.dto.AdminLoginRequestDTO;
 import com.example.demo.dto.AdministradorDTO;
 import com.example.demo.dto.AdministradorMapper;
+import com.example.demo.dto.ApiResponseDTO;
 import com.example.demo.dto.ClienteDTO;
 import com.example.demo.dto.ClienteMapper;
 import com.example.demo.dto.VeterinarioDTO;
@@ -165,7 +167,20 @@ public class AdministradorController {
     // http://localhost:8090/administrador/login
     @PostMapping("/login")
     @Operation(summary = "Login de administrador")
-    public ResponseEntity<String> loginAdministrador(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
+    public ResponseEntity<String> loginAdministrador(
+            @RequestParam(value = "cedula", required = false) String cedulaParam, 
+            @RequestParam(value = "contrasena", required = false) String contrasenaParam,
+            @RequestBody(required = false) AdminLoginRequestDTO loginRequest) {
+        
+        // Extract credentials from either request params or body
+        String cedula = cedulaParam;
+        String contrasena = contrasenaParam;
+        
+        // If body contains login request data
+        if (loginRequest != null) {
+            cedula = loginRequest.getCedula();
+            contrasena = loginRequest.getContrasena();
+        }
         Administrador administrador = administradorService.searchByCedula(cedula);
 
         // Verificar si el usuario existe
@@ -214,7 +229,18 @@ public class AdministradorController {
     
             if (administrador == null) {
                 return new ResponseEntity<AdministradorDTO>(administradorDTO, HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<AdministradorDTO>(administradorDTO, HttpStatus.OK);
+            }            return new ResponseEntity<AdministradorDTO>(administradorDTO, HttpStatus.OK);
+        }
+        
+        /**
+         * Endpoint para cerrar sesión de administrador
+         * @return Mensaje de éxito
+         */
+        @PostMapping("/logout")
+        @Operation(summary = "Cerrar sesión de administrador")
+        public ResponseEntity<ApiResponseDTO> logoutAdministrador() {
+            // Limpiar el contexto de seguridad
+            SecurityContextHolder.clearContext();
+            return new ResponseEntity<>(new ApiResponseDTO("Sesión de administrador cerrada exitosamente", true), HttpStatus.OK);
         }
 }
