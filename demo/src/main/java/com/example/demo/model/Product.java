@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -12,6 +13,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 @Entity
 public class Product {
@@ -97,6 +100,21 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+    
+    @Transient
+    public String getFormattedPrice() {
+        if (price == null) {
+            return "";
+        }
+        // Create a Colombian locale
+        Locale colombianLocale = new Locale("es", "CO");
+        // Get the number formatter for the locale
+        NumberFormat formatter = NumberFormat.getNumberInstance(colombianLocale);
+        // Set maximum fraction digits to 0 (no decimal places)
+        formatter.setMaximumFractionDigits(0);
+        // Format the price
+        return "$ " + formatter.format(price);
     }
 
     public String getCategory() {

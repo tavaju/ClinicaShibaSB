@@ -751,9 +751,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "1", 
                                 "Royal Canin Adult Medium", 
                                 "Alimento premium para perros adultos de razas medianas", 
-                                new BigDecimal("54.99"), 
+                                new BigDecimal("184000"), 
                                 "Alimentos", 
-                                "/assets/images/products/food-royal-canin.jpg", 
+                                "https://www.tierragro.com/cdn/shop/files/3182550793612.jpg?v=1720805361&width=1200", 
                                 4.5, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -762,9 +762,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "2", 
                                 "Hills Science Diet", 
                                 "Alimento balanceado para perros con problemas digestivos", 
-                                new BigDecimal("49.99"), 
+                                new BigDecimal("175000"), 
                                 "Alimentos", 
-                                "/assets/images/products/food-hills.jpg", 
+                                "https://pxmshare.colgatepalmolive.com/JPEG_1500/AVMPT6Y_OA7ekwj6jsVf9.jpg", 
                                 4.8, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -773,9 +773,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "3", 
                                 "Cepillo Furminator", 
                                 "Cepillo deslanador profesional para perros de pelo medio", 
-                                new BigDecimal("29.99"), 
+                                new BigDecimal("89000"), 
                                 "Accesorios", 
-                                "/assets/images/products/brush-furminator.jpg", 
+                                "https://d23qt3x1ychzdy.cloudfront.net/dev_images_products/ccb6db55e1dd603a159a3dfd120fb886_1675192391.jpg", 
                                 4.7, 
                                 Product.InventoryStatus.LOWSTOCK));
                         
@@ -784,9 +784,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "4", 
                                 "Collar antiparasitario", 
                                 "Collar para prevención de pulgas y garrapatas", 
-                                new BigDecimal("19.99"), 
+                                new BigDecimal("67000"), 
                                 "Salud", 
-                                "/assets/images/products/collar-antiparasites.jpg", 
+                                "https://m.media-amazon.com/images/I/614ih2uBfkL._AC_SL1001_.jpg", 
                                 4.2, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -795,9 +795,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "5", 
                                 "Champú hipoalergénico", 
                                 "Champú suave para perros con piel sensible", 
-                                new BigDecimal("12.99"), 
+                                new BigDecimal("45000"), 
                                 "Higiene", 
-                                "/assets/images/products/shampoo-hypoallergenic.jpg", 
+                                "https://m.media-amazon.com/images/I/711p19MdsML._AC_SL1500_.jpg", 
                                 4.0, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -806,9 +806,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "6", 
                                 "Vacuna Múltiple Canina", 
                                 "Vacuna para prevención de enfermedades comunes", 
-                                new BigDecimal("35.99"), 
+                                new BigDecimal("120000"), 
                                 "Salud", 
-                                "/assets/images/products/vaccine-multiple.jpg", 
+                                "https://co.virbac.com/files/live/sites/virbac-co/files/predefined-files/products/600x600/canigenmha2ltriple-large.jpg", 
                                 5.0, 
                                 Product.InventoryStatus.OUTOFSTOCK));
                         
@@ -817,9 +817,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "7", 
                                 "Snacks dentales", 
                                 "Golosinas para mejorar la salud dental", 
-                                new BigDecimal("8.99"), 
+                                new BigDecimal("35000"), 
                                 "Alimentos", 
-                                "/assets/images/products/snack-dental.jpg", 
+                                "https://m.media-amazon.com/images/I/71DYKgVli0L._AC_SL1500_.jpg", 
                                 4.1, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -828,9 +828,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "8", 
                                 "Cama ortopédica", 
                                 "Cama con espuma viscoelástica para perros mayores", 
-                                new BigDecimal("79.99"), 
+                                new BigDecimal("250000"), 
                                 "Accesorios", 
-                                "/assets/images/products/bed-orthopedic.jpg", 
+                                "https://m.media-amazon.com/images/I/712ReNHJccL._AC_SL1500_.jpg", 
                                 4.9, 
                                 Product.InventoryStatus.LOWSTOCK));
                         
@@ -839,9 +839,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "9", 
                                 "Correa retráctil", 
                                 "Correa con sistema de extensión y bloqueo automático", 
-                                new BigDecimal("24.99"), 
+                                new BigDecimal("75000"), 
                                 "Accesorios", 
-                                "/assets/images/products/retractable-leash.jpg", 
+                                "https://m.media-amazon.com/images/I/61R-uNDrUUL._AC_SL1500_.jpg", 
                                 4.3, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -850,9 +850,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "10", 
                                 "Juguete Kong", 
                                 "Juguete resistente para masticadores fuertes", 
-                                new BigDecimal("15.99"), 
+                                new BigDecimal("65000"), 
                                 "Juguetes", 
-                                "/assets/images/products/kong-toy.jpg", 
+                                "https://cdn.amplifi.pattern.com/b1af88d2-ac44-48bf-8be1-51e283088a40_medium", 
                                 4.7, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -861,9 +861,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "11", 
                                 "Transportadora de viaje", 
                                 "Transportadora para mascotas aprobada para viajes aéreos", 
-                                new BigDecimal("89.99"), 
+                                new BigDecimal("320000"), 
                                 "Accesorios", 
-                                "/assets/images/products/pet-carrier.jpg", 
+                                "https://m.media-amazon.com/images/I/71KLUcxRWML._AC_SL1500_.jpg", 
                                 4.6, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -872,9 +872,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "12", 
                                 "Microchip de identificación", 
                                 "Microchip subcutáneo para identificación permanente", 
-                                new BigDecimal("45.99"), 
+                                new BigDecimal("150000"), 
                                 "Servicios", 
-                                "/assets/images/products/microchip.jpg", 
+                                "https://m.media-amazon.com/images/I/61UhaQ90AzL._AC_SL1080_.jpg", 
                                 5.0, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -883,10 +883,10 @@ public class DatabaseInit implements ApplicationRunner {
                                 "13", 
                                 "Dispensador automático de comida", 
                                 "Dispensador programable para alimentación controlada", 
-                                new BigDecimal("119.99"), 
+                                new BigDecimal("385000"), 
                                 "Equipamiento", 
-                                "/assets/images/products/food-dispenser.jpg", 
-                                4.5, 
+                                "https://m.media-amazon.com/images/I/613o6jzABvL._AC_SL1500_.jpg", 
+                                5.0, 
                                 Product.InventoryStatus.LOWSTOCK));
                         
                         // Product 14
@@ -894,9 +894,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "14", 
                                 "Vitaminas y suplementos", 
                                 "Complemento vitamínico para perros mayores", 
-                                new BigDecimal("29.99"), 
+                                new BigDecimal("95000"), 
                                 "Salud", 
-                                "/assets/images/products/vitamins.jpg", 
+                                "https://m.media-amazon.com/images/I/71jZmYRbhlL._AC_SL1500_.jpg", 
                                 4.4, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -905,9 +905,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "15", 
                                 "Peine antipulgas", 
                                 "Peine de dientes finos para detección y eliminación de pulgas", 
-                                new BigDecimal("9.99"), 
+                                new BigDecimal("28000"), 
                                 "Higiene", 
-                                "/assets/images/products/flea-comb.jpg", 
+                                "https://m.media-amazon.com/images/I/31hfjpE4GRL._SX300_SY300_QL70_FMwebp_.jpg", 
                                 4.2, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -916,9 +916,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "16", 
                                 "Protector de asiento para coche", 
                                 "Cubierta impermeable para proteger el asiento del coche", 
-                                new BigDecimal("34.99"), 
+                                new BigDecimal("110000"), 
                                 "Accesorios", 
-                                "/assets/images/products/car-seat-cover.jpg", 
+                                "https://m.media-amazon.com/images/I/81UFafTRYQL._AC_SL1500_.jpg", 
                                 4.7, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -927,9 +927,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "17", 
                                 "Cortauñas profesional", 
                                 "Cortauñas de acero inoxidable para un corte preciso", 
-                                new BigDecimal("18.99"), 
+                                new BigDecimal("60000"), 
                                 "Higiene", 
-                                "/assets/images/products/nail-clipper.jpg", 
+                                "https://m.media-amazon.com/images/I/71hz7en4TYL._AC_SL1500_.jpg", 
                                 4.3, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -938,9 +938,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "18", 
                                 "Traje post-operatorio", 
                                 "Traje protector para después de cirugías", 
-                                new BigDecimal("32.99"), 
+                                new BigDecimal("105000"), 
                                 "Salud", 
-                                "/assets/images/products/post-surgery-suit.jpg", 
+                                "https://m.media-amazon.com/images/I/7186S6AcxSL._AC_SL1500_.jpg", 
                                 4.8, 
                                 Product.InventoryStatus.LOWSTOCK));
                         
@@ -949,9 +949,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "19", 
                                 "Kit dental canino", 
                                 "Kit completo para la higiene dental de tu mascota", 
-                                new BigDecimal("24.99"), 
+                                new BigDecimal("85000"), 
                                 "Higiene", 
-                                "/assets/images/products/dental-kit.jpg", 
+                                "https://m.media-amazon.com/images/I/61cHroxxigL._AC_SL1500_.jpg", 
                                 4.5, 
                                 Product.InventoryStatus.INSTOCK));
                         
@@ -960,9 +960,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "20", 
                                 "Arnés antitirón", 
                                 "Arnés especial para evitar tirones durante el paseo", 
-                                new BigDecimal("29.99"), 
+                                new BigDecimal("95000"), 
                                 "Accesorios", 
-                                "/assets/images/products/no-pull-harness.jpg", 
+                                "https://m.media-amazon.com/images/I/71eROBTwkVL._AC_SL1500_.jpg", 
                                 4.9, 
                                 Product.InventoryStatus.INSTOCK));
                         
