@@ -105,11 +105,11 @@ public class LoginController {
 
         String token = jwtGenerator.generateToken(authentication);
         return new ResponseEntity<String>(token, HttpStatus.OK);
-    }
-
-    // Mapea la URL /logout a la vista de inicio
+    }    // Mapea la URL /logout a la vista de inicio
     @GetMapping("/logout")
     public String logout() {
+        // Clear any security context before redirecting
+        SecurityContextHolder.clearContext();
         return "redirect:/";
     }
 

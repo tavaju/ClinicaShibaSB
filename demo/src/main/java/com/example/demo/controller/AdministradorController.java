@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import com.example.demo.dto.AdminLoginRequestDTO;
 import com.example.demo.dto.AdministradorDTO;
 import com.example.demo.dto.AdministradorMapper;
+import com.example.demo.dto.ApiResponseDTO;
 import com.example.demo.dto.ClienteDTO;
 import com.example.demo.dto.ClienteMapper;
 import com.example.demo.dto.VeterinarioDTO;
@@ -228,7 +229,18 @@ public class AdministradorController {
     
             if (administrador == null) {
                 return new ResponseEntity<AdministradorDTO>(administradorDTO, HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<AdministradorDTO>(administradorDTO, HttpStatus.OK);
+            }            return new ResponseEntity<AdministradorDTO>(administradorDTO, HttpStatus.OK);
+        }
+        
+        /**
+         * Endpoint para cerrar sesión de administrador
+         * @return Mensaje de éxito
+         */
+        @PostMapping("/logout")
+        @Operation(summary = "Cerrar sesión de administrador")
+        public ResponseEntity<ApiResponseDTO> logoutAdministrador() {
+            // Limpiar el contexto de seguridad
+            SecurityContextHolder.clearContext();
+            return new ResponseEntity<>(new ApiResponseDTO("Sesión de administrador cerrada exitosamente", true), HttpStatus.OK);
         }
 }

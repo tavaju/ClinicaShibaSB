@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.model.Cliente;
 import com.example.demo.security.JWTGenerator;
 import com.example.demo.service.ClienteService;
+import com.example.demo.dto.ApiResponseDTO;
 import com.example.demo.dto.LoginRequestDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -74,5 +75,28 @@ public class AuthController {
 
         String token = jwtGenerator.generateToken(authentication);
         return new ResponseEntity<>(token, HttpStatus.OK);
+    }
+      /**
+     * Endpoint to handle logout for any authenticated user
+     * Since JWT is stateless, this simply clears the security context
+     * The frontend should remove the token from local storage
+     * @return A success message
+     */
+    @PostMapping("/logout")
+    @Operation(
+        summary = "Cerrar sesión",
+        description = "Cierra la sesión del usuario autenticado",
+        tags = {"Autenticación"}
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+        responseCode = "200",
+        description = "Sesión cerrada exitosamente"
+    )
+    public ResponseEntity<ApiResponseDTO> logout(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        // Clear security context
+        SecurityContextHolder.clearContext();
+        
+        ApiResponseDTO response = new ApiResponseDTO("Sesión cerrada exitosamente", true);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

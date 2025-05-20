@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.example.demo.dto.ClienteDTO;
 import com.example.demo.dto.ClienteMapper;
+import com.example.demo.dto.ApiResponseDTO;
 import com.example.demo.model.Cliente;
 import com.example.demo.model.Droga;
 import com.example.demo.model.Mascota;
@@ -230,10 +231,19 @@ public class ClienteController {
 
         if (cliente == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        ClienteDTO clienteDTO = ClienteMapper.INSTANCE.convert(cliente);
+        }        ClienteDTO clienteDTO = ClienteMapper.INSTANCE.convert(cliente);
         return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
     }
     
+    /**
+     * Endpoint para cerrar sesión de cliente
+     * @return Mensaje de éxito
+     */
+    @PostMapping("/logout")
+    @Operation(summary = "Cerrar sesión de cliente")
+    public ResponseEntity<ApiResponseDTO> logoutCliente() {
+        // Limpiar el contexto de seguridad
+        SecurityContextHolder.clearContext();
+        return new ResponseEntity<>(new ApiResponseDTO("Sesión de cliente cerrada exitosamente", true), HttpStatus.OK);
+    }
 }
