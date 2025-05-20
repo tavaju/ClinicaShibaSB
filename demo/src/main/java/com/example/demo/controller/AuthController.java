@@ -59,20 +59,20 @@ public class AuthController {
         description = "Credenciales inválidas"
     )
     public ResponseEntity<String> loginClient(@RequestBody LoginRequestDTO loginRequest) {
-        Cliente cliente = clienteService.searchByEmail(loginRequest.getEmail());
+        //Cliente cliente = clienteService.searchByEmail(loginRequest.getEmail());
 
         // Verify user exists
-        if (cliente == null) {
+        /*if (cliente == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no encontrado");
         }
 
         // Verify password is correct
         if (!cliente.getContrasena().equals(loginRequest.getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
-        }
+        }*/
 
         Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(cliente.getCorreo(), cliente.getContrasena()));
+            new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

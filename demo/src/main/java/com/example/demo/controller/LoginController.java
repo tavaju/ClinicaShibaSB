@@ -82,7 +82,7 @@ public class LoginController {
         String password = passwordParam;
         
         // If body contains login request data
-        if (bodyObj != null) {
+        /*if (bodyObj != null) {
             email = bodyObj.getEmail();
             password = bodyObj.getPassword();
         }
@@ -96,10 +96,10 @@ public class LoginController {
         // Verificar si la contraseña es correcta
         if (!cliente.getContrasena().equals(password)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
-        }
+        }*/
 
         Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(cliente.getCorreo(), cliente.getContrasena()));
+            new UsernamePasswordAuthenticationToken(email, password));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
