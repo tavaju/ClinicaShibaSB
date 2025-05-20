@@ -37,53 +37,36 @@ public class AuthController {
      * @param loginRequest The login request containing email and password
      * @return A JWT token if authentication is successful
      */
-    @PostMapping("/login")
-    @Operation(
-        summary = "Iniciar sesión de cliente",
-        description = "Autentica a un cliente utilizando credenciales enviadas en el cuerpo de la solicitud",
-        tags = {"Autenticación"}
-    )
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(
-        description = "Credenciales del cliente",
-        required = true,
-        content = @io.swagger.v3.oas.annotations.media.Content(
-            schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = LoginRequestDTO.class)
-        )
-    )
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
-        responseCode = "200",
-        description = "Autenticación exitosa - Devuelve un token JWT"
-    )
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
-        responseCode = "401",
-        description = "Credenciales inválidas"
-    )
-    public ResponseEntity<String> loginClient(@RequestBody LoginRequestDTO loginRequest) {
-        //Cliente cliente = clienteService.searchByEmail(loginRequest.getEmail());
+    
 
-        // Verify user exists
-        /*if (cliente == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no encontrado");
-        }
+     @PostMapping("/login")
+public ResponseEntity<String> login(@RequestBody Map<String, String> loginRequest) {
+    Authentication authentication;
+    if (loginRequest.containsKey("email")) {
+        // Login de cliente
+        authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                loginRequest.get("email"),
+                loginRequest.get("password")
+            )
+        );
+    } else if (loginRequest.containsKey("cedula")) {
+        // Login de veterinario o admin
+        authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                loginRequest.get("cedula"),
+                loginRequest.get("password")
+            )
+        );
+    } else {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Faltan credenciales");
+    }
 
-        // Verify password is correct
-        if (!cliente.getContrasena().equals(loginRequest.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
-        }*/
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String token = jwtGenerator.generateToken(authentication);
+    return new ResponseEntity<>(token, HttpStatus.OK);
+}
 
-        Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(token, HttpStatus.OK);
-    }    /**
-     * Endpoint to handle logout for any authenticated user
-     * Since JWT is stateless, this simply clears the security context
-     * The frontend should remove the token from local storage
-     * @return A success message
-     */
     @PostMapping("/logout")
     @Operation(
         summary = "Cerrar sesión",
