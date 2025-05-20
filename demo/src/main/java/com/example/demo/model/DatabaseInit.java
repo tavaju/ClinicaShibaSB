@@ -1191,9 +1191,9 @@ public class DatabaseInit implements ApplicationRunner {
                                 "https://m.media-amazon.com/images/I/71eROBTwkVL._AC_SL1500_.jpg", 
                                 4.9, 
                                 Product.InventoryStatus.INSTOCK));
-                        
-                        System.out.println("Productos de ejemplo cargados con éxito.");
+                          System.out.println("Productos de ejemplo cargados con éxito.");
                 }
+        }
 
         private UserEntity saveUserCliente(Cliente cliente) {
                 UserEntity user = new UserEntity();
@@ -1221,4 +1221,5 @@ public class DatabaseInit implements ApplicationRunner {
                 user.setRoles(List.of(roles));
                 return userRepository.save(user);
         }
+        
 }
