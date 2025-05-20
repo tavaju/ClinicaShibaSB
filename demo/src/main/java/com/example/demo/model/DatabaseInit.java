@@ -3,13 +3,16 @@ package com.example.demo.model;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import com.example.demo.repository.AdministradorRepository;
 import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.MascotaRepository;
+import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.VeterinarioRepository;
 import com.example.demo.service.ExcelService;
 import com.example.demo.repository.TratamientoRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.DrogaRepository;
 import com.example.demo.repository.ProductRepository;
 
@@ -52,159 +55,329 @@ public class DatabaseInit implements ApplicationRunner {
         @Autowired
         ExcelService excelService;
 
+        @Autowired
+        private PasswordEncoder passwordEncoder;
+
+        @Autowired
+        private RoleRepository roleRepository;
+
+        @Autowired
+        private UserRepository userRepository;
+
         @Override
         public void run(ApplicationArguments args) throws Exception {
+
+                roleRepository.save(new Role("CLIENT"));
+                roleRepository.save(new Role("VET"));
+                roleRepository.save(new Role("ADMIN"));
+
+                UserEntity userEntity;
 
                 // Crear clientes de ejemplo si la base de datos esta vacia
                 List<Cliente> clientes = clienteRepository.findAll();
                 if (clientes.isEmpty()) {
-                        clienteRepository
-                                        .save(new Cliente("12345678", "Juan Pablo C", "juanbap@example.com",
-                                                        "1234567890", "password"));
-                        clienteRepository.save(new Cliente("87654321", "Jane Doe", "4aB4y@example.com", "9876543210",
-                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("11111111", "Alice Smith", "sHwHt@example.com", "1111111111",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("22222222", "Bob Johnson", "wWw0l@example.com", "2222222222",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("33333333", "Eva Williams", "2TlP2@example.com", "3333333333",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("44444444", "Michael Brown", "aWw3G@example.com",
-                                                        "4444444444", "password"));
-                        clienteRepository
-                                        .save(new Cliente("55555555", "Sophia Davis", "www@example.com", "5555555555",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("66666666", "William Wilson", "3aB4y@example.com",
-                                                        "6666666666", "password"));
-                        clienteRepository
-                                        .save(new Cliente("77777777", "Olivia Taylor", "eg2TlP2@example.com",
-                                                        "7777777777", "password"));
-                        clienteRepository
-                                        .save(new Cliente("88888888", "James Anderson", "rwWw0l@example.com",
-                                                        "8888888888", "password"));
-                        clienteRepository
-                                        .save(new Cliente("99999999", "Emma Thomas", "eeg2TlP2@example.com",
-                                                        "9999999999", "password"));
-                        clienteRepository.save(new Cliente("00000000", "Noah Martinez", "g@example.com", "0000000000",
-                                        "password"));
-                        clienteRepository.save(
-                                        new Cliente("10101010", "Isabella Hernandez", "r3aB4y@example.com",
-                                                        "1010101010", "password"));
-                        clienteRepository
-                                        .save(new Cliente("20202020", "Liam Clark", "peg2TlP2@example.com",
-                                                        "2020202020", "password"));
-                        clienteRepository
-                                        .save(new Cliente("30303030", "Ava Lewis", "oeg2TlP2@example.com", "3030303030",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("40404040", "Mason Walker", "poeg2TlP2@example.com",
-                                                        "4040404040", "password"));
-                        clienteRepository
-                                        .save(new Cliente("50505050", "Sophia Hall", "k3aB4y@example.com", "5050505050",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("60606060", "Ethan Young", "mnoeg2TlP2@example.com",
-                                                        "6060606060", "password"));
-                        clienteRepository
-                                        .save(new Cliente("70707070", "Emma Scott", "rr3aB4y@example.com", "7070707070",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("80808080", "Noah Green", "gfoeg2TlP2@example.com",
-                                                        "8080808080", "password"));
-                        clienteRepository
-                                        .save(new Cliente("90909090", "Isabella Adams", "lkmnoe@example.com",
-                                                        "9090909090", "password"));
-                        clienteRepository
-                                        .save(new Cliente("01010101", "Liam Baker", "vfoeg2TlP2@example.com",
-                                                        "0101010101", "password"));
-                        clienteRepository.save(new Cliente("211111111", "Ava Hill", "vedfrg@example.com", "1111111111",
-                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("122222222", "Noah Wilson", "vgrtvfs@example.com",
-                                                        "2222222222", "password"));
-                        clienteRepository
-                                        .save(new Cliente("233333333", "Sophia Davis", "jyhgt@example.com",
-                                                        "3333333333",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("244444444", "William Taylor", "wrbrtfb@example.com",
-                                                        "4444444444", "password"));
-                        clienteRepository
-                                        .save(new Cliente("255555555", "Olivia Anderson", "grsrgv@example.com",
-                                                        "5555555555", "password"));
-                        clienteRepository
-                                        .save(new Cliente("266666666", "James Thomas", "aqefdfc@example.com",
-                                                        "6666666666", "password"));
-                        clienteRepository
-                                        .save(new Cliente("277777777", "Emma Martinez", "kiujy@example.com",
-                                                        "7777777777", "password"));
-                        clienteRepository
-                                        .save(new Cliente("288888888", "Noah Hernandez", "btgd@example.com",
-                                                        "8888888888", "password"));
-                        clienteRepository
-                                        .save(new Cliente("299999999", "Isabella Clark", "wrt5hth@example.com",
-                                                        "9999999999", "password"));
-                        clienteRepository
-                                        .save(new Cliente("200000000", "Mason Lewis", "wwwrgfb@example.com",
-                                                        "0000000000", "password"));
-                        clienteRepository
-                                        .save(new Cliente("00000000", "Liam Lewis", "lkmlbg@example.com", "0000000000",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("210101010", "Ava Walker", "amfde@example.com", "1010101010",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("120202020", "Noah Hall", "alkmfog@example.com", "2020202020",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("230303030", "Sophia Young", "brmergk4@example.com",
-                                                        "3030303030", "password"));
-                        clienteRepository
-                                        .save(new Cliente("240404040", "Ethan Scott", "g4joer4g@example.com",
-                                                        "4040404040", "password"));
-                        clienteRepository
-                                        .save(new Cliente("250505050", "Emma Green", "jgi4ogmr@example.com",
-                                                        "5050505050", "password"));
-                        clienteRepository.save(new Cliente("260606060", "Noah Adams", "brm4@example.com", "6060606060",
-                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("270707070", "Isabella Baker", "3opkmgw@example.com",
-                                                        "7070707070", "password"));
-                        clienteRepository
-                                        .save(new Cliente("280808080", "Liam Hill", "o90jfgke@example.com",
-                                                        "8080808080",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("290909090", "Ava Wilson", "34jmfe3w@example.com",
-                                                        "9090909090", "password"));
-                        clienteRepository
-                                        .save(new Cliente("201010101", "Noah Davis", "3o4pj3@example.com", "0101010101",
-                                                        "password"));
-                        clienteRepository
-                                        .save(new Cliente("311111111", "Sophia Taylor", "fe34f@example.com",
-                                                        "1111111111", "password"));
-                        clienteRepository
-                                        .save(new Cliente("322222222", "Ethan Anderson", "g4bw4q@example.com",
-                                                        "2222222222", "password"));
-                        clienteRepository
-                                        .save(new Cliente("133333333", "Emma Thomas", "b4bw45gew@example.com",
-                                                        "3333333333", "password"));
-                        clienteRepository
-                                        .save(new Cliente("344444444", "Noah Martinez", "q4hgq4hq@example.com",
-                                                        "4444444444", "password"));
-                        clienteRepository.save(
-                                        new Cliente("355555555", "Isabella Hernandez", "q4gbnts@example.com",
-                                                        "5555555555", "password"));
-                        clienteRepository
-                                        .save(new Cliente("366666666", "Liam Clark", "d7Cw3@example.com", "6666666666",
-                                                        "password"));
-                        clienteRepository.save(new Cliente("377777777", "Ava Lewis", "t2HdM@example.com", "7777777777",
-                                        "password"));
+
+                        Cliente clienteSave;
+
+                        clienteSave = new Cliente("12345678", "Juan Pablo C", "juanbap@example.com", "1234567890",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("87654321", "Jane Doe", "4aB4y@example.com", "9876543210",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("11111111", "Alice Smith", "sHwHt@example.com", "1111111111",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("22222222", "Bob Johnson", "wWw0l@example.com", "2222222222",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("33333333", "Eva Williams", "2TlP2@example.com", "3333333333",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("44444444", "Michael Brown", "aWw3G@example.com", "4444444444",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("55555555", "Sophia Davis", "www@example.com", "5555555555",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("66666666", "William Wilson", "3aB4y@example.com", "6666666666",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("77777777", "Olivia Taylor", "eg2TlP2@example.com", "7777777777",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("88888888", "James Anderson", "rwWw0l@example.com", "8888888888",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("99999999", "Emma Thomas", "eeg2TlP2@example.com", "9999999999",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("00000000", "Noah Martinez", "g@example.com", "0000000000",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("10101010", "Isabella Hernandez", "r3aB4y@example.com", "1010101010",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("20202020", "Liam Clark", "peg2TlP2@example.com", "2020202020",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("30303030", "Ava Lewis", "oeg2TlP2@example.com", "3030303030",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("40404040", "Mason Walker", "poeg2TlP2@example.com", "4040404040",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("50505050", "Sophia Hall", "k3aB4y@example.com", "5050505050",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("60606060", "Ethan Young", "mnoeg2TlP2@example.com", "6060606060",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("70707070", "Emma Scott", "rr3aB4y@example.com", "7070707070",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("80808080", "Noah Green", "gfoeg2TlP2@example.com", "8080808080",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("90909090", "Isabella Adams", "lkmnoe@example.com", "9090909090",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("01010101", "Liam Baker", "vfoeg2TlP2@example.com", "0101010101",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("211111111", "Ava Hill", "vedfrg@example.com", "1111111111",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("122222222", "Noah Wilson", "vgrtvfs@example.com", "2222222222",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("233333333", "Sophia Davis", "jyhgt@example.com", "3333333333",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("244444444", "William Taylor", "wrbrtfb@example.com", "4444444444",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("255555555", "Olivia Anderson", "grsrgv@example.com", "5555555555",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("266666666", "James Thomas", "aqefdfc@example.com", "6666666666",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("277777777", "Emma Martinez", "kiujy@example.com", "7777777777",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("288888888", "Noah Hernandez", "btgd@example.com", "8888888888",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("299999999", "Isabella Clark", "wrt5hth@example.com", "9999999999",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("200000000", "Mason Lewis", "wwwrgfb@example.com", "0000000000",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("00000000", "Liam Lewis", "lkmlbg@example.com", "0000000000",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("210101010", "Ava Walker", "amfde@example.com", "1010101010",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("120202020", "Noah Hall", "alkmfog@example.com", "2020202020",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("230303030", "Sophia Young", "brmergk4@example.com", "3030303030",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("240404040", "Ethan Scott", "g4joer4g@example.com", "4040404040",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("250505050", "Emma Green", "jgi4ogmr@example.com", "5050505050",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("260606060", "Noah Adams", "brm4@example.com", "6060606060",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("270707070", "Isabella Baker", "3opkmgw@example.com", "7070707070",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("280808080", "Liam Hill", "o90jfgke@example.com", "8080808080",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("290909090", "Ava Wilson", "34jmfe3w@example.com", "9090909090",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("201010101", "Noah Davis", "3o4pj3@example.com", "0101010101",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("311111111", "Sophia Taylor", "fe34f@example.com", "1111111111",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("322222222", "Ethan Anderson", "g4bw4q@example.com", "2222222222",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("133333333", "Emma Thomas", "b4bw45gew@example.com", "3333333333",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("344444444", "Noah Martinez", "q4hgq4hq@example.com", "4444444444",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("355555555", "Isabella Hernandez", "q4gbnts@example.com",
+                                        "5555555555", "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("366666666", "Liam Clark", "d7Cw3@example.com", "6666666666",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
+
+                        clienteSave = new Cliente("377777777", "Ava Lewis", "t2HdM@example.com", "7777777777",
+                                        "password");
+                        userEntity = saveUserCliente(clienteSave);
+                        clienteSave.setUser(userEntity);
+                        clienteRepository.save(clienteSave);
                         clientes = clienteRepository.findAll();
                 }
 
@@ -585,13 +758,42 @@ public class DatabaseInit implements ApplicationRunner {
                 // Crear administradores de ejemplo si la base de datos está vacía
                 List<Administrador> administradores = administradorRepository.findAll();
                 if (administradores.isEmpty()) {
-                        // Crear dos administradores de ejemplo
-                        Administrador admin1 = new Administrador("ADMIN001", "Carlos Jiménez", "password");
-                        Administrador admin2 = new Administrador("ADMIN002", "Laura González", "password");
 
-                        // Guardar los administradores en la base de datos
-                        administradorRepository.save(admin1);
-                        administradorRepository.save(admin2);
+                        /*
+                         * Administrador admin1 = new Administrador("ADMIN001", "Carlos Jiménez",
+                         * "password");
+                         * Administrador admin2 = new Administrador("ADMIN002", "Laura González",
+                         * "password");
+                         */
+
+                        // Administradores con Builder
+
+                        Administrador adminSave;
+
+                        adminSave = Administrador.builder().cedula("ADMIN001").nombre("Carlos Jiménez")
+                                        .contrasena("password").build();
+                        userEntity = saveUserAdmin(adminSave);
+                        adminSave.setUser(userEntity);
+                        administradorRepository.save(adminSave);
+
+                        adminSave = Administrador.builder().cedula("ADMIN002").nombre("Laura González")
+                                        .contrasena("password").build();
+
+                        userEntity = saveUserAdmin(adminSave);
+                        adminSave.setUser(userEntity);
+                        administradorRepository.save(adminSave);
+
+                        adminSave = Administrador.builder().cedula("ADMIN003").nombre("Pedro Pérez")
+                                        .contrasena("password").build();
+                        userEntity = saveUserAdmin(adminSave);
+                        adminSave.setUser(userEntity);
+                        administradorRepository.save(adminSave);
+
+                        adminSave = Administrador.builder().cedula("ADMIN004").nombre("Ana Torres")
+                                        .contrasena("password").build();
+                        userEntity = saveUserAdmin(adminSave);
+                        adminSave.setUser(userEntity);
+                        administradorRepository.save(adminSave);
 
                         System.out.println("Administradores de ejemplo creados con éxito.");
 
@@ -607,66 +809,89 @@ public class DatabaseInit implements ApplicationRunner {
                         Administrador admin2 = administradores.get(1); // Laura González
 
                         // Crear veterinarios y asignarlos al administrador 1
-                        Veterinario vet1 = new Veterinario("VET12345", "Dr. Juan Perez", "Cardiología",
+                        Veterinario vetSave;
+
+                        vetSave = new Veterinario("VET12345", "Dr. Juan Perez", "Cardiología",
                                         "https://images.unsplash.com/photo-1553550102-590bc483f15c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                                         "password", true);
-                        vet1.setAdministrador(admin1);
-                        veterinarioRepository.save(vet1);
+                        vetSave.setAdministrador(admin1);
+                        userEntity = saveUserVet(vetSave);
+                        vetSave.setUser(userEntity);
+                        veterinarioRepository.save(vetSave);
 
-                        Veterinario vet2 = new Veterinario("VET23456", "Dra. Maria Lopez", "Dermatología",
+                        vetSave = new Veterinario("VET23456", "Dra. Maria Lopez", "Dermatología",
                                         "https://images.unsplash.com/photo-1588950538967-ca7f8599c669?q=80&w=2126&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                                         "password", true);
-                        vet2.setAdministrador(admin1);
-                        veterinarioRepository.save(vet2);
+                        vetSave.setAdministrador(admin1);
+                        userEntity = saveUserVet(vetSave);
+                        vetSave.setUser(userEntity);
+                        veterinarioRepository.save(vetSave);
 
-                        Veterinario vet3 = new Veterinario("VET34567", "Dr. Carlos Gomez", "Neurología",
+                        vetSave = new Veterinario("VET34567", "Dr. Carlos Gomez", "Neurología",
                                         "https://images.unsplash.com/photo-1644675443401-ea4c14bad0e6?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                                         "password", true);
-                        vet3.setAdministrador(admin1);
-                        veterinarioRepository.save(vet3);
+                        vetSave.setAdministrador(admin1);
+                        userEntity = saveUserVet(vetSave);
+                        vetSave.setUser(userEntity);
+                        veterinarioRepository.save(vetSave);
 
-                        Veterinario vet4 = new Veterinario("VET45678", "Dra. Ana Martinez", "Oftalmología",
+                        vetSave = new Veterinario("VET45678", "Dra. Ana Martinez", "Oftalmología",
                                         "https://images.unsplash.com/photo-1625154236234-ab1c8e908432?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                                         "password", true);
-                        vet4.setAdministrador(admin1);
-                        veterinarioRepository.save(vet4);
+                        vetSave.setAdministrador(admin1);
+                        userEntity = saveUserVet(vetSave);
+                        vetSave.setUser(userEntity);
+                        veterinarioRepository.save(vetSave);
 
-                        Veterinario vet5 = new Veterinario("VET56789", "Dr. Luis Rodriguez", "Oncología",
+                        vetSave = new Veterinario("VET56789", "Dr. Luis Rodriguez", "Oncología",
                                         "https://images.unsplash.com/photo-1591954692515-d1d30376fa64?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                                         "password", true);
-                        vet5.setAdministrador(admin1);
-                        veterinarioRepository.save(vet5);
+                        vetSave.setAdministrador(admin1);
+                        userEntity = saveUserVet(vetSave);
+                        vetSave.setUser(userEntity);
+                        veterinarioRepository.save(vetSave);
 
                         // Crear veterinarios y asignarlos al administrador 2
-                        Veterinario vet6 = new Veterinario("VET67890", "Dra. Laura Fernandez", "Ortopedia",
+                        vetSave = new Veterinario("VET67890", "Dra. Laura Fernandez", "Ortopedia",
                                         "https://veterinary.rossu.edu/sites/g/files/krcnkv416/files/styles/atge_no_style_lg/public/2021-07/dei-initiatives-access-to-inclusive-veterinary-medicine_hero_1.jpg?itok=zMEMv7vJ",
                                         "password", true);
-                        vet6.setAdministrador(admin2);
-                        veterinarioRepository.save(vet6);
+                        vetSave.setAdministrador(admin2);
+                        userEntity = saveUserVet(vetSave);
+                        vetSave.setUser(userEntity);
+                        veterinarioRepository.save(vetSave);
+                        ;
 
-                        Veterinario vet7 = new Veterinario("VET78901", "Dr. Jorge Sanchez", "Pediatría",
+                        vetSave = new Veterinario("VET78901", "Dr. Jorge Sanchez", "Pediatría",
                                         "https://veterinary.stmatthews.edu/uploads/sites/8/2020/09/smu-1187228710.webp?w=776",
                                         "password", true);
-                        vet7.setAdministrador(admin2);
-                        veterinarioRepository.save(vet7);
+                        vetSave.setAdministrador(admin2);
+                        userEntity = saveUserVet(vetSave);
+                        vetSave.setUser(userEntity);
+                        veterinarioRepository.save(vetSave);
 
-                        Veterinario vet8 = new Veterinario("VET89012", "Dra. Patricia Ramirez", "Radiología",
+                        vetSave = new Veterinario("VET89012", "Dra. Patricia Ramirez", "Radiología",
                                         "https://res.cloudinary.com/hnpb47ejt/image/upload/v1646258562/lead-gen/veterinary-technician",
                                         "password", true);
-                        vet8.setAdministrador(admin2);
-                        veterinarioRepository.save(vet8);
+                        vetSave.setAdministrador(admin2);
+                        userEntity = saveUserVet(vetSave);
+                        vetSave.setUser(userEntity);
+                        veterinarioRepository.save(vetSave);
 
-                        Veterinario vet9 = new Veterinario("VET90123", "Dr. Andres Torres", "Rehabilitación",
+                        vetSave = new Veterinario("VET90123", "Dr. Andres Torres", "Rehabilitación",
                                         "https://cdn.phenompeople.com/CareerConnectResources/PEQPETUS/images/Vital_Care_04_0267NonNonCompete13-1675120214406.jpg",
                                         "password", true);
-                        vet9.setAdministrador(admin2);
-                        veterinarioRepository.save(vet9);
+                        vetSave.setAdministrador(admin2);
+                        userEntity = saveUserVet(vetSave);
+                        vetSave.setUser(userEntity);
+                        veterinarioRepository.save(vetSave);
 
-                        Veterinario vet10 = new Veterinario("VET01234", "Dra. Sofia Morales", "Cirugía",
+                        vetSave = new Veterinario("VET01234", "Dra. Sofia Morales", "Cirugía",
                                         "https://www.aaha.org/wp-content/uploads/2024/03/49350d8880e24a9bb91bfcb4df6c4598.jpg",
                                         "password", true);
-                        vet10.setAdministrador(admin2);
-                        veterinarioRepository.save(vet10);
+                        vetSave.setAdministrador(admin2);
+                        userEntity = saveUserVet(vetSave);
+                        vetSave.setUser(userEntity);
+                        veterinarioRepository.save(vetSave);
 
                         System.out.println("Veterinarios asignados a administradores con éxito.");
 
@@ -687,13 +912,14 @@ public class DatabaseInit implements ApplicationRunner {
                         ClassLoader classLoader = getClass().getClassLoader();
                         java.net.URL resource = classLoader.getResource(excelFilePath);
                         if (resource == null) {
-                                System.err.println("No se encontró el archivo de medicamentos en el classpath: " + excelFilePath);
+                                System.err.println("No se encontró el archivo de medicamentos en el classpath: "
+                                                + excelFilePath);
                                 return;
                         }
                         String path = resource.getPath();
                         List<Droga> drogas = excelService.readDrogasFromExcel(path);
                         for (Droga droga : drogas) {
-                                droga.setTratamiento(null);
+                                droga.setTratamientos(null);
                         }
                         drogaRepository.saveAll(drogas);
                         System.out.println("Drogas loaded successfully from Excel.");
@@ -968,5 +1194,31 @@ public class DatabaseInit implements ApplicationRunner {
                         
                         System.out.println("Productos de ejemplo cargados con éxito.");
                 }
+
+        private UserEntity saveUserCliente(Cliente cliente) {
+                UserEntity user = new UserEntity();
+                user.setUsername(cliente.getCorreo());
+                user.setPassword(passwordEncoder.encode(cliente.getContrasena()));
+                Role roles = roleRepository.findByName("CLIENT").get();
+                user.setRoles(List.of(roles));
+                return userRepository.save(user);
+        }
+
+        private UserEntity saveUserVet(Veterinario veterinario) {
+                UserEntity user = new UserEntity();
+                user.setUsername(veterinario.getCedula());
+                user.setPassword(passwordEncoder.encode(veterinario.getContrasena()));
+                Role roles = roleRepository.findByName("VET").get();
+                user.setRoles(List.of(roles));
+                return userRepository.save(user);
+        }
+
+        private UserEntity saveUserAdmin(Administrador administrador) {
+                UserEntity user = new UserEntity();
+                user.setUsername(administrador.getCedula());
+                user.setPassword(passwordEncoder.encode(administrador.getContrasena()));
+                Role roles = roleRepository.findByName("ADMIN").get();
+                user.setRoles(List.of(roles));
+                return userRepository.save(user);
         }
 }

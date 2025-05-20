@@ -15,10 +15,15 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Droga {
 
     // Atributo id: clave primaria autogenerada
@@ -56,8 +61,6 @@ public class Droga {
     @JsonIgnore
     private List<Tratamiento> tratamientos = new ArrayList<>();
 
-    public Droga() {
-    }
 
     public Droga(String nombre, float precioCompra, float precioVenta, int unidadesDisponibles, int unidadesVendidas,
             List<Tratamiento> tratamientos) {
@@ -80,61 +83,7 @@ public class Droga {
         this.tratamientos = tratamientos;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public float getPrecioCompra() {
-        return precioCompra;
-    }
-
-    public void setPrecioCompra(float precioCompra) {
-        this.precioCompra = precioCompra;
-    }
-
-    public float getPrecioVenta() {
-        return precioVenta;
-    }
-
-    public void setPrecioVenta(float precioVenta) {
-        this.precioVenta = precioVenta;
-    }
-
-    public float getUnidadesDisponibles() {
-        return unidadesDisponibles;
-    }
-
-    public void setUnidadesDisponibles(int unidadesDisponibles) {
-        this.unidadesDisponibles = unidadesDisponibles;
-    }
-
-    public int getUnidadesVendidas() {
-        return unidadesVendidas;
-    }
-
-    public void setUnidadesVendidas(int unidadesVendidas) {
-        this.unidadesVendidas = unidadesVendidas;
-    }
-
-    public List<Tratamiento> getTratamientos() {
-        return tratamientos;
-    }
-
-    public void setTratamiento(List<Tratamiento> tratamientos) {
-        this.tratamientos = tratamientos;
-    }
+   
 
     public void decrementarUnidadesDisponibles() {
         if (this.unidadesDisponibles > 0) {

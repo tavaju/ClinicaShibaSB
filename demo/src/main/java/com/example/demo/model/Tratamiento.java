@@ -11,8 +11,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Tratamiento {
 
     @Id
@@ -38,8 +42,7 @@ public class Tratamiento {
     @NotNull(message = "El tratamiento debe estar asociado a un veterinario")
     private Veterinario veterinario;
 
-    public Tratamiento() {
-    }
+
 
     public Tratamiento(Date fecha, Droga droga, Mascota mascota, Veterinario veterinario) {
         this.fecha = fecha;
@@ -48,44 +51,5 @@ public class Tratamiento {
         this.veterinario = veterinario;
     }
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public Droga getDroga() {
-        return droga;
-    }
-
-    public void setDroga(Droga droga) {
-        this.droga = droga;
-    }
-
-    public Mascota getMascota() {
-        return mascota;
-    }
-
-    public void setMascota(Mascota mascota) {
-        this.mascota = mascota;
-    }
-
-    public Veterinario getVeterinario() {
-        return veterinario;
-    }
-
-    public void setVeterinario(Veterinario veterinario) {
-        this.veterinario = veterinario;
-    }
+    
 }

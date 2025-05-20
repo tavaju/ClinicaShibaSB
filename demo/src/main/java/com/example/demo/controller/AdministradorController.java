@@ -5,15 +5,31 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 
 import com.example.demo.service.AdministradorService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
+import com.example.demo.dto.AdministradorDTO;
+import com.example.demo.dto.AdministradorMapper;
+import com.example.demo.dto.ClienteDTO;
+import com.example.demo.dto.ClienteMapper;
+import com.example.demo.dto.VeterinarioDTO;
+import com.example.demo.dto.VeterinarioMapper;
 import com.example.demo.model.Administrador;
+import com.example.demo.model.Cliente;
 import com.example.demo.model.Veterinario;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.CustomUserDetailService;
+import com.example.demo.security.JWTGenerator;
 
 // Controlador de Administrador
 @RequestMapping("/administrador")
@@ -24,6 +40,18 @@ public class AdministradorController {
     // Inyeccion de dependencias de AdministradorService
     @Autowired
     AdministradorService administradorService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    CustomUserDetailService customUserDetailService;
+
+    @Autowired
+    JWTGenerator jwtGenerator;
 
     // http://localhost:8090/administrador/all
     @GetMapping("/all")
@@ -113,13 +141,17 @@ public class AdministradorController {
     //find by cedula
     @GetMapping("/find/cedula/{cedula}")
     @Operation(summary = "Buscar administrador por cédula")
-    public Administrador findAdministradorByCedula(@PathVariable("cedula") String cedula) {
+    public ResponseEntity<AdministradorDTO> findAdministradorByCedula(@PathVariable("cedula") String cedula) {
         Administrador administrador = administradorService.searchByCedula(cedula);
-        if (administrador != null) {
-            return administrador;
+
+        if (administrador == null) {
+            throw new NotFoundException("Admin con cédula " + cedula + " no encontrado.");
         } 
-        throw new NotFoundException(cedula);
+
+        AdministradorDTO administradorDTO = AdministradorMapper.INSTANCE.convert(administrador);
+        return ResponseEntity.ok(administradorDTO);
     }
+
     
     // Endpoint para obtener todos los veterinarios asignados a un administrador
     @GetMapping("/findByAdministradorId")
@@ -130,20 +162,29 @@ public class AdministradorController {
     }
     
     // Login endpoint
+    // http://localhost:8090/administrador/login
     @PostMapping("/login")
     @Operation(summary = "Login de administrador")
-    public ResponseEntity<?> loginAdministrador(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
+    public ResponseEntity<String> loginAdministrador(@RequestParam("cedula") String cedula, @RequestParam("contrasena") String contrasena) {
         Administrador administrador = administradorService.searchByCedula(cedula);
-        
+
+        // Verificar si el usuario existe
         if (administrador == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cedula de administrador no encontrada");
         }
-        
+
+        // Verificar si la contraseña es correcta
         if (!administrador.getContrasena().equals(contrasena)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
         }
-        
-        return ResponseEntity.ok(administrador);
+
+        Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(administrador.getCedula(), administrador.getContrasena()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = jwtGenerator.generateToken(authentication);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
     
     // Exception handler for not found resources
@@ -159,4 +200,21 @@ public class AdministradorController {
             super("No se pudo encontrar el administrador con cedula: " + cedula);
         }
     }
+
+
+            // http://localhost:8090/cliente/details
+        @GetMapping("/details")
+        public ResponseEntity<AdministradorDTO> buscarAdmin() {
+    
+            Administrador administrador = administradorService.searchByCedula(
+                SecurityContextHolder.getContext().getAuthentication().getName()
+            );
+    
+            AdministradorDTO administradorDTO = AdministradorMapper.INSTANCE.convert(administrador);
+    
+            if (administrador == null) {
+                return new ResponseEntity<AdministradorDTO>(administradorDTO, HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<AdministradorDTO>(administradorDTO, HttpStatus.OK);
+        }
 }
