@@ -16,8 +16,11 @@ This guide explains how to deploy the Clinica Shiba Spring Boot application usin
 # Make the build script executable (if not already)
 chmod +x scripts/build.sh
 
-# Build the Docker image
+# Build the Docker image (uses main Dockerfile)
 ./scripts/build.sh
+
+# Or build with the Render.com optimized Dockerfile
+docker build -f Dockerfile.render -t clinica-shiba:latest .
 ```
 
 ### 2. Run with Docker Compose
@@ -68,6 +71,10 @@ docker run -p 8090:8090 \
    - `SPRING_PROFILES_ACTIVE`: `production`
    - `CORS_ALLOWED_ORIGINS`: Your frontend domain
 
+**Note**: The project includes two Dockerfiles:
+- `Dockerfile`: For local development
+- `Dockerfile.render`: Optimized for Render.com deployment (used by render.yaml)
+
 ### Option 2: Manual Web Service Creation
 
 1. **Create a New Web Service**
@@ -80,7 +87,7 @@ docker run -p 8090:8090 \
    - **Environment**: `Docker`
    - **Region**: Choose closest to your users
    - **Branch**: `main`
-   - **Dockerfile Path**: `./Dockerfile`
+   - **Dockerfile Path**: `Dockerfile.render`
 
 3. **Set Environment Variables**
    ```

@@ -1,5 +1,5 @@
 # Multi-stage build for Spring Boot application
-FROM maven:3.9.4-openjdk-17-slim AS build
+FROM maven:3.9-eclipse-temurin-17-alpine AS build
 
 # Set working directory
 WORKDIR /app
@@ -12,22 +12,22 @@ RUN mvn dependency:go-offline -B
 
 # Copy source code
 COPY demo/src ./src
-COPY demo/src/main/resources ./src/main/resources
 
 # Build the application
 RUN mvn clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-alpine
 
 # Install curl for health checks
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache curl
 
 # Create app directory
 WORKDIR /app
 
 # Create non-root user for security
-RUN groupadd -r appuser && useradd -r -g appuser appuser
+RUN addgroup -g 1001 -S appuser && \
+    adduser -S appuser -G appuser
 
 # Copy the built jar from build stage
 COPY --from=build /app/target/*.jar app.jar
