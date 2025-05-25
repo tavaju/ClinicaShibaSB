@@ -25,7 +25,14 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
         /* A quien se deja permitir tener acceso a la API */
         config.setAllowCredentials(true);
+        
+        // Allow localhost for development
         config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedOrigin("https://localhost:4200");
+        
+        // Allow any origin for now (you should restrict this in production)
+        config.addAllowedOriginPattern("*");
+        
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,
@@ -35,7 +42,8 @@ public class CorsConfig {
                         HttpMethod.GET.name(),
                         HttpMethod.POST.name(),
                         HttpMethod.PUT.name(),
-                        HttpMethod.DELETE.name()));
+                        HttpMethod.DELETE.name(),
+                        HttpMethod.OPTIONS.name()));
         /* Se registra la configuracion */
         source.registerCorsConfiguration("/**", config);
         FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<CorsFilter>(new CorsFilter(source));
