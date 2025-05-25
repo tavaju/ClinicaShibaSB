@@ -1,0 +1,35 @@
+HOSTNAME:
+
+dpg-d0pphc6uk2gs739tpc60-a
+
+
+PORT:
+
+5432
+
+DATABASE:
+
+clinica_shiba_db
+
+USER NAME:
+
+clinica_shiba_db_user
+
+PASSWORD:
+
+vt41tuwta2hhIVTUgekbLrfx8liLxiWa
+
+INTERNAL DB URL:
+
+postgresql://clinica_shiba_db_user:vt41tuwta2hhIVTUgekbLrfx8liLxiWa@dpg-d0pphc6uk2gs739tpc60-a/clinica_shiba_db
+
+EXTERNAL DB URL:
+
+postgresql://clinica_shiba_db_user:vt41tuwta2hhIVTUgekbLrfx8liLxiWa@dpg-d0pphc6uk2gs739tpc60-a.oregon-postgres.render.com/clinica_shiba_db
+
+PSQL COMMAND:
+
+PGPASSWORD=vt41tuwta2hhIVTUgekbLrfx8liLxiWa psql -h dpg-d0pphc6uk2gs739tpc60-a.oregon-postgres.render.com -U clinica_shiba_db_user clinica_shiba_db
+
+
+
