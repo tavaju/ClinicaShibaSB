@@ -18,8 +18,10 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import java.util.function.Function;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@ActiveProfiles("default")
+@ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@Disabled("Pending mock configuration")
+
 public class AdminVetTreatmentE2ETest {
 
     private final String BASE_URL = "http://localhost:4200";

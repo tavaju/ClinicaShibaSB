@@ -14,5 +14,7 @@ public interface DrogaRepository extends JpaRepository<Droga, Long> {
     public Droga findByUnidadesDisponibles(float unidadesDisponibles);
     public Droga findByUnidadesVendidas(int unidadesVendidas);
     void deleteById(Long id);
+    boolean existsByNombre(String nombre);
+    
     
 }

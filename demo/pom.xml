@@ -60,8 +60,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 				<dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -141,10 +142,28 @@
 		    <artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
 		    <version>0.11.5</version>
 		</dependency>
+
+		<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>test</scope>
+</dependency>
+
 	
 	</dependencies>
 
 	<build>
+
+<resources>
+  <resource>
+    <directory>src/main/resources</directory>
+    <includes>
+      <include>**/*</include>
+    </includes>
+  </resource>
+</resources>
+
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -158,6 +177,11 @@
 				<version>3.11.0</version>
 				<configuration>
 					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.30</version>
+						</path>
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>

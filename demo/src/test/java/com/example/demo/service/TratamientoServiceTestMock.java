@@ -28,6 +28,7 @@ import com.example.demo.repository.TratamientoRepository;
 import com.example.demo.repository.VeterinarioRepository;
 
 @ActiveProfiles("test")
+
 @ExtendWith(MockitoExtension.class)
 public class TratamientoServiceTestMock {
 

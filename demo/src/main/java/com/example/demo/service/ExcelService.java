@@ -7,22 +7,21 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ExcelService {
 
-    public List<Droga> readDrogasFromExcel(String filePath) throws Exception {
+    public List<Droga> readDrogasFromExcel(InputStream inputStream) throws Exception {
         List<Droga> drogas = new ArrayList<>();
 
-        try (FileInputStream fis = new FileInputStream(new File(filePath));
-                Workbook workbook = new XSSFWorkbook(fis)) {
-
-            Sheet sheet = workbook.getSheetAt(0); // Read the first sheet
+        try (Workbook workbook = new XSSFWorkbook(inputStream)) {
+            Sheet sheet = workbook.getSheetAt(0);
             int rowCount = sheet.getPhysicalNumberOfRows();
 
-            for (int i = 1; i < rowCount; i++) { // Skip header row
+            for (int i = 1; i < rowCount; i++) {
                 Row row = sheet.getRow(i);
                 if (row == null)
                     continue;
@@ -39,7 +38,7 @@ public class ExcelService {
         }
 
         return drogas;
-    }
+    }    
 
     private String getCellValueAsString(Cell cell) {
         if (cell == null)
@@ -51,7 +50,6 @@ public class ExcelService {
                 if (DateUtil.isCellDateFormatted(cell)) {
                     return cell.getDateCellValue().toString();
                 } else {
-                    // Remove ".0" if the number is an integer
                     double numericValue = cell.getNumericCellValue();
                     if (numericValue == Math.floor(numericValue)) {
                         return String.valueOf((long) numericValue); // Convert to long if it's an integer
