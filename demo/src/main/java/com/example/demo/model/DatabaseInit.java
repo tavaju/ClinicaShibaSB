@@ -23,10 +23,11 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Random;
 import java.util.Date;
+import java.io.InputStream;
 import java.util.Calendar;
 
 // Clase para inicializar la base de datos
-@Profile({"default", "production"})
+@Profile({ "default", "production" })
 @Component
 @Transactional
 public class DatabaseInit implements ApplicationRunner {
@@ -902,25 +903,33 @@ public class DatabaseInit implements ApplicationRunner {
         }
 
         private void loadDrogasFromExcel() {
-                try {
-                        // Usa el classpath para encontrar el archivo
-                        String excelFilePath = "excel/MEDICAMENTOS_VETERINARIA.xlsx";
-                        ClassLoader classLoader = getClass().getClassLoader();
-                        java.net.URL resource = classLoader.getResource(excelFilePath);
-                        if (resource == null) {
-                                System.err.println("No se encontró el archivo de medicamentos en el classpath: "
+                String excelFilePath = "excel/MEDICAMENTOS_VETERINARIA.xlsx";
+
+                try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(excelFilePath)) {
+                        if (inputStream == null) {
+                                System.err.println("❌ No se encontró el archivo de medicamentos en el classpath: "
                                                 + excelFilePath);
                                 return;
                         }
-                        String path = resource.getPath();
-                        List<Droga> drogas = excelService.readDrogasFromExcel(path);
+
+                        List<Droga> drogas = excelService.readDrogasFromExcel(inputStream);
+                        int insertadas = 0, duplicadas = 0;
+
                         for (Droga droga : drogas) {
-                                droga.setTratamientos(null);
+                                if (!drogaRepository.existsByNombre(droga.getNombre())) {
+                                        drogaRepository.save(droga);
+                                        insertadas++;
+                                } else {
+                                        System.out.println("⚠️ Droga duplicada (omitida): " + droga.getNombre());
+                                        duplicadas++;
+                                }
                         }
-                        drogaRepository.saveAll(drogas);
-                        System.out.println("Drogas loaded successfully from Excel.");
+
+                        System.out.println("✅ Drogas insertadas: " + insertadas);
+                        System.out.println("↪️ Drogas duplicadas omitidas: " + duplicadas);
                 } catch (Exception e) {
-                        System.err.println("Error loading Drogas from Excel: " + e.getMessage());
+                        System.err.println("❌ Error cargando drogas desde Excel:");
+                        e.printStackTrace();
                 }
         }
 
