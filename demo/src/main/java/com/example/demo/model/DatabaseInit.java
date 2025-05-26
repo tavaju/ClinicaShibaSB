@@ -4,6 +4,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import com.example.demo.repository.AdministradorRepository;
@@ -25,9 +26,9 @@ import java.util.Date;
 import java.util.Calendar;
 
 // Clase para inicializar la base de datos
-@Controller
+@Profile({"default", "production"})
+@Component
 @Transactional
-@Profile("default")
 public class DatabaseInit implements ApplicationRunner {
 
         @Autowired
