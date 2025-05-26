@@ -26,8 +26,7 @@ import java.util.Date;
 import java.io.InputStream;
 import java.util.Calendar;
 
-// Clase para inicializar la base de datos
-@Profile({ "default", "production" })
+@Profile({ "default", "production", "!test" })
 @Component
 @Transactional
 public class DatabaseInit implements ApplicationRunner {
