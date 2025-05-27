@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 // Controlador de Mascota
 @RequestMapping("/mascota")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "https://clinica-shiba-angular-theta.vercel.app"})
 
 public class MascotaController {
 

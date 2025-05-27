@@ -30,6 +30,9 @@ public class CorsConfig {
         config.addAllowedOrigin("http://localhost:4200");
         config.addAllowedOrigin("https://localhost:4200");
         
+        // Allow production frontend
+        config.addAllowedOrigin("https://clinica-shiba-angular-theta.vercel.app");
+        
         // Allow any origin for now (you should restrict this in production)
         config.addAllowedOriginPattern("*");
         

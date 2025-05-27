@@ -35,7 +35,7 @@ import com.example.demo.model.Cliente;
 // Controlador de Veterinario
 @RequestMapping("/veterinario")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "https://clinica-shiba-angular-theta.vercel.app"})
 public class VeterinarioController {
 
     // Inyeccion de dependencias de VeterinarioService

@@ -13,7 +13,7 @@ import com.example.demo.service.DrogaService;
 
 @RestController
 @RequestMapping("/droga")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "https://clinica-shiba-angular-theta.vercel.app"})
 public class DrogaController {
 
     @Autowired
