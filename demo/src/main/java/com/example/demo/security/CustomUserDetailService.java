@@ -2,6 +2,7 @@ package com.example.demo.security;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,13 +65,17 @@ public class CustomUserDetailService implements UserDetailsService {
     }
 
     public UserEntity saveCliente(Cliente cliente) {
+        Optional<UserEntity> existingUser = userRepository.findByUsername(cliente.getCorreo());
+        if (existingUser.isPresent()) {
+            return existingUser.get();
+        }
         UserEntity user = new UserEntity();
         user.setUsername(cliente.getCorreo());
         user.setPassword(passwordEncoder.encode(cliente.getContrasena()));
 
         Role roles = roleRepository.findByName("CLIENT").get();
         user.setRoles(List.of(roles));
-        return user;
+        return userRepository.save(user);
     }
 
     public UserEntity saveUserVet(Veterinario veterinario) {

@@ -85,23 +85,29 @@ public class ClienteController {
     // Metodo POST para agregar un cliente
     @PostMapping("/add")
     @Operation(summary = "Agregar cliente")
-    public ResponseEntity<Cliente> agregarCliente(@RequestBody Cliente cliente,
+    public ResponseEntity<Cliente> agregarCliente(
+            @RequestBody Cliente cliente,
             @RequestParam("confirmPassword") String confirmPassword) {
 
-        ClienteDTO clienteDTO = ClienteMapper.INSTANCE.convert(cliente);
-
-        if(userRepository.existsByUsername(cliente.getCorreo())) {
-            return new ResponseEntity<Cliente>(cliente, HttpStatus.BAD_REQUEST);
+        // Verifica si ya existe un usuario con ese correo
+        if (userRepository.existsByUsername(cliente.getCorreo())) {
+            return new ResponseEntity<>(cliente, HttpStatus.BAD_REQUEST);
         }
-        
-        
+
+        // Verifica que las contraseñas coincidan
+        if (!cliente.getContrasena().equals(confirmPassword)) {
+            throw new IllegalArgumentException("Las contraseñas no coinciden");
+        }
+
+        // Crea el UserEntity y asócialo al cliente
         UserEntity userEntity = customUserDetailService.saveCliente(cliente);
         cliente.setUser(userEntity);
+
         Cliente newCliente = clienteService.add(cliente);
-        if(newCliente == null){
-            return new ResponseEntity<Cliente>(newCliente, HttpStatus.BAD_REQUEST);
+        if (newCliente == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Cliente>(newCliente, HttpStatus.CREATED);
+        return new ResponseEntity<>(newCliente, HttpStatus.CREATED);
     }
 
     // Metodo GET para eliminar un cliente elegido
@@ -231,10 +237,14 @@ public class ClienteController {
 
         if (cliente == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }        ClienteDTO clienteDTO = ClienteMapper.INSTANCE.convert(cliente);
+        }
+        ClienteDTO clienteDTO = ClienteMapper.INSTANCE.convert(cliente);
         return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
-    }    /**
+    }
+
+    /**
      * Endpoint para cerrar sesión de cliente
+     * 
      * @return Mensaje de éxito
      */
     @PostMapping("/logout")
