@@ -30,7 +30,7 @@ import com.example.demo.security.CustomUserDetailService;
 // Controlador de Cliente 
 @RequestMapping("/cliente")
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "https://clinica-shiba-angular-theta.vercel.app"})
+@CrossOrigin(origins = "http://localhost:4200")
 public class ClienteController {
 
     // Inyeccion de dependencias de ClienteService y MascotaService

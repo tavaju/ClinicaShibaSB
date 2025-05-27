@@ -36,7 +36,7 @@ import com.example.demo.security.JWTGenerator;
 // Controlador de Administrador
 @RequestMapping("/administrador")
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "https://clinica-shiba-angular-theta.vercel.app"})
+@CrossOrigin(origins = "http://localhost:4200")
 public class AdministradorController {
 
     // Inyeccion de dependencias de AdministradorService
