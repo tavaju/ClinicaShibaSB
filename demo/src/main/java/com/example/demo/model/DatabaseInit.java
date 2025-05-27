@@ -29,7 +29,7 @@ import java.util.Calendar;
 // Clase para inicializar la base de datos
 @Controller
 @Transactional
-@Profile("default")
+@Profile({"dev", "production", "default"})
 public class DatabaseInit implements ApplicationRunner {
 
         @Autowired
