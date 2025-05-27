@@ -35,7 +35,6 @@ import com.example.demo.model.Cliente;
 // Controlador de Veterinario
 @RequestMapping("/veterinario")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 public class VeterinarioController {
 
     // Inyeccion de dependencias de VeterinarioService

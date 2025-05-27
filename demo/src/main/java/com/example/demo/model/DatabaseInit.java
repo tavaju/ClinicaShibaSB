@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Date;
 import java.util.Calendar;
+import java.io.InputStream;
 
 // Clase para inicializar la base de datos
 @Controller
@@ -912,6 +913,8 @@ public class DatabaseInit implements ApplicationRunner {
                 try {
                         // Usa el classpath para encontrar el archivo
                         String excelFilePath = "excel/MEDICAMENTOS_VETERINARIA.xlsx";
+                        System.out.println("Attempting to load Excel file: " + excelFilePath);
+                        
                         ClassLoader classLoader = getClass().getClassLoader();
                         java.net.URL resource = classLoader.getResource(excelFilePath);
                         if (resource == null) {
@@ -919,15 +922,24 @@ public class DatabaseInit implements ApplicationRunner {
                                                 + excelFilePath);
                                 return;
                         }
-                        String path = resource.getPath();
-                        List<Droga> drogas = excelService.readDrogasFromExcel(path);
-                        for (Droga droga : drogas) {
-                                droga.setTratamientos(null);
+                        
+                        System.out.println("Excel file found at: " + resource.toString());
+                        
+                        // Use InputStream instead of file path for JAR compatibility
+                        try (InputStream inputStream = resource.openStream()) {
+                                System.out.println("Reading Excel file from InputStream...");
+                                List<Droga> drogas = excelService.readDrogasFromExcel(inputStream);
+                                System.out.println("Loaded " + drogas.size() + " drogas from Excel file");
+                                
+                                for (Droga droga : drogas) {
+                                        droga.setTratamientos(null);
+                                }
+                                drogaRepository.saveAll(drogas);
+                                System.out.println("Drogas loaded successfully from Excel and saved to database.");
                         }
-                        drogaRepository.saveAll(drogas);
-                        System.out.println("Drogas loaded successfully from Excel.");
                 } catch (Exception e) {
                         System.err.println("Error loading Drogas from Excel: " + e.getMessage());
+                        e.printStackTrace();
                 }
         }
 

@@ -2,6 +2,7 @@ package com.example.demo.security;
 
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,9 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class CorsConfig {
 
+    @Value("${cors.allowed-origins:http://localhost:4200,https://clinica-shiba-angular-theta.vercel.app}")
+    private String allowedOrigins;
+
     /* Metodo para registrar la configuracion de CORS */
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilter() {
@@ -25,7 +29,13 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
         /* A quien se deja permitir tener acceso a la API */
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:4200");
+        
+        // Split the allowed origins and add them
+        String[] origins = allowedOrigins.split(",");
+        for (String origin : origins) {
+            config.addAllowedOrigin(origin.trim());
+        }
+        
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,

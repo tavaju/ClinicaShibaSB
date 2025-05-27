@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,25 +20,43 @@ public class ExcelService {
         try (FileInputStream fis = new FileInputStream(new File(filePath));
                 Workbook workbook = new XSSFWorkbook(fis)) {
 
-            Sheet sheet = workbook.getSheetAt(0); // Read the first sheet
-            int rowCount = sheet.getPhysicalNumberOfRows();
-
-            for (int i = 1; i < rowCount; i++) { // Skip header row
-                Row row = sheet.getRow(i);
-                if (row == null)
-                    continue;
-
-                Droga droga = new Droga();
-                droga.setNombre(getCellValueAsString(row.getCell(0)));
-                droga.setPrecioVenta(parseFloat(getCellValueAsString(row.getCell(1))));
-                droga.setPrecioCompra(parseFloat(getCellValueAsString(row.getCell(2))));
-                droga.setUnidadesDisponibles(parseInt(getCellValueAsString(row.getCell(3))));
-                droga.setUnidadesVendidas(parseInt(getCellValueAsString(row.getCell(4))));
-
-                drogas.add(droga);
-            }
+            drogas = readDrogasFromWorkbook(workbook);
         }
 
+        return drogas;
+    }
+
+    public List<Droga> readDrogasFromExcel(InputStream inputStream) throws Exception {
+        List<Droga> drogas = new ArrayList<>();
+
+        try (Workbook workbook = new XSSFWorkbook(inputStream)) {
+            drogas = readDrogasFromWorkbook(workbook);
+        }
+
+        return drogas;
+    }
+
+    private List<Droga> readDrogasFromWorkbook(Workbook workbook) {
+        List<Droga> drogas = new ArrayList<>();
+        
+        Sheet sheet = workbook.getSheetAt(0); // Read the first sheet
+        int rowCount = sheet.getPhysicalNumberOfRows();
+
+        for (int i = 1; i < rowCount; i++) { // Skip header row
+            Row row = sheet.getRow(i);
+            if (row == null)
+                continue;
+
+            Droga droga = new Droga();
+            droga.setNombre(getCellValueAsString(row.getCell(0)));
+            droga.setPrecioVenta(parseFloat(getCellValueAsString(row.getCell(1))));
+            droga.setPrecioCompra(parseFloat(getCellValueAsString(row.getCell(2))));
+            droga.setUnidadesDisponibles(parseInt(getCellValueAsString(row.getCell(3))));
+            droga.setUnidadesVendidas(parseInt(getCellValueAsString(row.getCell(4))));
+
+            drogas.add(droga);
+        }
+        
         return drogas;
     }
 

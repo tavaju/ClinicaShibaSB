@@ -13,8 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
-        RequestMethod.DELETE }, allowedHeaders = "*")
 public class ProductRootController {
 
     private final ProductService productService;

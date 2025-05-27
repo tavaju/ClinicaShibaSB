@@ -17,7 +17,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/dashboard")
-@CrossOrigin(origins = "http://localhost:4200")
 @Tag(name = "Dashboard", description = "API para estadísticas del dashboard")
 public class DashboardController {
 
