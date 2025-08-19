@@ -1,0 +1,16 @@
+# Ignore dependencies and config files
+*.lock linguist-vendored
+package-lock.json linguist-vendored
+yarn.lock linguist-vendored
+*.gradle linguist-vendored
+*.sh linguist-vendored
+*.dockerignore linguist-vendored
+Dockerfile linguist-vendored
+
+# Force specific languages for frameworks
+*.tsx linguist-language=TypeScript
+*.ts linguist-language=TypeScript
+*.js linguist-language=JavaScript
+*.java linguist-language=Java
+*.html linguist-language=HTML
+*.css linguist-language=CSS
